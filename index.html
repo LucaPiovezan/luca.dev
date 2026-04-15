@@ -1,22 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 
-<head> <link rel="icon" type="image/png" href="arvore.png">
-
+<head>
+  <link rel="icon" type="image/png" href="arvore.png">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Luca Piovezan — Portfólio</title>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&family=DM+Mono:wght@300;400&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
   <style>
-    *,
-    *::before,
-    *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
       --ink: #0a0a0b;
@@ -27,18 +19,13 @@
       --accent: #e8501a;
       --accent2: #e8501a;
       --gold: #c8a44a;
-
       --glass-bg: rgba(240, 237, 232, 0.55);
       --glass-border: rgba(200, 195, 188, 0.35);
-
       --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
       --ease-in-out: cubic-bezier(0.85, 0, 0.15, 1);
     }
 
-    html {
-      scroll-behavior: smooth;
-      font-size: 16px;
-    }
+    html { scroll-behavior: smooth; font-size: 16px; }
 
     body {
       background: var(--paper);
@@ -60,8 +47,7 @@
 
     #progress {
       position: fixed;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
       height: 2px;
       background: var(--accent);
       z-index: 10001;
@@ -71,9 +57,7 @@
 
     .hdr {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       padding: 24px 56px;
       display: flex;
       justify-content: space-between;
@@ -108,25 +92,20 @@
       position: relative;
     }
 
-    .hdr nav a:hover {
-      color: var(--ink);
-    }
+    .hdr nav a:hover { color: var(--ink); }
 
     .hdr nav a::after {
       content: '';
       position: absolute;
-      bottom: -3px;
-      left: 0;
-      width: 0;
-      height: 1px;
+      bottom: -3px; left: 0;
+      width: 0; height: 1px;
       background: var(--accent);
       transition: width 0.4s var(--ease-out);
     }
 
-    .hdr nav a:hover::after {
-      width: 100%;
-    }
+    .hdr nav a:hover::after { width: 100%; }
 
+    /* ── SCROLL STAGE ── */
     .scroll-stage {
       height: 500vh;
       position: relative;
@@ -151,7 +130,6 @@
         radial-gradient(ellipse 60% 60% at 80% 50%, rgba(232, 80, 26, 0.05) 0%, transparent 70%);
       pointer-events: none;
       z-index: 0;
-      transition: opacity 1s;
     }
 
     #floatCard {
@@ -160,8 +138,7 @@
       aspect-ratio: 2 / 3;
       transform-style: preserve-3d;
       will-change: transform;
-      top: 0;
-      left: 0;
+      top: 0; left: 0;
       z-index: 20;
     }
 
@@ -185,7 +162,7 @@
 
     .card-front .card-label {
       padding: 28px 32px 32px;
-      background: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, transparent 100%);
+      background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, transparent 100%);
       position: relative;
       z-index: 2;
     }
@@ -194,7 +171,7 @@
       font-family: 'DM Mono', monospace;
       font-size: 0.6rem;
       letter-spacing: 0.3em;
-      color: rgba(240, 237, 232, 0.6);
+      color: rgba(240,237,232,0.6);
       text-transform: uppercase;
       margin-bottom: 8px;
     }
@@ -204,7 +181,7 @@
       font-size: 1.4rem;
       font-weight: 300;
       font-style: italic;
-      color: rgba(240, 237, 232, 0.95);
+      color: rgba(240,237,232,0.95);
       line-height: 1.3;
     }
 
@@ -227,8 +204,7 @@
       color: var(--ink);
       opacity: 0.06;
       position: absolute;
-      bottom: 20px;
-      right: 24px;
+      bottom: 20px; right: 24px;
       letter-spacing: -0.03em;
     }
 
@@ -259,11 +235,9 @@
 
     .card-glow {
       position: absolute;
-      left: 10%;
-      right: 10%;
-      bottom: -50px;
+      left: 10%; right: 10%; bottom: -50px;
       height: 50px;
-      background: radial-gradient(ellipse at center, rgba(10, 10, 11, 0.25) 0%, transparent 70%);
+      background: radial-gradient(ellipse at center, rgba(10,10,11,0.25) 0%, transparent 70%);
       filter: blur(8px);
       pointer-events: none;
       z-index: -1;
@@ -284,9 +258,7 @@
       -webkit-backdrop-filter: blur(24px) saturate(1.5);
       border-radius: 4px;
       border: 1px solid var(--glass-border);
-      box-shadow:
-        0 2px 0 rgba(255, 255, 255, 0.6) inset,
-        0 40px 80px rgba(10, 10, 11, 0.07);
+      box-shadow: 0 2px 0 rgba(255,255,255,0.6) inset, 0 40px 80px rgba(10,10,11,0.07);
     }
 
     .panel-eyebrow {
@@ -298,10 +270,7 @@
       margin-bottom: 20px;
     }
 
-    .panel-eyebrow::before {
-      content: '—  ';
-      color: var(--accent);
-    }
+    .panel-eyebrow::before { content: '—  '; color: var(--accent); }
 
     .panel-h {
       font-family: 'Bebas Neue', sans-serif;
@@ -313,27 +282,20 @@
       margin-bottom: 36px;
     }
 
-    .panel-h span {
-      display: block;
-      color: var(--ink);
-    }
+    .panel-h span { display: block; color: var(--ink); }
 
-    .panel-list {
-      list-style: none;
-    }
+    .panel-list { list-style: none; }
 
     .panel-list li {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
       padding: 13px 0;
-      border-top: 1px solid rgba(10, 10, 11, 0.07);
+      border-top: 1px solid rgba(10,10,11,0.07);
       gap: 16px;
     }
 
-    .panel-list li:last-child {
-      border-bottom: 1px solid rgba(10, 10, 11, 0.07);
-    }
+    .panel-list li:last-child { border-bottom: 1px solid rgba(10,10,11,0.07); }
 
     .panel-list .pl-key {
       font-family: 'DM Mono', monospace;
@@ -344,20 +306,13 @@
       flex-shrink: 0;
     }
 
-    .panel-list .pl-val {
-      font-size: 0.9rem;
-      font-weight: 300;
-      color: var(--ink);
-      text-align: right;
-    }
+    .panel-list .pl-val { font-size: 0.9rem; font-weight: 300; color: var(--ink); text-align: right; }
 
     .txt-panel::before {
       content: '';
       position: absolute;
-      top: 0;
-      right: 0;
-      width: 40px;
-      height: 40px;
+      top: 0; right: 0;
+      width: 40px; height: 40px;
       border-top: 1px solid var(--accent);
       border-right: 1px solid var(--accent);
       border-radius: 0 4px 0 0;
@@ -366,8 +321,7 @@
 
     .corner-label {
       position: absolute;
-      bottom: 48px;
-      right: 48px;
+      bottom: 48px; right: 48px;
       font-family: 'DM Mono', monospace;
       font-size: 0.58rem;
       letter-spacing: 0.4em;
@@ -377,6 +331,55 @@
       user-select: none;
     }
 
+    /* ── SCROLL INDICATOR ── */
+    #scroll-hint {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      z-index: 100;
+      pointer-events: none;
+      transition: opacity 0.6s ease;
+    }
+
+    #scroll-hint .sh-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--ghost);
+    }
+
+    #scroll-hint .sh-track {
+      width: 1px;
+      height: 52px;
+      background: rgba(138,133,126,0.2);
+      border-radius: 2px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #scroll-hint .sh-fill {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 40%;
+      background: var(--accent);
+      border-radius: 2px;
+      animation: sh-drop 1.6s ease-in-out infinite;
+    }
+
+    @keyframes sh-drop {
+      0%   { top: -40%; opacity: 1; }
+      80%  { top: 110%; opacity: 0.6; }
+      100% { top: 110%; opacity: 0; }
+    }
+
+    /* ── DARK SECTION ── */
     .dark-section {
       background: var(--ink);
       position: relative;
@@ -392,38 +395,13 @@
       animation: orb-float 18s ease-in-out infinite alternate;
     }
 
-    .orb-1 {
-      width: 700px;
-      height: 700px;
-      background: radial-gradient(circle, rgba(232, 80, 26, 0.18) 0%, transparent 70%);
-      top: -200px;
-      right: -100px;
-      filter: blur(80px);
-    }
-
-    .orb-2 {
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(232, 80, 26, 0.15) 0%, transparent 70%);
-      bottom: 0;
-      left: -100px;
-      filter: blur(80px);
-      animation-delay: -6s;
-    }
-
-    .orb-3 {
-      width: 350px;
-      height: 350px;
-      background: radial-gradient(circle, rgba(200, 164, 74, 0.12) 0%, transparent 70%);
-      top: 40%;
-      left: 45%;
-      filter: blur(60px);
-      animation-delay: -12s;
-    }
+    .orb-1 { width: 700px; height: 700px; background: radial-gradient(circle, rgba(232,80,26,0.18) 0%, transparent 70%); top: -200px; right: -100px; filter: blur(80px); }
+    .orb-2 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(232,80,26,0.15) 0%, transparent 70%); bottom: 0; left: -100px; filter: blur(80px); animation-delay: -6s; }
+    .orb-3 { width: 350px; height: 350px; background: radial-gradient(circle, rgba(200,164,74,0.12) 0%, transparent 70%); top: 40%; left: 45%; filter: blur(60px); animation-delay: -12s; }
 
     @keyframes orb-float {
-      0% { transform: translate(0, 0) scale(1); }
-      100% { transform: translate(-60px, -80px) scale(1.15); }
+      0%   { transform: translate(0,0) scale(1); }
+      100% { transform: translate(-60px,-80px) scale(1.15); }
     }
 
     .section-tag {
@@ -458,15 +436,15 @@
       font-style: italic;
       font-weight: 300;
       color: transparent;
-      -webkit-text-stroke: 1px rgba(240, 237, 232, 0.3);
+      -webkit-text-stroke: 1px rgba(240,237,232,0.3);
     }
 
     .skills-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1px;
-      background: rgba(240, 237, 232, 0.06);
-      border: 1px solid rgba(240, 237, 232, 0.06);
+      background: rgba(240,237,232,0.06);
+      border: 1px solid rgba(240,237,232,0.06);
       border-radius: 4px;
       overflow: visible;
       position: relative;
@@ -476,7 +454,7 @@
     }
 
     .skill-card {
-      background: rgba(10, 10, 11, 0.95);
+      background: rgba(10,10,11,0.95);
       padding: 44px 36px;
       min-height: 240px;
       display: flex;
@@ -492,7 +470,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(600px circle at var(--mx, 50%) var(--my, 50%), rgba(240, 237, 232, 0.04), transparent 50%);
+      background: radial-gradient(600px circle at var(--mx,50%) var(--my,50%), rgba(240,237,232,0.04), transparent 50%);
       opacity: 0;
       transition: opacity 0.5s;
       z-index: 0;
@@ -503,9 +481,7 @@
     .skill-card::after {
       content: '';
       position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
+      bottom: 0; left: 0; right: 0;
       height: 2px;
       background: linear-gradient(90deg, var(--accent), var(--accent2));
       transform: scaleX(0);
@@ -517,20 +493,18 @@
 
     .skill-num {
       position: absolute;
-      top: 24px;
-      left: 28px;
+      top: 24px; left: 28px;
       font-family: 'DM Mono', monospace;
       font-size: 0.58rem;
       letter-spacing: 0.25em;
-      color: rgba(240, 237, 232, 0.15);
+      color: rgba(240,237,232,0.15);
       z-index: 1;
     }
 
     .skill-icon {
       font-size: 3.5rem;
       position: absolute;
-      top: 50%;
-      right: 28px;
+      top: 50%; right: 28px;
       transform: translateY(-60%);
       opacity: 0.06;
       transition: opacity 0.4s, transform 0.5s var(--ease-out);
@@ -538,10 +512,7 @@
       line-height: 1;
     }
 
-    .skill-card:hover .skill-icon {
-      opacity: 0.15;
-      transform: translateY(-65%) scale(1.1);
-    }
+    .skill-card:hover .skill-icon { opacity: 0.15; transform: translateY(-65%) scale(1.1); }
 
     .skill-name {
       font-family: 'Bebas Neue', sans-serif;
@@ -557,7 +528,7 @@
     .skill-desc {
       font-size: 0.88rem;
       font-weight: 300;
-      color: rgba(240, 237, 232, 0.35);
+      color: rgba(240,237,232,0.35);
       line-height: 1.65;
       position: relative;
       z-index: 1;
@@ -566,8 +537,8 @@
 
     .marquee-wrap {
       overflow: hidden;
-      border-top: 1px solid rgba(240, 237, 232, 0.06);
-      border-bottom: 1px solid rgba(240, 237, 232, 0.06);
+      border-top: 1px solid rgba(240,237,232,0.06);
+      border-bottom: 1px solid rgba(240,237,232,0.06);
       padding: 26px 0;
       margin: 100px 0;
       position: relative;
@@ -585,7 +556,7 @@
       font-size: 1.05rem;
       letter-spacing: 0.35em;
       text-transform: uppercase;
-      color: rgba(240, 237, 232, 0.12);
+      color: rgba(240,237,232,0.12);
       padding-right: 56px;
     }
 
@@ -607,8 +578,8 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1px;
-      background: rgba(240, 237, 232, 0.06);
-      border: 1px solid rgba(240, 237, 232, 0.06);
+      background: rgba(240,237,232,0.06);
+      border: 1px solid rgba(240,237,232,0.06);
       border-radius: 4px;
       overflow: visible;
       position: relative;
@@ -617,7 +588,7 @@
     }
 
     .project-card {
-      background: rgba(10, 10, 11, 0.95);
+      background: rgba(10,10,11,0.95);
       padding: 44px 36px 54px;
       position: relative;
       overflow: hidden;
@@ -626,13 +597,13 @@
       cursor: pointer;
     }
 
-    .project-card:hover { background: rgba(15, 15, 16, 0.98); }
+    .project-card:hover { background: rgba(15,15,16,0.98); }
 
     .project-card::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(600px circle at var(--mx, 50%) var(--my, 50%), rgba(240, 237, 232, 0.04), transparent 50%);
+      background: radial-gradient(600px circle at var(--mx,50%) var(--my,50%), rgba(240,237,232,0.04), transparent 50%);
       opacity: 0;
       transition: opacity 0.5s;
       pointer-events: none;
@@ -668,7 +639,7 @@
     .proj-desc {
       font-size: 0.92rem;
       font-weight: 300;
-      color: rgba(240, 237, 232, 0.4);
+      color: rgba(240,237,232,0.4);
       line-height: 1.7;
       position: relative;
       z-index: 1;
@@ -676,11 +647,9 @@
 
     .proj-arrow {
       position: absolute;
-      bottom: 32px;
-      right: 32px;
-      width: 40px;
-      height: 40px;
-      border: 1px solid rgba(240, 237, 232, 0.1);
+      bottom: 32px; right: 32px;
+      width: 40px; height: 40px;
+      border: 1px solid rgba(240,237,232,0.1);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -691,12 +660,9 @@
       transition: background 0.3s, border-color 0.3s, transform 0.4s var(--ease-out);
     }
 
-    .project-card:hover .proj-arrow {
-      background: var(--accent);
-      border-color: var(--accent);
-      transform: translate(4px, -4px);
-    }
+    .project-card:hover .proj-arrow { background: var(--accent); border-color: var(--accent); transform: translate(4px,-4px); }
 
+    /* ── CONTACT ── */
     .contact-section {
       background: var(--paper);
       padding: 140px 7% 120px;
@@ -710,11 +676,9 @@
     .contact-section::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 7%;
-      right: 7%;
+      top: 0; left: 7%; right: 7%;
       height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(10, 10, 11, 0.12), transparent);
+      background: linear-gradient(90deg, transparent, rgba(10,10,11,0.12), transparent);
     }
 
     .contact-left { padding-top: 8px; }
@@ -765,7 +729,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 22px 0;
-      border-bottom: 1px solid rgba(10, 10, 11, 0.09);
+      border-bottom: 1px solid rgba(10,10,11,0.09);
       text-decoration: none;
       color: var(--ink);
       transition: color 0.3s, padding-left 0.4s var(--ease-out);
@@ -773,24 +737,18 @@
       overflow: hidden;
     }
 
-    .contact-link:first-child { border-top: 1px solid rgba(10, 10, 11, 0.09); }
+    .contact-link:first-child { border-top: 1px solid rgba(10,10,11,0.09); }
 
     .contact-link::before {
       content: '';
       position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
+      left: 0; top: 0; bottom: 0;
       width: 0;
-      background: rgba(232, 80, 26, 0.05);
+      background: rgba(232,80,26,0.05);
       transition: width 0.4s var(--ease-out);
     }
 
-    .contact-link:hover {
-      color: var(--accent);
-      padding-left: 16px;
-    }
-
+    .contact-link:hover { color: var(--accent); padding-left: 16px; }
     .contact-link:hover::before { width: 100%; }
 
     .link-name {
@@ -801,8 +759,7 @@
     }
 
     .link-arrow {
-      width: 32px;
-      height: 32px;
+      width: 32px; height: 32px;
       border: 1px solid currentColor;
       border-radius: 50%;
       display: flex;
@@ -813,10 +770,7 @@
       transition: opacity 0.3s, transform 0.4s var(--ease-out);
     }
 
-    .contact-link:hover .link-arrow {
-      opacity: 1;
-      transform: translate(4px, -4px) rotate(45deg);
-    }
+    .contact-link:hover .link-arrow { opacity: 1; transform: translate(4px,-4px) rotate(45deg); }
 
     .footer {
       background: var(--ink);
@@ -831,14 +785,14 @@
       font-size: 0.58rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: rgba(240, 237, 232, 0.2);
+      color: rgba(240,237,232,0.2);
     }
 
     .footer-sig {
       font-family: 'Crimson Pro', serif;
       font-style: italic;
       font-size: 1.2rem;
-      color: rgba(240, 237, 232, 0.15);
+      color: rgba(240,237,232,0.15);
     }
 
     .rv {
@@ -847,128 +801,159 @@
       transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
     }
 
-    .rv.in {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .rv.in { opacity: 1; transform: translateY(0); }
+
 
     /* ============================================================
-       MOBILE RADICAL OPTIMIZATION (MAX-WIDTH: 768px)
+       MOBILE — MAX-WIDTH 768px
        ============================================================ */
     @media (max-width: 768px) {
-      /* HEADER & NAV */
+
+      /* HEADER */
       .hdr {
-        padding: 15px 20px;
-        background: var(--glass-bg);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
+        padding: 14px 20px;
+        background: rgba(240,237,232,0.88);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
         border-bottom: 1px solid var(--glass-border);
       }
 
-      .hdr .logo {
-        font-size: 1rem;
-        letter-spacing: 0.2em;
-      }
+      .hdr .logo { font-size: 1rem; letter-spacing: 0.2em; }
 
+      /* NAV ─ pill fixo no bottom */
       .hdr nav {
         position: fixed;
         bottom: 20px;
         left: 50%;
+        top: auto;
         transform: translateX(-50%);
         background: var(--ink);
-        padding: 12px 24px;
+        padding: 11px 22px;
         border-radius: 100px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        box-shadow: 0 8px 28px rgba(0,0,0,0.35);
         width: auto;
         z-index: 1000;
       }
 
       .hdr nav a {
-        margin: 0 12px;
-        font-size: 0.6rem;
-        color: var(--paper);
-        opacity: 0.7;
+        margin: 0 10px;
+        font-size: 0.58rem;
+        color: rgba(240,237,232,0.65);
       }
 
-      .hdr nav a:hover { color: var(--accent); opacity: 1; }
+      .hdr nav a:hover { color: var(--accent); }
       .hdr nav a::after { display: none; }
 
-      /* STICKY VIEWPORT & CARD */
-      .scroll-stage { height: 450vh; }
-      
+      /* SCROLL STAGE */
+      .scroll-stage { height: 500vh; }
+
       .sticky-viewport {
-        perspective: 1200px;
+        perspective: 1000px;
         perspective-origin: 50% 40%;
       }
 
+      /* CARD ─ sempre dentro da tela */
       #floatCard {
-        width: 220px !important; /* Força tamanho fixo em mobile para evitar quebra */
+        width: min(200px, 52vw) !important;
       }
 
-      /* TEXT PANELS - RADICAL CHANGE */
+      /* SCROLL HINT ─ menor em mobile */
+      #scroll-hint { bottom: 90px; }
+
+      /* PANELS ─ largura total, posicionamento seguro */
       .txt-panel {
-        width: 90vw !important;
-        left: 5vw !important;
-        right: 5vw !important;
-        padding: 25px 20px !important;
-        border-radius: 12px !important;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.1) !important;
+        width: calc(100vw - 32px) !important;
+        left: 16px !important;
+        right: 16px !important;
+        padding: 22px 18px !important;
+        border-radius: 10px !important;
       }
 
       .panel-h {
-        font-size: 2.5rem !important;
-        margin-bottom: 20px !important;
+        font-size: 2.2rem !important;
+        margin-bottom: 16px !important;
       }
 
-      .panel-list li { padding: 8px 0 !important; }
-      .panel-list .pl-val { font-size: 0.8rem !important; }
+      .panel-list li { padding: 9px 0 !important; }
+      .panel-list .pl-val { font-size: 0.78rem !important; }
+
+      /* Panel 1 e 2: top diferente em mobile para não colidir com o card */
+      #pnl1 { top: auto !important; bottom: 110px !important; transform: none !important; }
+      #pnl2 { top: auto !important; bottom: 110px !important; transform: none !important; }
+      #pnl3 {
+        top: auto !important;
+        bottom: 110px !important;
+        transform: translateX(-50%) !important;
+        width: calc(100vw - 32px) !important;
+        text-align: center !important;
+      }
 
       /* DARK SECTION */
-      .dark-section { padding: 80px 20px 60px !important; }
-      
+      .dark-section { padding: 70px 18px 50px !important; }
+
       .dark-heading {
-        font-size: 3.5rem !important;
-        margin-bottom: 40px !important;
+        font-size: 3.2rem !important;
+        margin-bottom: 36px !important;
+        line-height: 0.86 !important;
       }
 
-      .skills-grid, .projects-row {
+      /* SKILLS GRID ─ 1 coluna */
+      .skills-grid {
         grid-template-columns: 1fr !important;
-        gap: 15px !important;
+        gap: 10px !important;
         background: transparent !important;
         border: none !important;
       }
 
-      .skill-card, .project-card {
-        border-radius: 12px !important;
-        min-height: 180px !important;
-        padding: 30px 20px !important;
-        border: 1px solid rgba(240, 237, 232, 0.1) !important;
+      .skill-card {
+        border-radius: 10px !important;
+        min-height: 150px !important;
+        padding: 28px 20px !important;
+        border: 1px solid rgba(240,237,232,0.08) !important;
       }
 
-      .skill-name, .proj-title { font-size: 1.8rem !important; }
-      .skill-icon { font-size: 2.5rem !important; right: 15px !important; }
+      .skill-name { font-size: 1.7rem !important; }
+      .skill-icon { font-size: 2.2rem !important; right: 16px !important; }
+      .skill-desc { font-size: 0.8rem !important; max-width: 100% !important; }
 
       /* MARQUEE */
-      .marquee-wrap { margin: 40px 0 !important; padding: 15px 0 !important; }
-      .marquee-track span { font-size: 0.8rem !important; padding-right: 25px !important; }
+      .marquee-wrap { margin: 36px 0 !important; padding: 14px 0 !important; }
+      .marquee-track span { font-size: 0.75rem !important; padding-right: 22px !important; }
+
+      /* PROJECTS ─ 1 coluna */
+      .projects-row {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+        background: transparent !important;
+        border: none !important;
+      }
+
+      .project-card {
+        border-radius: 10px !important;
+        padding: 28px 20px 50px !important;
+        border: 1px solid rgba(240,237,232,0.08) !important;
+      }
+
+      .proj-title { font-size: 2rem !important; }
 
       /* CONTACT */
       .contact-section {
         grid-template-columns: 1fr !important;
-        padding: 80px 20px 100px !important;
-        gap: 40px !important;
+        padding: 70px 18px 100px !important;
+        gap: 32px !important;
       }
 
-      .contact-heading { font-size: 4rem !important; }
-      .contact-links { padding-top: 20px !important; }
-      .contact-link { padding: 15px 0 !important; }
-      .link-name { font-size: 0.6rem !important; }
+      .contact-heading { font-size: 3.5rem !important; }
+      .contact-left { padding-top: 0 !important; }
+      .contact-links { padding-top: 0 !important; }
+      .contact-link { padding: 16px 0 !important; }
+      .link-name { font-size: 0.58rem !important; }
 
       /* FOOTER */
       .footer {
         flex-direction: column !important;
-        gap: 15px !important;
-        padding: 40px 20px 100px !important; /* Espaço para o nav fixo */
+        gap: 12px !important;
+        padding: 32px 18px 100px !important;
         text-align: center !important;
       }
 
@@ -978,8 +963,8 @@
 </head>
 
 <body>
-
   <div id="progress"></div>
+
   <header class="hdr">
     <div class="logo">Luca Piovezan</div>
     <nav>
@@ -994,7 +979,6 @@
     <div class="sticky-viewport" id="viewport">
 
       <div id="floatCard">
-        <!-- Front -->
         <div class="card-face card-front">
           <img
             src="img.png"
@@ -1005,7 +989,6 @@
             <div class="cl-role">Luca<br>Piovezan</div>
           </div>
         </div>
-        <!-- Back -->
         <div class="card-face card-back">
           <h3>Design<br><em>Digital</em></h3>
           <p>HTML · CSS · JavaScript</p>
@@ -1014,7 +997,7 @@
       </div>
 
       <!-- Panel 1 -->
-      <div class="txt-panel" id="pnl1" style="right: 6%; left: auto;">
+      <div class="txt-panel" id="pnl1" style="right:6%;left:auto;">
         <div class="panel-eyebrow">O que eu faço</div>
         <div class="panel-h">Desenvolver<br><span>Interfaces</span></div>
         <ul class="panel-list">
@@ -1025,7 +1008,7 @@
       </div>
 
       <!-- Panel 2 -->
-      <div class="txt-panel" id="pnl2" style="left: 6%; right: auto;">
+      <div class="txt-panel" id="pnl2" style="left:6%;right:auto;">
         <div class="panel-eyebrow">Minha história</div>
         <div class="panel-h">Código<br><span>&amp; Arte</span></div>
         <ul class="panel-list">
@@ -1037,10 +1020,19 @@
 
       <!-- Panel 3 -->
       <div class="txt-panel" id="pnl3"
-        style="left: 50%; transform: translate(-50%, 0); bottom: 9%; top: auto; text-align: center; width: clamp(280px, 55vw, 560px);">
-        <div class="panel-eyebrow" style="text-align:center; margin-bottom:12px;">Buscando estágio</div>
-        <div class="panel-h" style="font-size: clamp(2.2rem, 3.5vw, 3.2rem); margin-bottom: 0; text-align:center;">Vou
-          além<br>do <span>comum</span></div>
+        style="left:50%;transform:translate(-50%,0);bottom:9%;top:auto;text-align:center;width:clamp(280px,55vw,560px);">
+        <div class="panel-eyebrow" style="text-align:center;margin-bottom:12px;">Buscando estágio</div>
+        <div class="panel-h" style="font-size:clamp(2.2rem,3.5vw,3.2rem);margin-bottom:0;text-align:center;">
+          Vou além<br>do <span>comum</span>
+        </div>
+      </div>
+
+      <!-- SCROLL HINT -->
+      <div id="scroll-hint">
+        <span class="sh-label">Role</span>
+        <div class="sh-track">
+          <div class="sh-fill"></div>
+        </div>
       </div>
 
       <div class="corner-label">Luca · 2026 · Portfolio</div>
@@ -1092,40 +1084,32 @@
 
     <div class="marquee-wrap rv" style="transition-delay:.24s">
       <div class="marquee-track">
-        <span>HTML & CSS</span>
-        <span class="hi"> · código · </span>
-        <span>JavaScript</span>
-        <span class="hi"> · lógica · </span>
-        <span>Figma</span>
-        <span class="hi"> · design · </span>
-        <span>Python</span>
-        <span class="hi"> · automação · </span>
-        <span>HTML & CSS</span>
-        <span class="hi"> · código · </span>
-        <span>JavaScript</span>
-        <span class="hi"> · lógica · </span>
-        <span>Figma</span>
-        <span class="hi"> · design · </span>
-        <span>Python</span>
-        <span class="hi"> · automação · </span>
+        <span>HTML & CSS</span><span class="hi"> · código · </span>
+        <span>JavaScript</span><span class="hi"> · lógica · </span>
+        <span>Figma</span><span class="hi"> · design · </span>
+        <span>Python</span><span class="hi"> · automação · </span>
+        <span>HTML & CSS</span><span class="hi"> · código · </span>
+        <span>JavaScript</span><span class="hi"> · lógica · </span>
+        <span>Figma</span><span class="hi"> · design · </span>
+        <span>Python</span><span class="hi"> · automação · </span>
       </div>
     </div>
 
     <div class="section-tag rv" style="transition-delay:.08s">Cases Selecionados</div>
     <div class="projects-row rv" style="transition-delay:.16s">
-      <div class="project-card hoverable" onclick="window.open('https://lucapiovezan.github.io/Smart-flowers/', '_blank')">
+      <div class="project-card hoverable" onclick="window.open('https://lucapiovezan.github.io/Smart-flowers/','_blank')">
         <div class="proj-tag">Animação Parallax</div>
         <div class="proj-title">Smart<br>Flowers</div>
         <div class="proj-desc">E-commerce de flores com animações parallax imersivas.</div>
         <div class="proj-arrow">↗</div>
       </div>
-      <div class="project-card hoverable" onclick="window.open('https://lucapiovezan.github.io/HEROES-VILLAINS/', '_blank')">
+      <div class="project-card hoverable" onclick="window.open('https://lucapiovezan.github.io/HEROES-VILLAINS/','_blank')">
         <div class="proj-tag">Projeto Imersivo · Three.js</div>
         <div class="proj-title">Heroes &<br>Villains</div>
         <div class="proj-desc">Experiência imersiva com WebGL e Three.js.</div>
         <div class="proj-arrow">↗</div>
       </div>
-      <div class="project-card hoverable" onclick="window.open('https://lucapiovezan.github.io/valenza/', '_blank')">
+      <div class="project-card hoverable" onclick="window.open('https://lucapiovezan.github.io/valenza/','_blank')">
         <div class="proj-tag">E-commerce Automotivo</div>
         <div class="proj-title">Valenza<br>Garde</div>
         <div class="proj-desc">Plataforma automotiva com design premium e refinado.</div>
@@ -1172,13 +1156,21 @@
     const easeOutQuart = t => 1 - Math.pow(1 - t, 4);
     const easeInOutCubic = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
+    /* Progress bar */
     const prog = document.getElementById('progress');
     window.addEventListener('scroll', () => {
       const h = document.documentElement;
-      const p = h.scrollTop / (h.scrollHeight - h.clientHeight) * 100;
-      prog.style.width = p + '%';
+      prog.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
     }, { passive: true });
 
+    /* Scroll hint — some quando progress < 5% */
+    const scrollHint = document.getElementById('scroll-hint');
+    window.addEventListener('scroll', () => {
+      const p = window.scrollY / (document.documentElement.scrollHeight - innerHeight);
+      scrollHint.style.opacity = p < 0.05 ? '1' : '0';
+    }, { passive: true });
+
+    /* Card */
     const card = document.getElementById('floatCard');
     const stage = document.getElementById('stage');
     let CW = 0, CH = 0;
@@ -1194,35 +1186,42 @@
 
     function getScrollProgress() {
       const r = stage.getBoundingClientRect();
-      const scrolled = -r.top;
-      const total = stage.offsetHeight - innerHeight;
-      return clamp(scrolled / total, 0, 1);
+      return clamp(-r.top / (stage.offsetHeight - innerHeight), 0, 1);
     }
 
     function getCardTargets(p) {
       const W = innerWidth, H = innerHeight;
       const mobile = W < 768;
-      const pad = mobile ? W * 0.05 : W * 0.12;
-      const lx = pad;
-      const rx_ = W - pad - CW;
-      const cx = (W - CW) / 2;
-      const safeTop = mobile ? 70 : 90;
-      const safeBot = 40;
-      const cy = clamp((H - CH) / 2, safeTop, H - safeBot - CH);
-      const arcUp = clamp(cy - safeTop, 0, mobile ? 40 : 80);
+
+      /* Margens seguras */
+      const safeTop  = mobile ? 58  : 90;   /* abaixo do header */
+      const safeBot  = mobile ? 110 : 40;   /* acima do nav pill / borda */
+      const padH     = mobile ? W * 0.08 : W * 0.12;
+
+      /* Largura real do card (via CW já atualizada) */
+      const cardW = CW;
+      const cardH = CH;
+
+      /* Posição central disponível */
+      const availH = H - safeTop - safeBot - cardH;
+      const cy     = safeTop + Math.max(0, availH / 2);
+      const lx     = padH;
+      const rx_    = Math.min(W - padH - cardW, W - cardW - padH);
+      const cx     = (W - cardW) / 2;
+      const arcUp  = mobile ? Math.min(30, availH * 0.25) : Math.min(80, availH * 0.4);
 
       let oX = cx, oY = cy, rY = 0, rX = 0, s = 1;
 
       if (p < 0.08) {
         const t = easeInOutCubic(norm(p, 0, 0.08));
-        oX = lerp(lx - 120, lx, t);
-        oY = lerp(Math.min(cy + 100, H - safeBot - CH), cy, t);
-        rY = lerp(-40, 0, t); rX = lerp(15, 0, t);
-        s = lerp(0.45, 1, t);
+        oX = lerp(lx - 80, lx, t);
+        oY = lerp(cy + 60, cy, t);
+        rY = lerp(-35, 0, t); rX = lerp(12, 0, t);
+        s  = lerp(0.5, 1, t);
       } else if (p < 0.22) {
         const t = norm(p, 0.08, 0.22);
         oX = lx;
-        oY = cy + Math.sin(t * Math.PI * 2) * 8;
+        oY = cy + Math.sin(t * Math.PI * 2) * 7;
         rY = Math.sin(t * Math.PI * 2) * 2.5;
         rX = Math.sin(t * Math.PI) * 1.5;
       } else if (p < 0.48) {
@@ -1230,12 +1229,12 @@
         oX = lerp(lx, rx_, t);
         oY = cy - Math.sin(t * Math.PI) * arcUp;
         rY = t * 180;
-        rX = Math.sin(t * Math.PI) * -22;
-        s = 1 + Math.sin(t * Math.PI) * 0.06;
+        rX = Math.sin(t * Math.PI) * -20;
+        s  = 1 + Math.sin(t * Math.PI) * 0.05;
       } else if (p < 0.65) {
         const t = norm(p, 0.48, 0.65);
         oX = rx_;
-        oY = cy + Math.sin(t * Math.PI * 2) * 8;
+        oY = cy + Math.sin(t * Math.PI * 2) * 7;
         rY = 180 + Math.sin(t * Math.PI * 2) * 3;
         rX = Math.sin(t * Math.PI) * 1.5;
       } else if (p < 0.88) {
@@ -1243,16 +1242,19 @@
         oX = lerp(rx_, cx, t);
         oY = cy - Math.sin(t * Math.PI) * arcUp;
         rY = 180 + t * 180;
-        rX = Math.sin(t * Math.PI) * -18;
-        s = lerp(1, 1.06, easeInOutCubic(t));
+        rX = Math.sin(t * Math.PI) * -16;
+        s  = lerp(1, 1.05, easeInOutCubic(t));
       } else {
         const t = easeOutQuart(norm(p, 0.88, 1));
         oX = cx; oY = cy;
         rY = 360; rX = 0;
-        s = lerp(1.06, 1.1, t);
+        s  = lerp(1.05, 1.08, t);
       }
 
-      oY = clamp(oY, safeTop, H - safeBot - CH);
+      /* GARANTE que o card nunca sai da tela */
+      oX = clamp(oX, 0, W - cardW);
+      oY = clamp(oY, safeTop, H - safeBot - cardH);
+
       return { oX, oY, rY, rX, s };
     }
 
@@ -1260,41 +1262,57 @@
       const pnl1 = document.getElementById('pnl1');
       const pnl2 = document.getElementById('pnl2');
       const pnl3 = document.getElementById('pnl3');
+      const mobile = innerWidth < 768;
 
       const a1 = Math.max(0, clamp(norm(p, 0.08, 0.13), 0, 1) - clamp(norm(p, 0.20, 0.26), 0, 1));
-      pnl1.style.opacity = a1;
-      pnl1.style.transform = `translateY(calc(-50% + ${lerp(24, 0, easeOutQuart(a1))}px))`;
+      if (mobile) {
+        pnl1.style.opacity = a1;
+        pnl1.style.transform = `translateY(${lerp(20, 0, easeOutQuart(a1))}px)`;
+      } else {
+        pnl1.style.opacity = a1;
+        pnl1.style.transform = `translateY(calc(-50% + ${lerp(24, 0, easeOutQuart(a1))}px))`;
+      }
       pnl1.style.pointerEvents = a1 > 0.01 ? 'auto' : 'none';
 
       const a2 = Math.max(0, clamp(norm(p, 0.48, 0.54), 0, 1) - clamp(norm(p, 0.63, 0.68), 0, 1));
-      pnl2.style.opacity = a2;
-      pnl2.style.transform = `translateY(calc(-50% + ${lerp(24, 0, easeOutQuart(a2))}px))`;
+      if (mobile) {
+        pnl2.style.opacity = a2;
+        pnl2.style.transform = `translateY(${lerp(20, 0, easeOutQuart(a2))}px)`;
+      } else {
+        pnl2.style.opacity = a2;
+        pnl2.style.transform = `translateY(calc(-50% + ${lerp(24, 0, easeOutQuart(a2))}px))`;
+      }
       pnl2.style.pointerEvents = a2 > 0.01 ? 'auto' : 'none';
 
       const a3 = easeInOutCubic(clamp(norm(p, 0.88, 0.96), 0, 1));
-      pnl3.style.opacity = a3;
-      pnl3.style.transform = `translate(-50%, ${lerp(40, 0, a3)}px)`;
+      if (mobile) {
+        pnl3.style.opacity = a3;
+        pnl3.style.transform = `translateX(-50%) translateY(${lerp(20, 0, a3)}px)`;
+      } else {
+        pnl3.style.opacity = a3;
+        pnl3.style.transform = `translate(-50%, ${lerp(40, 0, a3)}px)`;
+      }
       pnl3.style.pointerEvents = a3 > 0.01 ? 'auto' : 'none';
     }
 
     const SPRING = 0.10;
-    const glow = document.querySelector('.card-glow');
+    const glow   = document.querySelector('.card-glow');
 
     function renderCard() {
       if (!CW) updateCardDims();
       const p = getScrollProgress();
       const t = getCardTargets(p);
 
-      cX = lerp(cX, t.oX, SPRING);
-      cY = lerp(cY, t.oY, SPRING);
+      cX  = lerp(cX,  t.oX, SPRING);
+      cY  = lerp(cY,  t.oY, SPRING);
       cRX = lerp(cRX, t.rX, SPRING);
       cRY = lerp(cRY, t.rY, SPRING);
-      cS = lerp(cS, t.s, SPRING);
+      cS  = lerp(cS,  t.s,  SPRING);
 
-      card.style.transform = `translate3d(${cX}px, ${cY}px, 0) rotateX(${cRX}deg) rotateY(${cRY}deg) scale(${cS})`;
+      card.style.transform = `translate3d(${cX}px,${cY}px,0) rotateX(${cRX}deg) rotateY(${cRY}deg) scale(${cS})`;
 
       const distFromCenter = Math.abs(cY - (innerHeight - CH) / 2);
-      glow.style.opacity = Math.max(0.08, 0.45 - distFromCenter / 500);
+      glow.style.opacity   = Math.max(0.08, 0.45 - distFromCenter / 500);
       glow.style.transform = `scaleX(${Math.max(0.7, 1 - distFromCenter / 400)}) scaleY(${Math.max(0.3, 1 - distFromCenter / 300)})`;
 
       updatePanels(p);
@@ -1302,45 +1320,39 @@
     }
     requestAnimationFrame(renderCard);
 
+    /* Reveal on scroll */
     const revEls = document.querySelectorAll('.rv');
     function checkRevs() {
-      const wh = innerHeight;
       revEls.forEach(el => {
-        if (el.getBoundingClientRect().top < wh * 0.88) el.classList.add('in');
+        if (el.getBoundingClientRect().top < innerHeight * 0.88) el.classList.add('in');
       });
     }
     window.addEventListener('scroll', checkRevs, { passive: true });
     checkRevs();
 
+    /* Tilt com mouse (desktop) */
     if (innerWidth > 768) {
       document.addEventListener('mousemove', e => {
         const rect = card.getBoundingClientRect();
         if (!rect.width) return;
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
-        const dx = (e.clientX - cx) / (innerWidth / 2);
-        const dy = (e.clientY - cy) / (innerHeight / 2);
-        const extraRX = dy * -4;
-        const extraRY = dx * 6;
-        card.style.transform = `rotateX(${cRX + extraRX}deg) rotateY(${cRY + extraRY}deg) scale(${cS})`;
+        const dx = (e.clientX - (rect.left + rect.width / 2))  / (innerWidth / 2);
+        const dy = (e.clientY - (rect.top  + rect.height / 2)) / (innerHeight / 2);
+        card.style.transform = `translate3d(${cX}px,${cY}px,0) rotateX(${cRX + dy * -4}deg) rotateY(${cRY + dx * 6}deg) scale(${cS})`;
       });
     }
 
+    /* Tilt nos cards de skills/projetos (desktop) */
     document.querySelectorAll('.skill-card, .project-card, .contact-link').forEach(c => {
       c.addEventListener('mousemove', e => {
         if (innerWidth <= 768) return;
-        const r = c.getBoundingClientRect();
-        const x = e.clientX - r.left;
-        const y = e.clientY - r.top;
-        const cx = r.width / 2;
-        const cy = r.height / 2;
-        const dx = (x - cx) / cx;
-        const dy = (y - cy) / cy;
+        const r  = c.getBoundingClientRect();
+        const x  = e.clientX - r.left;
+        const y  = e.clientY - r.top;
+        const dx = (x - r.width  / 2) / (r.width  / 2);
+        const dy = (y - r.height / 2) / (r.height / 2);
         c.style.setProperty('--mx', x + 'px');
         c.style.setProperty('--my', y + 'px');
-        const rotX = dy * -8;
-        const rotY = dx * 10;
-        c.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-8px) scale(1.02)`;
+        c.style.transform = `perspective(800px) rotateX(${dy * -8}deg) rotateY(${dx * 10}deg) translateY(-8px) scale(1.02)`;
       });
 
       c.addEventListener('mouseleave', () => {
@@ -1351,5 +1363,4 @@
     });
   </script>
 </body>
-
 </html>
