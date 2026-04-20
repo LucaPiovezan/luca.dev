@@ -55,9 +55,6 @@
       transition: width 0.05s linear;
     }
 
-    /* ═══════════════════════════════════
-       HEADER
-    ═══════════════════════════════════ */
     .hdr {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -108,9 +105,6 @@
 
     .hdr nav a:hover::after { width: 100%; }
 
-    /* ═══════════════════════════════════
-       SCROLL STAGE — DESKTOP
-    ═══════════════════════════════════ */
     .scroll-stage {
       height: 500vh;
       position: relative;
@@ -383,9 +377,6 @@
       100% { top: 110%; opacity: 0; }
     }
 
-    /* ═══════════════════════════════════
-       DARK SECTION
-    ═══════════════════════════════════ */
     .dark-section {
       background: var(--ink);
       position: relative;
@@ -668,9 +659,6 @@
 
     .project-card:hover .proj-arrow { background: var(--accent); border-color: var(--accent); transform: translate(4px,-4px); }
 
-    /* ═══════════════════════════════════
-       CONTACT
-    ═══════════════════════════════════ */
     .contact-section {
       background: var(--paper);
       padding: 140px 7% 120px;
@@ -811,71 +799,77 @@
 
     .rv.in { opacity: 1; transform: translateY(0); }
 
-
     /* ═══════════════════════════════════
-       MOBILE — hero completamente novo
+       MOBILE
     ═══════════════════════════════════ */
     @media (max-width: 768px) {
 
-      /* ---------- HEADER mobile ---------- */
+      /* Header transparente — sem fundo preto que corta o logo */
       .hdr {
-        padding: 16px 20px;
-        background: rgba(240,237,232,0.92);
-        backdrop-filter: blur(16px) saturate(1.8);
-        -webkit-backdrop-filter: blur(16px) saturate(1.8);
-        border-bottom: 1px solid rgba(200,195,188,0.25);
+        padding: 20px 22px;
+        background: transparent;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border-bottom: none;
+        box-shadow: none;
       }
 
-      .hdr .logo { font-size: 1.05rem; letter-spacing: 0.22em; }
+      .hdr .logo {
+        font-size: 1.05rem;
+        letter-spacing: 0.22em;
+        color: var(--ink);
+      }
 
-      /* Nav fixo no bottom como pill — CORRIGIDO: sem overflow, texto visível */
+      /* Nav pill no BOTTOM — completamente separada do header */
       .hdr nav {
         position: fixed;
-        bottom: 20px;
+        bottom: 24px;
         left: 50%;
         top: auto;
         transform: translateX(-50%);
-        background: rgba(10,10,11,0.94);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        padding: 12px 20px;
+        background: rgba(10,10,11,0.88);
+        backdrop-filter: blur(24px) saturate(1.6);
+        -webkit-backdrop-filter: blur(24px) saturate(1.6);
+        padding: 14px 28px;
         border-radius: 100px;
-        border: 1px solid rgba(255,255,255,0.07);
-        box-shadow: 0 12px 36px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.06) inset;
-        /* largura automática baseada no conteúdo, nunca ultrapassa a tela */
+        border: 1px solid rgba(255,255,255,0.09);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.28), 0 1px 0 rgba(255,255,255,0.06) inset;
         width: auto;
-        max-width: calc(100vw - 32px);
+        max-width: calc(100vw - 40px);
         white-space: nowrap;
         z-index: 1000;
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 0;
       }
 
       .hdr nav a {
-        margin: 0 10px;
-        font-size: 0.58rem;
-        letter-spacing: 0.14em;
-        color: rgba(240,237,232,0.55);
-        transition: color 0.3s;
+        margin: 0;
+        padding: 0 16px;
+        font-size: 0.6rem;
+        letter-spacing: 0.16em;
+        color: rgba(240,237,232,0.58);
+        transition: color 0.25s;
         flex-shrink: 0;
+        position: relative;
       }
 
-      .hdr nav a:hover, .hdr nav a:active { color: var(--accent); }
+      .hdr nav a:hover,
+      .hdr nav a:active { color: var(--accent); }
       .hdr nav a::after { display: none; }
 
-      /* Separador entre links */
+      /* Divisor vertical fino entre links */
       .hdr nav a + a::before {
-        content: '·';
-        color: rgba(240,237,232,0.15);
-        margin-right: 10px;
-        font-size: 0.5rem;
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 1px;
+        height: 12px;
+        background: rgba(255,255,255,0.15);
       }
 
-      /* ---------- SCROLL STAGE — mobile: sem travamento ---------- */
-      /* FIX: no mobile a scroll-stage não precisa de height extra,
-         o hero é apenas 100vh e o scroll flui normalmente */
       .scroll-stage {
         height: auto !important;
         min-height: 100vh;
@@ -903,7 +897,6 @@
       #scroll-hint { display: none; }
       .corner-label { display: none; }
 
-      /* ---------- MOBILE HERO ---------- */
       .mobile-hero {
         display: flex !important;
         flex-direction: column;
@@ -1047,7 +1040,6 @@
         font-size: 0.75rem;
       }
 
-      /* ── FOTO 3D — wrapper com perspectiva para o efeito de profundidade ── */
       .mh-photo-wrapper {
         position: absolute;
         top: 72px; right: -10px;
@@ -1059,9 +1051,7 @@
         border: 1px solid rgba(10,10,11,0.08);
         z-index: 10;
         will-change: transform;
-        /* perspectiva no próprio elemento para o efeito 3D */
         transform-style: preserve-3d;
-        /* transform inicial: leve rotação decorativa */
         transform: perspective(400px) rotateY(0deg) rotateZ(3deg);
         transition: box-shadow 0.3s ease;
       }
@@ -1075,30 +1065,15 @@
         border-radius: 14px;
       }
 
-      /* Brilho de reflexo 3D sobre a foto */
       .mh-photo-wrapper::after {
         content: '';
         position: absolute;
         inset: 0;
         border-radius: 14px;
-        background: linear-gradient(
-          135deg,
-          rgba(255,255,255,0.18) 0%,
-          rgba(255,255,255,0) 50%,
-          rgba(0,0,0,0.08) 100%
-        );
+        background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.08) 100%);
         pointer-events: none;
         z-index: 2;
         transition: opacity 0.3s;
-      }
-
-      .mh-line {
-        position: absolute;
-        right: 154px; top: 84px;
-        width: 1px;
-        height: 90px;
-        background: linear-gradient(to bottom, transparent, var(--accent), transparent);
-        opacity: 0.4;
       }
 
       .mh-ghost-num {
@@ -1159,10 +1134,7 @@
         to   { opacity: 1; transform: perspective(400px) rotateY(0deg) rotateZ(3deg) translateX(0); }
       }
 
-      /* ---------- DARK SECTION mobile ---------- */
-      .dark-section {
-        padding: 64px 20px 56px;
-      }
+      .dark-section { padding: 64px 20px 56px; }
 
       .dark-heading {
         font-size: clamp(3rem, 18vw, 5rem);
@@ -1184,43 +1156,16 @@
         border: 1px solid rgba(240,237,232,0.07);
       }
 
-      .skill-num {
-        top: 16px; left: 18px;
-        font-size: 0.52rem;
-        letter-spacing: 0.2em;
-        color: rgba(240,237,232,0.12);
-      }
-
-      .skill-icon {
-        font-size: 2.8rem;
-        top: 50%; right: 16px;
-        transform: translateY(-55%);
-        opacity: 0.07;
-      }
-
-      .skill-name {
-        font-size: 1.45rem;
-        margin-bottom: 4px;
-        margin-top: 22px;
-      }
-
-      .skill-desc {
-        font-size: 0.72rem;
-        max-width: 100%;
-        color: rgba(240,237,232,0.28);
-        line-height: 1.5;
-      }
+      .skill-num { top: 16px; left: 18px; font-size: 0.52rem; letter-spacing: 0.2em; color: rgba(240,237,232,0.12); }
+      .skill-icon { font-size: 2.8rem; top: 50%; right: 16px; transform: translateY(-55%); opacity: 0.07; }
+      .skill-name { font-size: 1.45rem; margin-bottom: 4px; margin-top: 22px; }
+      .skill-desc { font-size: 0.72rem; max-width: 100%; color: rgba(240,237,232,0.28); line-height: 1.5; }
 
       .marquee-wrap { margin: 36px 0; padding: 18px 0; }
       .marquee-track span { font-size: 0.78rem; padding-right: 28px; letter-spacing: 0.22em; }
       .marquee-track span.hi { font-size: 0.85rem; }
 
-      .projects-row {
-        grid-template-columns: 1fr;
-        gap: 10px;
-        background: transparent;
-        border: none;
-      }
+      .projects-row { grid-template-columns: 1fr; gap: 10px; background: transparent; border: none; }
 
       .project-card {
         border-radius: 14px;
@@ -1231,14 +1176,8 @@
       .proj-tag { font-size: 0.54rem; letter-spacing: 0.22em; margin-bottom: 16px; }
       .proj-title { font-size: 2.4rem; line-height: 0.88; }
       .proj-desc { font-size: 0.88rem; color: rgba(240,237,232,0.38); }
+      .proj-arrow { bottom: 24px; right: 24px; width: 36px; height: 36px; font-size: 0.9rem; }
 
-      .proj-arrow {
-        bottom: 24px; right: 24px;
-        width: 36px; height: 36px;
-        font-size: 0.9rem;
-      }
-
-      /* ---------- CONTACT mobile ---------- */
       .contact-section {
         grid-template-columns: 1fr;
         padding: 64px 20px 110px;
@@ -1246,7 +1185,6 @@
       }
 
       .contact-section::before { left: 20px; right: 20px; }
-
       .contact-heading { font-size: clamp(3.5rem, 20vw, 5.5rem); margin-bottom: 16px; }
       .contact-subtext { font-size: 1rem; max-width: 100%; }
       .contact-label { margin-bottom: 20px; }
@@ -1256,7 +1194,6 @@
       .link-name { font-size: 0.6rem; letter-spacing: 0.14em; }
       .link-arrow { width: 28px; height: 28px; font-size: 0.8rem; }
 
-      /* ---------- FOOTER mobile ---------- */
       .footer {
         flex-direction: column;
         gap: 10px;
@@ -1265,7 +1202,6 @@
       }
     }
 
-    /* Elemento mobile-hero — hidden on desktop */
     .mobile-hero { display: none; }
   </style>
 </head>
@@ -1282,13 +1218,10 @@
     </nav>
   </header>
 
-  <!-- SCROLL STAGE -->
   <div class="scroll-stage" id="stage">
     <div class="sticky-viewport" id="viewport">
 
-      <!-- ── MOBILE HERO (visível só no mobile) ── -->
       <div class="mobile-hero">
-        <!-- Foto decorativa no canto -->
         <div class="mh-photo-wrapper" id="mh-photo">
           <img src="img.png" alt="Luca Piovezan">
         </div>
@@ -1333,12 +1266,9 @@
         </div>
       </div>
 
-      <!-- ── DESKTOP CARD ANIMATION ── -->
       <div id="floatCard">
         <div class="card-face card-front">
-          <img
-            src="img.png"
-            alt="Luca Piovezan"
+          <img src="img.png" alt="Luca Piovezan"
             style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block;border-radius:16px;">
           <div class="card-label" style="position:relative;z-index:2;">
             <div class="cl-name">Front-end & Design</div>
@@ -1352,7 +1282,6 @@
         <div class="card-glow"></div>
       </div>
 
-      <!-- Panel 1 -->
       <div class="txt-panel" id="pnl1" style="right:6%;left:auto;">
         <div class="panel-eyebrow">O que eu faço</div>
         <div class="panel-h">Desenvolver<br><span>Interfaces</span></div>
@@ -1363,7 +1292,6 @@
         </ul>
       </div>
 
-      <!-- Panel 2 -->
       <div class="txt-panel" id="pnl2" style="left:6%;right:auto;">
         <div class="panel-eyebrow">Minha história</div>
         <div class="panel-h">Código<br><span>&amp; Arte</span></div>
@@ -1374,7 +1302,6 @@
         </ul>
       </div>
 
-      <!-- Panel 3 -->
       <div class="txt-panel" id="pnl3"
         style="left:50%;transform:translate(-50%,0);bottom:9%;top:auto;text-align:center;width:clamp(280px,55vw,560px);">
         <div class="panel-eyebrow" style="text-align:center;margin-bottom:12px;">Buscando estágio</div>
@@ -1383,19 +1310,15 @@
         </div>
       </div>
 
-      <!-- SCROLL HINT (desktop) -->
       <div id="scroll-hint">
         <span class="sh-label">Role</span>
-        <div class="sh-track">
-          <div class="sh-fill"></div>
-        </div>
+        <div class="sh-track"><div class="sh-fill"></div></div>
       </div>
 
       <div class="corner-label">Luca · 2026 · Portfolio</div>
     </div>
   </div>
 
-  <!-- DARK SECTION -->
   <section class="dark-section" id="trabalho">
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
@@ -1405,42 +1328,12 @@
     <h2 class="dark-heading rv" style="transition-delay:.08s">Habilidades<br><em>Materializadas</em></h2>
 
     <div class="skills-grid rv" style="transition-delay:.16s">
-      <div class="skill-card">
-        <span class="skill-num">01</span>
-        <div class="skill-icon">◈</div>
-        <div class="skill-name">HTML & CSS</div>
-        <div class="skill-desc">Interfaces responsivas, semânticas e elegantes.</div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-num">02</div>
-        <div class="skill-icon">⬡</div>
-        <div class="skill-name">JavaScript</div>
-        <div class="skill-desc">Lógica, interatividade e animações fluidas.</div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-num">03</div>
-        <div class="skill-icon">◉</div>
-        <div class="skill-name">Python</div>
-        <div class="skill-desc">Lógica de programação e automação de tarefas.</div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-num">04</div>
-        <div class="skill-icon">⬟</div>
-        <div class="skill-name">Figma</div>
-        <div class="skill-desc">Design de interfaces modernas e protótipos interativos.</div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-num">05</div>
-        <div class="skill-icon">◐</div>
-        <div class="skill-name">UX Design</div>
-        <div class="skill-desc">Organização visual e foco na experiência do usuário.</div>
-      </div>
-      <div class="skill-card">
-        <div class="skill-num">06</div>
-        <div class="skill-icon">◇</div>
-        <div class="skill-name">Motion</div>
-        <div class="skill-desc">Animações e protótipos que comunicam com emoção.</div>
-      </div>
+      <div class="skill-card"><span class="skill-num">01</span><div class="skill-icon">◈</div><div class="skill-name">HTML & CSS</div><div class="skill-desc">Interfaces responsivas, semânticas e elegantes.</div></div>
+      <div class="skill-card"><div class="skill-num">02</div><div class="skill-icon">⬡</div><div class="skill-name">JavaScript</div><div class="skill-desc">Lógica, interatividade e animações fluidas.</div></div>
+      <div class="skill-card"><div class="skill-num">03</div><div class="skill-icon">◉</div><div class="skill-name">Python</div><div class="skill-desc">Lógica de programação e automação de tarefas.</div></div>
+      <div class="skill-card"><div class="skill-num">04</div><div class="skill-icon">⬟</div><div class="skill-name">Figma</div><div class="skill-desc">Design de interfaces modernas e protótipos interativos.</div></div>
+      <div class="skill-card"><div class="skill-num">05</div><div class="skill-icon">◐</div><div class="skill-name">UX Design</div><div class="skill-desc">Organização visual e foco na experiência do usuário.</div></div>
+      <div class="skill-card"><div class="skill-num">06</div><div class="skill-icon">◇</div><div class="skill-name">Motion</div><div class="skill-desc">Animações e protótipos que comunicam com emoção.</div></div>
     </div>
 
     <div class="marquee-wrap rv" style="transition-delay:.24s">
@@ -1479,7 +1372,6 @@
     </div>
   </section>
 
-  <!-- CONTACT -->
   <section class="contact-section" id="contato">
     <div class="contact-left rv">
       <div class="contact-label">Vamos trabalhar juntos</div>
@@ -1504,7 +1396,6 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer class="footer">
     <span class="footer-copy">© 2026 Luca Piovezan — Todos os direitos reservados</span>
     <span class="footer-sig">LP</span>
@@ -1519,14 +1410,12 @@
 
     const isMobile = () => window.innerWidth <= 768;
 
-    /* Progress bar */
     const prog = document.getElementById('progress');
     window.addEventListener('scroll', () => {
       const h = document.documentElement;
       prog.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
     }, { passive: true });
 
-    /* Scroll hint — desktop only */
     const scrollHint = document.getElementById('scroll-hint');
     window.addEventListener('scroll', () => {
       if (isMobile()) return;
@@ -1534,7 +1423,6 @@
       scrollHint.style.opacity = p < 0.05 ? '1' : '0';
     }, { passive: true });
 
-    /* ── DESKTOP CARD ANIMATION ── */
     const card = document.getElementById('floatCard');
     const stage = document.getElementById('stage');
     let CW = 0, CH = 0;
@@ -1556,15 +1444,13 @@
 
     function getCardTargets(p) {
       const W = innerWidth, H = innerHeight;
-      const safeTop  = 90;
-      const safeBot  = 40;
-      const padH     = W * 0.12;
+      const safeTop = 90, safeBot = 40, padH = W * 0.12;
       const cardW = CW, cardH = CH;
       const availH = H - safeTop - safeBot - cardH;
-      const cy  = safeTop + Math.max(0, availH / 2);
-      const lx  = padH;
+      const cy = safeTop + Math.max(0, availH / 2);
+      const lx = padH;
       const rx_ = Math.min(W - padH - cardW, W - cardW - padH);
-      const cx  = (W - cardW) / 2;
+      const cx = (W - cardW) / 2;
       const arcUp = Math.min(80, availH * 0.4);
 
       let oX = cx, oY = cy, rY = 0, rX = 0, s = 1;
@@ -1622,7 +1508,7 @@
     }
 
     const SPRING = 0.10;
-    const glow   = document.querySelector('.card-glow');
+    const glow = document.querySelector('.card-glow');
 
     function renderCard() {
       if (isMobile()) { requestAnimationFrame(renderCard); return; }
@@ -1639,7 +1525,7 @@
       card.style.transform = `translate3d(${cX}px,${cY}px,0) rotateX(${cRX}deg) rotateY(${cRY}deg) scale(${cS})`;
 
       const distFromCenter = Math.abs(cY - (innerHeight - CH) / 2);
-      glow.style.opacity   = Math.max(0.08, 0.45 - distFromCenter / 500);
+      glow.style.opacity = Math.max(0.08, 0.45 - distFromCenter / 500);
       glow.style.transform = `scaleX(${Math.max(0.7, 1 - distFromCenter / 400)}) scaleY(${Math.max(0.3, 1 - distFromCenter / 300)})`;
 
       updatePanels(p);
@@ -1647,7 +1533,6 @@
     }
     requestAnimationFrame(renderCard);
 
-    /* Reveal on scroll */
     const revEls = document.querySelectorAll('.rv');
     function checkRevs() {
       revEls.forEach(el => {
@@ -1657,31 +1542,28 @@
     window.addEventListener('scroll', checkRevs, { passive: true });
     checkRevs();
 
-    /* Tilt com mouse (desktop) */
     if (!isMobile()) {
       document.addEventListener('mousemove', e => {
         const rect = card.getBoundingClientRect();
         if (!rect.width) return;
-        const dx = (e.clientX - (rect.left + rect.width / 2))  / (innerWidth / 2);
-        const dy = (e.clientY - (rect.top  + rect.height / 2)) / (innerHeight / 2);
+        const dx = (e.clientX - (rect.left + rect.width / 2)) / (innerWidth / 2);
+        const dy = (e.clientY - (rect.top + rect.height / 2)) / (innerHeight / 2);
         card.style.transform = `translate3d(${cX}px,${cY}px,0) rotateX(${cRX + dy * -4}deg) rotateY(${cRY + dx * 6}deg) scale(${cS})`;
       });
     }
 
-    /* Tilt nos cards de skills/projetos (desktop) */
     document.querySelectorAll('.skill-card, .project-card, .contact-link').forEach(c => {
       c.addEventListener('mousemove', e => {
         if (isMobile()) return;
-        const r  = c.getBoundingClientRect();
-        const x  = e.clientX - r.left;
-        const y  = e.clientY - r.top;
-        const dx = (x - r.width  / 2) / (r.width  / 2);
+        const r = c.getBoundingClientRect();
+        const x = e.clientX - r.left;
+        const y = e.clientY - r.top;
+        const dx = (x - r.width / 2) / (r.width / 2);
         const dy = (y - r.height / 2) / (r.height / 2);
         c.style.setProperty('--mx', x + 'px');
         c.style.setProperty('--my', y + 'px');
         c.style.transform = `perspective(800px) rotateX(${dy * -8}deg) rotateY(${dx * 10}deg) translateY(-8px) scale(1.02)`;
       });
-
       c.addEventListener('mouseleave', () => {
         if (isMobile()) return;
         c.style.transform = '';
@@ -1690,82 +1572,44 @@
       });
     });
 
-    /* Touch feedback nos project cards mobile */
     if (isMobile()) {
       document.querySelectorAll('.project-card').forEach(c => {
-        c.addEventListener('touchstart', () => {
-          c.style.opacity = '0.85';
-          c.style.transform = 'scale(0.985)';
-        }, { passive: true });
-        c.addEventListener('touchend', () => {
-          c.style.opacity = '';
-          c.style.transform = '';
-        }, { passive: true });
+        c.addEventListener('touchstart', () => { c.style.opacity = '0.85'; c.style.transform = 'scale(0.985)'; }, { passive: true });
+        c.addEventListener('touchend', () => { c.style.opacity = ''; c.style.transform = ''; }, { passive: true });
       });
     }
 
-    /* ══════════════════════════════════════════════════════
-       MOBILE PHOTO — ROTAÇÃO 3D AO SCROLL
-       A foto gira exatamente 360° no eixo Y conforme o usuário desce.
-    ══════════════════════════════════════════════════════ */
     (function () {
       const photoWrapper = document.getElementById('mh-photo');
       if (!photoWrapper) return;
 
-      // Estado da rotação
-      let currentRotY   = 0;   
-      let currentRotZ   = 3;   
-      let targetRotY    = 0;
-      let targetRotZ    = 3;
-      let rafId         = null;
+      let currentRotY = 0, currentRotZ = 3, targetRotY = 0, targetRotZ = 3, rafId = null;
 
       function applyTransform() {
         photoWrapper.style.transform = `perspective(500px) rotateY(${currentRotY}deg) rotateZ(${currentRotZ}deg)`;
-        
         const absY = Math.abs(((currentRotY % 360) + 360) % 360);
         const shadowIntensity = absY > 90 && absY < 270 ? 0.05 : 0.18;
         photoWrapper.style.boxShadow = `-8px 12px 40px rgba(10,10,11,${shadowIntensity})`;
       }
 
       function animateSpin() {
-        // Acelerou o "spring" (de 0.08 para 0.15) para manter a foto mais responsiva ao toque imediato,
-        // evitando que a animação fique tão atrasada que a foto saia da tela
         currentRotY += (targetRotY - currentRotY) * 0.15;
         currentRotZ += (targetRotZ - currentRotZ) * 0.15;
-
         applyTransform();
-
         const stillY = Math.abs(targetRotY - currentRotY) > 0.1;
         const stillZ = Math.abs(targetRotZ - currentRotZ) > 0.05;
-
-        if (stillY || stillZ) {
-          rafId = requestAnimationFrame(animateSpin);
-        } else {
-          rafId = null;
-        }
+        if (stillY || stillZ) { rafId = requestAnimationFrame(animateSpin); } else { rafId = null; }
       }
 
       window.addEventListener('scroll', () => {
         if (!isMobile()) return;
-
-        // Anula a animação CSS (in duration/fill-mode) para permitir que o JS controle o transform
-        if (photoWrapper.style.animation !== 'none') {
-          photoWrapper.style.animation = 'none';
-        }
-
+        if (photoWrapper.style.animation !== 'none') photoWrapper.style.animation = 'none';
         const scrollY = window.scrollY;
-        
-        // A foto fica a ~70px do topo e tem 170px de altura (sai da tela por volta dos 240px de scroll).
-        // MaxScroll aumentado para deixar a rotação mais devagar
-        const maxScroll = 400; 
+        const maxScroll = 400;
         const progress = Math.max(0, Math.min(scrollY / maxScroll, 1));
-        
         targetRotY = progress * 180;
         targetRotZ = 3 + Math.sin(scrollY * 0.015) * 4;
-
-        if (!rafId) {
-          rafId = requestAnimationFrame(animateSpin);
-        }
+        if (!rafId) rafId = requestAnimationFrame(animateSpin);
       }, { passive: true });
 
       applyTransform();
