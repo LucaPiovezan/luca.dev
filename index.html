@@ -817,7 +817,7 @@
     ═══════════════════════════════════ */
     @media (max-width: 768px) {
 
-      /* ---------- HEADER ---------- */
+      /* ---------- HEADER mobile ---------- */
       .hdr {
         padding: 16px 20px;
         background: rgba(240,237,232,0.92);
@@ -828,39 +828,66 @@
 
       .hdr .logo { font-size: 1.05rem; letter-spacing: 0.22em; }
 
-      /* Nav fixo no bottom como pill escuro */
+      /* Nav fixo no bottom como pill — CORRIGIDO: sem overflow, texto visível */
       .hdr nav {
         position: fixed;
-        bottom: 24px;
+        bottom: 20px;
         left: 50%;
         top: auto;
         transform: translateX(-50%);
         background: rgba(10,10,11,0.94);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
-        padding: 13px 26px;
+        padding: 12px 20px;
         border-radius: 100px;
         border: 1px solid rgba(255,255,255,0.07);
         box-shadow: 0 12px 36px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.06) inset;
+        /* largura automática baseada no conteúdo, nunca ultrapassa a tela */
         width: auto;
+        max-width: calc(100vw - 32px);
+        white-space: nowrap;
         z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
       }
 
       .hdr nav a {
-        margin: 0 12px;
-        font-size: 0.6rem;
-        letter-spacing: 0.18em;
-        color: rgba(240,237,232,0.5);
+        margin: 0 10px;
+        font-size: 0.58rem;
+        letter-spacing: 0.14em;
+        color: rgba(240,237,232,0.55);
         transition: color 0.3s;
+        flex-shrink: 0;
       }
 
       .hdr nav a:hover, .hdr nav a:active { color: var(--accent); }
       .hdr nav a::after { display: none; }
 
-      /* ---------- SCROLL STAGE — mobile redesenhado ---------- */
-      .scroll-stage { height: 300vh; }
+      /* Separador entre links */
+      .hdr nav a + a::before {
+        content: '·';
+        color: rgba(240,237,232,0.15);
+        margin-right: 10px;
+        font-size: 0.5rem;
+      }
+
+      /* ---------- SCROLL STAGE — mobile: sem travamento ---------- */
+      /* FIX: no mobile a scroll-stage não precisa de height extra,
+         o hero é apenas 100vh e o scroll flui normalmente */
+      .scroll-stage {
+        height: auto !important;
+        min-height: 100vh;
+        position: relative;
+      }
 
       .sticky-viewport {
+        position: relative !important;
+        top: auto !important;
+        height: auto !important;
+        min-height: 100vh;
+        overflow: visible;
         perspective: none;
         perspective-origin: unset;
         display: flex;
@@ -880,9 +907,9 @@
       .mobile-hero {
         display: flex !important;
         flex-direction: column;
-        height: 100vh;
+        min-height: 100vh;
         width: 100%;
-        position: absolute;
+        position: relative;
         top: 0; left: 0;
         padding: 80px 24px 100px;
         overflow: hidden;
@@ -1020,7 +1047,7 @@
         font-size: 0.75rem;
       }
 
-      /* Foto flutuante — a rotação é controlada via JS */
+      /* ── FOTO 3D — wrapper com perspectiva para o efeito de profundidade ── */
       .mh-photo-wrapper {
         position: absolute;
         top: 72px; right: -10px;
@@ -1030,9 +1057,13 @@
         overflow: hidden;
         box-shadow: -8px 12px 40px rgba(10,10,11,0.18);
         border: 1px solid rgba(10,10,11,0.08);
-        /* transform inicial definido via JS para não conflitar */
         z-index: 10;
         will-change: transform;
+        /* perspectiva no próprio elemento para o efeito 3D */
+        transform-style: preserve-3d;
+        /* transform inicial: leve rotação decorativa */
+        transform: perspective(400px) rotateY(0deg) rotateZ(3deg);
+        transition: box-shadow 0.3s ease;
       }
 
       .mh-photo-wrapper img {
@@ -1040,6 +1071,25 @@
         height: 100%;
         object-fit: cover;
         object-position: center top;
+        display: block;
+        border-radius: 14px;
+      }
+
+      /* Brilho de reflexo 3D sobre a foto */
+      .mh-photo-wrapper::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 14px;
+        background: linear-gradient(
+          135deg,
+          rgba(255,255,255,0.18) 0%,
+          rgba(255,255,255,0) 50%,
+          rgba(0,0,0,0.08) 100%
+        );
+        pointer-events: none;
+        z-index: 2;
+        transition: opacity 0.3s;
       }
 
       .mh-line {
@@ -1105,8 +1155,8 @@
       }
 
       @keyframes photo-in {
-        from { opacity: 0; transform: rotate(3deg) translateX(30px); }
-        to   { opacity: 1; transform: rotate(3deg) translateX(0); }
+        from { opacity: 0; transform: perspective(400px) rotateY(-30deg) rotateZ(3deg) translateX(30px); }
+        to   { opacity: 1; transform: perspective(400px) rotateY(0deg) rotateZ(3deg) translateX(0); }
       }
 
       /* ---------- DARK SECTION mobile ---------- */
@@ -1655,22 +1705,41 @@
       });
     }
 
-    /* ── MOBILE PHOTO SPIN ON SCROLL ── */
+    /* ══════════════════════════════════════════════════════
+       MOBILE PHOTO — ROTAÇÃO 3D AO SCROLL
+       A foto gira exatamente 360° no eixo Y conforme o usuário desce.
+    ══════════════════════════════════════════════════════ */
     (function () {
-      if (!isMobile()) return;
-
       const photoWrapper = document.getElementById('mh-photo');
       if (!photoWrapper) return;
 
-      let lastScrollY = window.scrollY;
-      let currentRotation = 3; // começa com a rotação decorativa de 3deg
-      let targetRotation = 3;
-      let rafId = null;
+      // Estado da rotação
+      let currentRotY   = 0;   
+      let currentRotZ   = 3;   
+      let targetRotY    = 0;
+      let targetRotZ    = 3;
+      let rafId         = null;
+
+      function applyTransform() {
+        photoWrapper.style.transform = `perspective(500px) rotateY(${currentRotY}deg) rotateZ(${currentRotZ}deg)`;
+        
+        const absY = Math.abs(((currentRotY % 360) + 360) % 360);
+        const shadowIntensity = absY > 90 && absY < 270 ? 0.05 : 0.18;
+        photoWrapper.style.boxShadow = `-8px 12px 40px rgba(10,10,11,${shadowIntensity})`;
+      }
 
       function animateSpin() {
-        currentRotation += (targetRotation - currentRotation) * 0.08;
-        photoWrapper.style.transform = `rotate(${currentRotation}deg)`;
-        if (Math.abs(targetRotation - currentRotation) > 0.05) {
+        // Acelerou o "spring" (de 0.08 para 0.15) para manter a foto mais responsiva ao toque imediato,
+        // evitando que a animação fique tão atrasada que a foto saia da tela
+        currentRotY += (targetRotY - currentRotY) * 0.15;
+        currentRotZ += (targetRotZ - currentRotZ) * 0.15;
+
+        applyTransform();
+
+        const stillY = Math.abs(targetRotY - currentRotY) > 0.1;
+        const stillZ = Math.abs(targetRotZ - currentRotZ) > 0.05;
+
+        if (stillY || stillZ) {
           rafId = requestAnimationFrame(animateSpin);
         } else {
           rafId = null;
@@ -1679,17 +1748,28 @@
 
       window.addEventListener('scroll', () => {
         if (!isMobile()) return;
-        const scrollY = window.scrollY;
-        const delta = scrollY - lastScrollY;
-        lastScrollY = scrollY;
 
-        // 0.5deg por pixel de scroll — ajuste a gosto
-        targetRotation += delta * 0.5;
+        // Anula a animação CSS (in duration/fill-mode) para permitir que o JS controle o transform
+        if (photoWrapper.style.animation !== 'none') {
+          photoWrapper.style.animation = 'none';
+        }
+
+        const scrollY = window.scrollY;
+        
+        // A foto fica a ~70px do topo e tem 170px de altura (sai da tela por volta dos 240px de scroll).
+        // MaxScroll foi diminuido para 150px, para que ela faça os 360° COMPLETOS enquanto ainda é visível!
+        const maxScroll = 150; 
+        const progress = Math.max(0, Math.min(scrollY / maxScroll, 1));
+        
+        targetRotY = progress * 360;
+        targetRotZ = 3 + Math.sin(scrollY * 0.015) * 4;
 
         if (!rafId) {
           rafId = requestAnimationFrame(animateSpin);
         }
       }, { passive: true });
+
+      applyTransform();
     })();
   </script>
 </body>
