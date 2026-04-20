@@ -1292,7 +1292,6 @@
         <div class="mh-photo-wrapper" id="mh-photo">
           <img src="img.png" alt="Luca Piovezan">
         </div>
-        <div class="mh-line"></div>
         <div class="mh-ghost-num"></div>
 
         <div class="mh-top">
@@ -1757,11 +1756,11 @@
         const scrollY = window.scrollY;
         
         // A foto fica a ~70px do topo e tem 170px de altura (sai da tela por volta dos 240px de scroll).
-        // MaxScroll foi diminuido para 150px, para que ela faça os 360° COMPLETOS enquanto ainda é visível!
-        const maxScroll = 150; 
+        // MaxScroll aumentado para deixar a rotação mais devagar
+        const maxScroll = 400; 
         const progress = Math.max(0, Math.min(scrollY / maxScroll, 1));
         
-        targetRotY = progress * 360;
+        targetRotY = progress * 180;
         targetRotZ = 3 + Math.sin(scrollY * 0.015) * 4;
 
         if (!rafId) {
