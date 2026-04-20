@@ -55,6 +55,9 @@
       transition: width 0.05s linear;
     }
 
+    /* ═══════════════════════════════════
+       HEADER
+    ═══════════════════════════════════ */
     .hdr {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -105,7 +108,9 @@
 
     .hdr nav a:hover::after { width: 100%; }
 
-    /* ── SCROLL STAGE ── */
+    /* ═══════════════════════════════════
+       SCROLL STAGE — DESKTOP
+    ═══════════════════════════════════ */
     .scroll-stage {
       height: 500vh;
       position: relative;
@@ -331,7 +336,6 @@
       user-select: none;
     }
 
-    /* ── SCROLL INDICATOR ── */
     #scroll-hint {
       position: absolute;
       bottom: 32px;
@@ -379,7 +383,9 @@
       100% { top: 110%; opacity: 0; }
     }
 
-    /* ── DARK SECTION ── */
+    /* ═══════════════════════════════════
+       DARK SECTION
+    ═══════════════════════════════════ */
     .dark-section {
       background: var(--ink);
       position: relative;
@@ -662,7 +668,9 @@
 
     .project-card:hover .proj-arrow { background: var(--accent); border-color: var(--accent); transform: translate(4px,-4px); }
 
-    /* ── CONTACT ── */
+    /* ═══════════════════════════════════
+       CONTACT
+    ═══════════════════════════════════ */
     .contact-section {
       background: var(--paper);
       padding: 140px 7% 120px;
@@ -804,161 +812,411 @@
     .rv.in { opacity: 1; transform: translateY(0); }
 
 
-    /* ============================================================
-       MOBILE — MAX-WIDTH 768px
-       ============================================================ */
+    /* ═══════════════════════════════════
+       MOBILE — hero completamente novo
+    ═══════════════════════════════════ */
     @media (max-width: 768px) {
 
-      /* HEADER */
+      /* ---------- HEADER ---------- */
       .hdr {
-        padding: 14px 20px;
-        background: rgba(240,237,232,0.88);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-bottom: 1px solid var(--glass-border);
+        padding: 16px 20px;
+        background: rgba(240,237,232,0.92);
+        backdrop-filter: blur(16px) saturate(1.8);
+        -webkit-backdrop-filter: blur(16px) saturate(1.8);
+        border-bottom: 1px solid rgba(200,195,188,0.25);
       }
 
-      .hdr .logo { font-size: 1rem; letter-spacing: 0.2em; }
+      .hdr .logo { font-size: 1.05rem; letter-spacing: 0.22em; }
 
-      /* NAV ─ pill fixo no bottom */
+      /* Nav fixo no bottom como pill escuro */
       .hdr nav {
         position: fixed;
-        bottom: 20px;
+        bottom: 24px;
         left: 50%;
         top: auto;
         transform: translateX(-50%);
-        background: var(--ink);
-        padding: 11px 22px;
+        background: rgba(10,10,11,0.94);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        padding: 13px 26px;
         border-radius: 100px;
-        box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+        border: 1px solid rgba(255,255,255,0.07);
+        box-shadow: 0 12px 36px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.06) inset;
         width: auto;
         z-index: 1000;
       }
 
       .hdr nav a {
-        margin: 0 10px;
-        font-size: 0.58rem;
-        color: rgba(240,237,232,0.65);
+        margin: 0 12px;
+        font-size: 0.6rem;
+        letter-spacing: 0.18em;
+        color: rgba(240,237,232,0.5);
+        transition: color 0.3s;
       }
 
-      .hdr nav a:hover { color: var(--accent); }
+      .hdr nav a:hover, .hdr nav a:active { color: var(--accent); }
       .hdr nav a::after { display: none; }
 
-      /* SCROLL STAGE */
-      .scroll-stage { height: 500vh; }
+      /* ---------- SCROLL STAGE — mobile redesenhado ---------- */
+      .scroll-stage { height: 300vh; }
 
       .sticky-viewport {
-        perspective: 1000px;
-        perspective-origin: 50% 40%;
+        perspective: none;
+        perspective-origin: unset;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
       }
 
-      /* CARD ─ sempre dentro da tela */
-      #floatCard {
-        width: min(200px, 52vw) !important;
+      #floatCard { display: none; }
+      .card-glow  { display: none; }
+
+      #pnl1, #pnl2, #pnl3 { display: none !important; }
+      #scroll-hint { display: none; }
+      .corner-label { display: none; }
+
+      /* ---------- MOBILE HERO ---------- */
+      .mobile-hero {
+        display: flex !important;
+        flex-direction: column;
+        height: 100vh;
+        width: 100%;
+        position: absolute;
+        top: 0; left: 0;
+        padding: 80px 24px 100px;
+        overflow: hidden;
       }
 
-      /* SCROLL HINT ─ menor em mobile */
-      #scroll-hint { bottom: 90px; }
-
-      /* PANELS ─ largura total, posicionamento seguro */
-      .txt-panel {
-        width: calc(100vw - 32px) !important;
-        left: 16px !important;
-        right: 16px !important;
-        padding: 22px 18px !important;
-        border-radius: 10px !important;
+      .mh-top {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
       }
 
-      .panel-h {
-        font-size: 2.2rem !important;
-        margin-bottom: 16px !important;
+      .mh-tag {
+        font-family: 'DM Mono', monospace;
+        font-size: 0.58rem;
+        letter-spacing: 0.35em;
+        text-transform: uppercase;
+        color: var(--ghost);
+        margin-bottom: 18px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
       }
 
-      .panel-list li { padding: 9px 0 !important; }
-      .panel-list .pl-val { font-size: 0.78rem !important; }
-
-      /* Panel 1 e 2: top diferente em mobile para não colidir com o card */
-      #pnl1 { top: auto !important; bottom: 110px !important; transform: none !important; }
-      #pnl2 { top: auto !important; bottom: 110px !important; transform: none !important; }
-      #pnl3 {
-        top: auto !important;
-        bottom: 110px !important;
-        transform: translateX(-50%) !important;
-        width: calc(100vw - 32px) !important;
-        text-align: center !important;
+      .mh-tag::before {
+        content: '';
+        display: inline-block;
+        width: 24px;
+        height: 1px;
+        background: var(--accent);
       }
 
-      /* DARK SECTION */
-      .dark-section { padding: 70px 18px 50px !important; }
+      .mh-name {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: clamp(4.5rem, 22vw, 7rem);
+        line-height: 0.84;
+        letter-spacing: -0.01em;
+        color: var(--ink);
+        margin-bottom: 6px;
+      }
+
+      .mh-name em {
+        font-family: 'Crimson Pro', serif;
+        font-style: italic;
+        font-weight: 300;
+        color: var(--accent);
+        font-size: 0.62em;
+        display: block;
+        letter-spacing: 0;
+      }
+
+      .mh-role {
+        font-family: 'Crimson Pro', serif;
+        font-size: 1.1rem;
+        font-style: italic;
+        font-weight: 300;
+        color: var(--ghost);
+        margin-top: 16px;
+        margin-bottom: 32px;
+        line-height: 1.5;
+      }
+
+      .mh-cards {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-bottom: 28px;
+      }
+
+      .mh-card {
+        background: var(--cream);
+        border: 1px solid rgba(10,10,11,0.07);
+        border-radius: 12px;
+        padding: 16px 18px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .mh-card::after {
+        content: '';
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        height: 2px;
+        background: var(--accent);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s var(--ease-out);
+      }
+
+      .mh-card:active::after { transform: scaleX(1); }
+
+      .mh-card-key {
+        font-family: 'DM Mono', monospace;
+        font-size: 0.5rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--ghost);
+        margin-bottom: 6px;
+      }
+
+      .mh-card-val {
+        font-family: 'Crimson Pro', serif;
+        font-size: 0.95rem;
+        font-weight: 300;
+        color: var(--ink);
+        line-height: 1.3;
+      }
+
+      .mh-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--ink);
+        color: var(--paper);
+        text-decoration: none;
+        font-family: 'DM Mono', monospace;
+        font-size: 0.6rem;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        padding: 14px 22px;
+        border-radius: 100px;
+        transition: background 0.3s, transform 0.3s var(--ease-out);
+        align-self: flex-start;
+      }
+
+      .mh-cta:active { background: var(--accent); transform: scale(0.97); }
+
+      .mh-cta-arrow {
+        width: 22px; height: 22px;
+        border: 1px solid rgba(240,237,232,0.25);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+      }
+
+      /* Foto flutuante — a rotação é controlada via JS */
+      .mh-photo-wrapper {
+        position: absolute;
+        top: 72px; right: -10px;
+        width: 130px;
+        height: 170px;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: -8px 12px 40px rgba(10,10,11,0.18);
+        border: 1px solid rgba(10,10,11,0.08);
+        /* transform inicial definido via JS para não conflitar */
+        z-index: 10;
+        will-change: transform;
+      }
+
+      .mh-photo-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
+      }
+
+      .mh-line {
+        position: absolute;
+        right: 154px; top: 84px;
+        width: 1px;
+        height: 90px;
+        background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+        opacity: 0.4;
+      }
+
+      .mh-ghost-num {
+        position: absolute;
+        bottom: 90px; right: 20px;
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 7rem;
+        color: rgba(10,10,11,0.04);
+        line-height: 1;
+        pointer-events: none;
+        letter-spacing: -0.04em;
+        z-index: 0;
+      }
+
+      .mh-scroll-prompt {
+        position: absolute;
+        bottom: 90px;
+        left: 24px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .mh-scroll-prompt span {
+        font-family: 'DM Mono', monospace;
+        font-size: 0.5rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--mist);
+      }
+
+      .mh-scroll-dot {
+        width: 5px; height: 5px;
+        border-radius: 50%;
+        background: var(--accent);
+        animation: pulse-dot 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse-dot {
+        0%, 100% { opacity: 0.4; transform: scale(1); }
+        50%       { opacity: 1;   transform: scale(1.6); }
+      }
+
+      .mh-tag   { animation: mh-in 0.8s var(--ease-out) 0.1s both; }
+      .mh-name  { animation: mh-in 0.9s var(--ease-out) 0.2s both; }
+      .mh-role  { animation: mh-in 0.8s var(--ease-out) 0.32s both; }
+      .mh-cards { animation: mh-in 0.8s var(--ease-out) 0.44s both; }
+      .mh-cta   { animation: mh-in 0.8s var(--ease-out) 0.56s both; }
+      .mh-photo-wrapper { animation: photo-in 1s var(--ease-out) 0.15s both; }
+
+      @keyframes mh-in {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+
+      @keyframes photo-in {
+        from { opacity: 0; transform: rotate(3deg) translateX(30px); }
+        to   { opacity: 1; transform: rotate(3deg) translateX(0); }
+      }
+
+      /* ---------- DARK SECTION mobile ---------- */
+      .dark-section {
+        padding: 64px 20px 56px;
+      }
 
       .dark-heading {
-        font-size: 3.2rem !important;
-        margin-bottom: 36px !important;
-        line-height: 0.86 !important;
+        font-size: clamp(3rem, 18vw, 5rem);
+        margin-bottom: 40px;
+        line-height: 0.86;
       }
 
-      /* SKILLS GRID ─ 1 coluna */
       .skills-grid {
-        grid-template-columns: 1fr !important;
-        gap: 10px !important;
-        background: transparent !important;
-        border: none !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        background: transparent;
+        border: none;
       }
 
       .skill-card {
-        border-radius: 10px !important;
-        min-height: 150px !important;
-        padding: 28px 20px !important;
-        border: 1px solid rgba(240,237,232,0.08) !important;
+        border-radius: 14px;
+        min-height: 130px;
+        padding: 20px 18px 18px;
+        border: 1px solid rgba(240,237,232,0.07);
       }
 
-      .skill-name { font-size: 1.7rem !important; }
-      .skill-icon { font-size: 2.2rem !important; right: 16px !important; }
-      .skill-desc { font-size: 0.8rem !important; max-width: 100% !important; }
+      .skill-num {
+        top: 16px; left: 18px;
+        font-size: 0.52rem;
+        letter-spacing: 0.2em;
+        color: rgba(240,237,232,0.12);
+      }
 
-      /* MARQUEE */
-      .marquee-wrap { margin: 36px 0 !important; padding: 14px 0 !important; }
-      .marquee-track span { font-size: 0.75rem !important; padding-right: 22px !important; }
+      .skill-icon {
+        font-size: 2.8rem;
+        top: 50%; right: 16px;
+        transform: translateY(-55%);
+        opacity: 0.07;
+      }
 
-      /* PROJECTS ─ 1 coluna */
+      .skill-name {
+        font-size: 1.45rem;
+        margin-bottom: 4px;
+        margin-top: 22px;
+      }
+
+      .skill-desc {
+        font-size: 0.72rem;
+        max-width: 100%;
+        color: rgba(240,237,232,0.28);
+        line-height: 1.5;
+      }
+
+      .marquee-wrap { margin: 36px 0; padding: 18px 0; }
+      .marquee-track span { font-size: 0.78rem; padding-right: 28px; letter-spacing: 0.22em; }
+      .marquee-track span.hi { font-size: 0.85rem; }
+
       .projects-row {
-        grid-template-columns: 1fr !important;
-        gap: 10px !important;
-        background: transparent !important;
-        border: none !important;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        background: transparent;
+        border: none;
       }
 
       .project-card {
-        border-radius: 10px !important;
-        padding: 28px 20px 50px !important;
-        border: 1px solid rgba(240,237,232,0.08) !important;
+        border-radius: 14px;
+        padding: 28px 24px 64px;
+        border: 1px solid rgba(240,237,232,0.07);
       }
 
-      .proj-title { font-size: 2rem !important; }
+      .proj-tag { font-size: 0.54rem; letter-spacing: 0.22em; margin-bottom: 16px; }
+      .proj-title { font-size: 2.4rem; line-height: 0.88; }
+      .proj-desc { font-size: 0.88rem; color: rgba(240,237,232,0.38); }
 
-      /* CONTACT */
+      .proj-arrow {
+        bottom: 24px; right: 24px;
+        width: 36px; height: 36px;
+        font-size: 0.9rem;
+      }
+
+      /* ---------- CONTACT mobile ---------- */
       .contact-section {
-        grid-template-columns: 1fr !important;
-        padding: 70px 18px 100px !important;
-        gap: 32px !important;
+        grid-template-columns: 1fr;
+        padding: 64px 20px 110px;
+        gap: 24px;
       }
 
-      .contact-heading { font-size: 3.5rem !important; }
-      .contact-left { padding-top: 0 !important; }
-      .contact-links { padding-top: 0 !important; }
-      .contact-link { padding: 16px 0 !important; }
-      .link-name { font-size: 0.58rem !important; }
+      .contact-section::before { left: 20px; right: 20px; }
 
-      /* FOOTER */
+      .contact-heading { font-size: clamp(3.5rem, 20vw, 5.5rem); margin-bottom: 16px; }
+      .contact-subtext { font-size: 1rem; max-width: 100%; }
+      .contact-label { margin-bottom: 20px; }
+      .contact-left { padding-top: 0; }
+      .contact-links { padding-top: 0; }
+      .contact-link { padding: 18px 0; }
+      .link-name { font-size: 0.6rem; letter-spacing: 0.14em; }
+      .link-arrow { width: 28px; height: 28px; font-size: 0.8rem; }
+
+      /* ---------- FOOTER mobile ---------- */
       .footer {
-        flex-direction: column !important;
-        gap: 12px !important;
-        padding: 32px 18px 100px !important;
-        text-align: center !important;
+        flex-direction: column;
+        gap: 10px;
+        padding: 28px 20px 100px;
+        text-align: center;
       }
-
-      .corner-label { display: none !important; }
     }
+
+    /* Elemento mobile-hero — hidden on desktop */
+    .mobile-hero { display: none; }
   </style>
 </head>
 
@@ -968,9 +1226,9 @@
   <header class="hdr">
     <div class="logo">Luca Piovezan</div>
     <nav>
-      <a href="#stage" class="hoverable">Exposição</a>
-      <a href="#trabalho" class="hoverable">Work</a>
-      <a href="#contato" class="hoverable">Contato</a>
+      <a href="#stage">Exposição</a>
+      <a href="#trabalho">Work</a>
+      <a href="#contato">Contato</a>
     </nav>
   </header>
 
@@ -978,6 +1236,55 @@
   <div class="scroll-stage" id="stage">
     <div class="sticky-viewport" id="viewport">
 
+      <!-- ── MOBILE HERO (visível só no mobile) ── -->
+      <div class="mobile-hero">
+        <!-- Foto decorativa no canto -->
+        <div class="mh-photo-wrapper" id="mh-photo">
+          <img src="img.png" alt="Luca Piovezan">
+        </div>
+        <div class="mh-line"></div>
+        <div class="mh-ghost-num">26</div>
+
+        <div class="mh-top">
+          <div class="mh-tag">Front-end &amp; Design</div>
+          <div class="mh-name">
+            Luca<br>
+            <em>Piovezan</em>
+          </div>
+          <div class="mh-role">Desenvolvedor de interfaces<br>imersivas e experiências digitais.</div>
+
+          <div class="mh-cards">
+            <div class="mh-card">
+              <div class="mh-card-key">Stack</div>
+              <div class="mh-card-val">HTML · CSS · JS</div>
+            </div>
+            <div class="mh-card">
+              <div class="mh-card-key">Design</div>
+              <div class="mh-card-val">Figma · Motion</div>
+            </div>
+            <div class="mh-card">
+              <div class="mh-card-key">Formação</div>
+              <div class="mh-card-val">Técnico em Info.</div>
+            </div>
+            <div class="mh-card">
+              <div class="mh-card-key">Inglês</div>
+              <div class="mh-card-val">B2 Intermediário</div>
+            </div>
+          </div>
+
+          <a href="#trabalho" class="mh-cta">
+            Ver Projetos
+            <span class="mh-cta-arrow">↓</span>
+          </a>
+        </div>
+
+        <div class="mh-scroll-prompt">
+          <div class="mh-scroll-dot"></div>
+          <span>Role para explorar</span>
+        </div>
+      </div>
+
+      <!-- ── DESKTOP CARD ANIMATION ── -->
       <div id="floatCard">
         <div class="card-face card-front">
           <img
@@ -1027,7 +1334,7 @@
         </div>
       </div>
 
-      <!-- SCROLL HINT -->
+      <!-- SCROLL HINT (desktop) -->
       <div id="scroll-hint">
         <span class="sh-label">Role</span>
         <div class="sh-track">
@@ -1049,33 +1356,38 @@
     <h2 class="dark-heading rv" style="transition-delay:.08s">Habilidades<br><em>Materializadas</em></h2>
 
     <div class="skills-grid rv" style="transition-delay:.16s">
-      <div class="skill-card hoverable">
+      <div class="skill-card">
         <span class="skill-num">01</span>
         <div class="skill-icon">◈</div>
         <div class="skill-name">HTML & CSS</div>
         <div class="skill-desc">Interfaces responsivas, semânticas e elegantes.</div>
       </div>
-      <div class="skill-card hoverable">
+      <div class="skill-card">
+        <div class="skill-num">02</div>
         <div class="skill-icon">⬡</div>
         <div class="skill-name">JavaScript</div>
         <div class="skill-desc">Lógica, interatividade e animações fluidas.</div>
       </div>
-      <div class="skill-card hoverable">
+      <div class="skill-card">
+        <div class="skill-num">03</div>
         <div class="skill-icon">◉</div>
         <div class="skill-name">Python</div>
         <div class="skill-desc">Lógica de programação e automação de tarefas.</div>
       </div>
-      <div class="skill-card hoverable">
+      <div class="skill-card">
+        <div class="skill-num">04</div>
         <div class="skill-icon">⬟</div>
         <div class="skill-name">Figma</div>
         <div class="skill-desc">Design de interfaces modernas e protótipos interativos.</div>
       </div>
-      <div class="skill-card hoverable">
+      <div class="skill-card">
+        <div class="skill-num">05</div>
         <div class="skill-icon">◐</div>
         <div class="skill-name">UX Design</div>
         <div class="skill-desc">Organização visual e foco na experiência do usuário.</div>
       </div>
-      <div class="skill-card hoverable">
+      <div class="skill-card">
+        <div class="skill-num">06</div>
         <div class="skill-icon">◇</div>
         <div class="skill-name">Motion</div>
         <div class="skill-desc">Animações e protótipos que comunicam com emoção.</div>
@@ -1097,19 +1409,19 @@
 
     <div class="section-tag rv" style="transition-delay:.08s">Cases Selecionados</div>
     <div class="projects-row rv" style="transition-delay:.16s">
-      <div class="project-card hoverable" onclick="window.open('https://lucapiovezan.github.io/Smart-flowers/','_blank')">
+      <div class="project-card" onclick="window.open('https://lucapiovezan.github.io/Smart-flowers/','_blank')">
         <div class="proj-tag">Animação Parallax</div>
         <div class="proj-title">Smart<br>Flowers</div>
         <div class="proj-desc">E-commerce de flores com animações parallax imersivas.</div>
         <div class="proj-arrow">↗</div>
       </div>
-      <div class="project-card hoverable" onclick="window.open('https://lucapiovezan.github.io/HEROES-VILLAINS/','_blank')">
+      <div class="project-card" onclick="window.open('https://lucapiovezan.github.io/HEROES-VILLAINS/','_blank')">
         <div class="proj-tag">Projeto Imersivo · Three.js</div>
         <div class="proj-title">Heroes &<br>Villains</div>
         <div class="proj-desc">Experiência imersiva com WebGL e Three.js.</div>
         <div class="proj-arrow">↗</div>
       </div>
-      <div class="project-card hoverable" onclick="window.open('https://lucapiovezan.github.io/valenza/','_blank')">
+      <div class="project-card" onclick="window.open('https://lucapiovezan.github.io/valenza/','_blank')">
         <div class="proj-tag">E-commerce Automotivo</div>
         <div class="proj-title">Valenza<br>Garde</div>
         <div class="proj-desc">Plataforma automotiva com design premium e refinado.</div>
@@ -1127,15 +1439,15 @@
     </div>
     <div class="rv" style="transition-delay:.1s">
       <div class="contact-links">
-        <a href="mailto:lucapiovezan4@gmail.com" class="contact-link hoverable" target="_blank">
+        <a href="mailto:lucapiovezan4@gmail.com" class="contact-link" target="_blank">
           <span class="link-name">lucapiovezan4@gmail.com</span>
           <span class="link-arrow">↗</span>
         </a>
-        <a href="https://www.linkedin.com/in/luca-piovezan-6967aa3b4/" class="contact-link hoverable" target="_blank">
+        <a href="https://www.linkedin.com/in/luca-piovezan-6967aa3b4/" class="contact-link" target="_blank">
           <span class="link-name">LinkedIn</span>
           <span class="link-arrow">↗</span>
         </a>
-        <a href="https://github.com/LucaPiovezan" class="contact-link hoverable" target="_blank">
+        <a href="https://github.com/LucaPiovezan" class="contact-link" target="_blank">
           <span class="link-name">GitHub</span>
           <span class="link-arrow">↗</span>
         </a>
@@ -1156,6 +1468,8 @@
     const easeOutQuart = t => 1 - Math.pow(1 - t, 4);
     const easeInOutCubic = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 
+    const isMobile = () => window.innerWidth <= 768;
+
     /* Progress bar */
     const prog = document.getElementById('progress');
     window.addEventListener('scroll', () => {
@@ -1163,19 +1477,21 @@
       prog.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
     }, { passive: true });
 
-    /* Scroll hint — some quando progress < 5% */
+    /* Scroll hint — desktop only */
     const scrollHint = document.getElementById('scroll-hint');
     window.addEventListener('scroll', () => {
+      if (isMobile()) return;
       const p = window.scrollY / (document.documentElement.scrollHeight - innerHeight);
       scrollHint.style.opacity = p < 0.05 ? '1' : '0';
     }, { passive: true });
 
-    /* Card */
+    /* ── DESKTOP CARD ANIMATION ── */
     const card = document.getElementById('floatCard');
     const stage = document.getElementById('stage');
     let CW = 0, CH = 0;
 
     function updateCardDims() {
+      if (isMobile()) return;
       const r = card.getBoundingClientRect();
       CW = r.width; CH = r.height;
     }
@@ -1191,70 +1507,47 @@
 
     function getCardTargets(p) {
       const W = innerWidth, H = innerHeight;
-      const mobile = W < 768;
-
-      /* Margens seguras */
-      const safeTop  = mobile ? 58  : 90;   /* abaixo do header */
-      const safeBot  = mobile ? 110 : 40;   /* acima do nav pill / borda */
-      const padH     = mobile ? W * 0.08 : W * 0.12;
-
-      /* Largura real do card (via CW já atualizada) */
-      const cardW = CW;
-      const cardH = CH;
-
-      /* Posição central disponível */
+      const safeTop  = 90;
+      const safeBot  = 40;
+      const padH     = W * 0.12;
+      const cardW = CW, cardH = CH;
       const availH = H - safeTop - safeBot - cardH;
-      const cy     = safeTop + Math.max(0, availH / 2);
-      const lx     = padH;
-      const rx_    = Math.min(W - padH - cardW, W - cardW - padH);
-      const cx     = (W - cardW) / 2;
-      const arcUp  = mobile ? Math.min(30, availH * 0.25) : Math.min(80, availH * 0.4);
+      const cy  = safeTop + Math.max(0, availH / 2);
+      const lx  = padH;
+      const rx_ = Math.min(W - padH - cardW, W - cardW - padH);
+      const cx  = (W - cardW) / 2;
+      const arcUp = Math.min(80, availH * 0.4);
 
       let oX = cx, oY = cy, rY = 0, rX = 0, s = 1;
 
       if (p < 0.08) {
         const t = easeInOutCubic(norm(p, 0, 0.08));
-        oX = lerp(lx - 80, lx, t);
-        oY = lerp(cy + 60, cy, t);
-        rY = lerp(-35, 0, t); rX = lerp(12, 0, t);
-        s  = lerp(0.5, 1, t);
+        oX = lerp(lx - 80, lx, t); oY = lerp(cy + 60, cy, t);
+        rY = lerp(-35, 0, t); rX = lerp(12, 0, t); s = lerp(0.5, 1, t);
       } else if (p < 0.22) {
         const t = norm(p, 0.08, 0.22);
-        oX = lx;
-        oY = cy + Math.sin(t * Math.PI * 2) * 7;
-        rY = Math.sin(t * Math.PI * 2) * 2.5;
-        rX = Math.sin(t * Math.PI) * 1.5;
+        oX = lx; oY = cy + Math.sin(t * Math.PI * 2) * 7;
+        rY = Math.sin(t * Math.PI * 2) * 2.5; rX = Math.sin(t * Math.PI) * 1.5;
       } else if (p < 0.48) {
         const t = easeInOutCubic(norm(p, 0.22, 0.48));
-        oX = lerp(lx, rx_, t);
-        oY = cy - Math.sin(t * Math.PI) * arcUp;
-        rY = t * 180;
-        rX = Math.sin(t * Math.PI) * -20;
-        s  = 1 + Math.sin(t * Math.PI) * 0.05;
+        oX = lerp(lx, rx_, t); oY = cy - Math.sin(t * Math.PI) * arcUp;
+        rY = t * 180; rX = Math.sin(t * Math.PI) * -20; s = 1 + Math.sin(t * Math.PI) * 0.05;
       } else if (p < 0.65) {
         const t = norm(p, 0.48, 0.65);
-        oX = rx_;
-        oY = cy + Math.sin(t * Math.PI * 2) * 7;
-        rY = 180 + Math.sin(t * Math.PI * 2) * 3;
-        rX = Math.sin(t * Math.PI) * 1.5;
+        oX = rx_; oY = cy + Math.sin(t * Math.PI * 2) * 7;
+        rY = 180 + Math.sin(t * Math.PI * 2) * 3; rX = Math.sin(t * Math.PI) * 1.5;
       } else if (p < 0.88) {
         const t = easeInOutCubic(norm(p, 0.65, 0.88));
-        oX = lerp(rx_, cx, t);
-        oY = cy - Math.sin(t * Math.PI) * arcUp;
-        rY = 180 + t * 180;
-        rX = Math.sin(t * Math.PI) * -16;
-        s  = lerp(1, 1.05, easeInOutCubic(t));
+        oX = lerp(rx_, cx, t); oY = cy - Math.sin(t * Math.PI) * arcUp;
+        rY = 180 + t * 180; rX = Math.sin(t * Math.PI) * -16;
+        s = lerp(1, 1.05, easeInOutCubic(t));
       } else {
         const t = easeOutQuart(norm(p, 0.88, 1));
-        oX = cx; oY = cy;
-        rY = 360; rX = 0;
-        s  = lerp(1.05, 1.08, t);
+        oX = cx; oY = cy; rY = 360; rX = 0; s = lerp(1.05, 1.08, t);
       }
 
-      /* GARANTE que o card nunca sai da tela */
       oX = clamp(oX, 0, W - cardW);
       oY = clamp(oY, safeTop, H - safeBot - cardH);
-
       return { oX, oY, rY, rX, s };
     }
 
@@ -1262,36 +1555,20 @@
       const pnl1 = document.getElementById('pnl1');
       const pnl2 = document.getElementById('pnl2');
       const pnl3 = document.getElementById('pnl3');
-      const mobile = innerWidth < 768;
 
       const a1 = Math.max(0, clamp(norm(p, 0.08, 0.13), 0, 1) - clamp(norm(p, 0.20, 0.26), 0, 1));
-      if (mobile) {
-        pnl1.style.opacity = a1;
-        pnl1.style.transform = `translateY(${lerp(20, 0, easeOutQuart(a1))}px)`;
-      } else {
-        pnl1.style.opacity = a1;
-        pnl1.style.transform = `translateY(calc(-50% + ${lerp(24, 0, easeOutQuart(a1))}px))`;
-      }
+      pnl1.style.opacity = a1;
+      pnl1.style.transform = `translateY(calc(-50% + ${lerp(24, 0, easeOutQuart(a1))}px))`;
       pnl1.style.pointerEvents = a1 > 0.01 ? 'auto' : 'none';
 
       const a2 = Math.max(0, clamp(norm(p, 0.48, 0.54), 0, 1) - clamp(norm(p, 0.63, 0.68), 0, 1));
-      if (mobile) {
-        pnl2.style.opacity = a2;
-        pnl2.style.transform = `translateY(${lerp(20, 0, easeOutQuart(a2))}px)`;
-      } else {
-        pnl2.style.opacity = a2;
-        pnl2.style.transform = `translateY(calc(-50% + ${lerp(24, 0, easeOutQuart(a2))}px))`;
-      }
+      pnl2.style.opacity = a2;
+      pnl2.style.transform = `translateY(calc(-50% + ${lerp(24, 0, easeOutQuart(a2))}px))`;
       pnl2.style.pointerEvents = a2 > 0.01 ? 'auto' : 'none';
 
       const a3 = easeInOutCubic(clamp(norm(p, 0.88, 0.96), 0, 1));
-      if (mobile) {
-        pnl3.style.opacity = a3;
-        pnl3.style.transform = `translateX(-50%) translateY(${lerp(20, 0, a3)}px)`;
-      } else {
-        pnl3.style.opacity = a3;
-        pnl3.style.transform = `translate(-50%, ${lerp(40, 0, a3)}px)`;
-      }
+      pnl3.style.opacity = a3;
+      pnl3.style.transform = `translate(-50%, ${lerp(40, 0, a3)}px)`;
       pnl3.style.pointerEvents = a3 > 0.01 ? 'auto' : 'none';
     }
 
@@ -1299,6 +1576,7 @@
     const glow   = document.querySelector('.card-glow');
 
     function renderCard() {
+      if (isMobile()) { requestAnimationFrame(renderCard); return; }
       if (!CW) updateCardDims();
       const p = getScrollProgress();
       const t = getCardTargets(p);
@@ -1331,7 +1609,7 @@
     checkRevs();
 
     /* Tilt com mouse (desktop) */
-    if (innerWidth > 768) {
+    if (!isMobile()) {
       document.addEventListener('mousemove', e => {
         const rect = card.getBoundingClientRect();
         if (!rect.width) return;
@@ -1344,7 +1622,7 @@
     /* Tilt nos cards de skills/projetos (desktop) */
     document.querySelectorAll('.skill-card, .project-card, .contact-link').forEach(c => {
       c.addEventListener('mousemove', e => {
-        if (innerWidth <= 768) return;
+        if (isMobile()) return;
         const r  = c.getBoundingClientRect();
         const x  = e.clientX - r.left;
         const y  = e.clientY - r.top;
@@ -1356,11 +1634,63 @@
       });
 
       c.addEventListener('mouseleave', () => {
+        if (isMobile()) return;
         c.style.transform = '';
         c.style.transition = 'transform 0.6s cubic-bezier(0.16,1,0.3,1)';
         setTimeout(() => c.style.transition = '', 600);
       });
     });
+
+    /* Touch feedback nos project cards mobile */
+    if (isMobile()) {
+      document.querySelectorAll('.project-card').forEach(c => {
+        c.addEventListener('touchstart', () => {
+          c.style.opacity = '0.85';
+          c.style.transform = 'scale(0.985)';
+        }, { passive: true });
+        c.addEventListener('touchend', () => {
+          c.style.opacity = '';
+          c.style.transform = '';
+        }, { passive: true });
+      });
+    }
+
+    /* ── MOBILE PHOTO SPIN ON SCROLL ── */
+    (function () {
+      if (!isMobile()) return;
+
+      const photoWrapper = document.getElementById('mh-photo');
+      if (!photoWrapper) return;
+
+      let lastScrollY = window.scrollY;
+      let currentRotation = 3; // começa com a rotação decorativa de 3deg
+      let targetRotation = 3;
+      let rafId = null;
+
+      function animateSpin() {
+        currentRotation += (targetRotation - currentRotation) * 0.08;
+        photoWrapper.style.transform = `rotate(${currentRotation}deg)`;
+        if (Math.abs(targetRotation - currentRotation) > 0.05) {
+          rafId = requestAnimationFrame(animateSpin);
+        } else {
+          rafId = null;
+        }
+      }
+
+      window.addEventListener('scroll', () => {
+        if (!isMobile()) return;
+        const scrollY = window.scrollY;
+        const delta = scrollY - lastScrollY;
+        lastScrollY = scrollY;
+
+        // 0.5deg por pixel de scroll — ajuste a gosto
+        targetRotation += delta * 0.5;
+
+        if (!rafId) {
+          rafId = requestAnimationFrame(animateSpin);
+        }
+      }, { passive: true });
+    })();
   </script>
 </body>
 </html>
