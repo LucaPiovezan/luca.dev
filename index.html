@@ -799,6 +799,122 @@
 
     .rv.in { opacity: 1; transform: translateY(0); }
 
+    .bg-typo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(10rem, 24vw, 35rem);
+      line-height: 0.8;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(10,10,11,0.04);
+      z-index: 1;
+      pointer-events: none;
+      text-align: center;
+      letter-spacing: -0.02em;
+      user-select: none;
+      will-change: transform;
+    }
+
+    .desktop-hero {
+      position: absolute;
+      top: 50%;
+      left: 52%;
+      transform: translateY(-50%);
+      z-index: 10;
+      pointer-events: none;
+      will-change: opacity, transform;
+    }
+
+    .dh-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--ghost);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .dh-tag::before { content: ''; width: 40px; height: 1px; background: var(--accent); }
+
+    .dh-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(6rem, 11vw, 12rem);
+      line-height: 0.85;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 25px;
+    }
+    .dh-title em {
+      display: block;
+      font-family: 'Crimson Pro', serif;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--accent);
+      font-size: 0.8em;
+      margin-top: 8px;
+    }
+
+    .dh-desc {
+      font-family: 'Crimson Pro', serif;
+      font-size: 1.3rem;
+      font-weight: 300;
+      color: var(--ghost);
+      line-height: 1.5;
+      max-width: 440px;
+    }
+
+    .finale-split {
+      position: absolute;
+      top: 50%; left: 0; right: 0;
+      transform: translate3d(0, -50%, 0);
+      pointer-events: none;
+      z-index: 10;
+      opacity: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 5vw;
+    }
+
+    .fs-left { display: flex; flex-direction: column; }
+    .fs-right { display: flex; flex-direction: column; align-items: flex-end; text-align: right; }
+
+    .fs-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--ghost);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .fs-eyebrow::before { content: ''; width: 40px; height: 1px; background: var(--accent); opacity: 0.5; }
+
+    .fs-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(6.5rem, 11vw, 13rem);
+      line-height: 0.8;
+      letter-spacing: 0.02em;
+      color: var(--ink);
+    }
+
+    .fs-right .fs-title {
+      font-family: 'Crimson Pro', serif;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--accent);
+      font-size: clamp(5.5rem, 9vw, 10rem);
+      line-height: 0.9;
+      letter-spacing: 0;
+      text-transform: lowercase;
+    }
+
     /* ═══════════════════════════════════
        MOBILE
     ═══════════════════════════════════ */
@@ -896,6 +1012,8 @@
       #pnl1, #pnl2, #pnl3 { display: none !important; }
       #scroll-hint { display: none; }
       .corner-label { display: none; }
+      .bg-typo { display: none; }
+      .desktop-hero { display: none; }
 
       .mobile-hero {
         display: flex !important;
@@ -1137,27 +1255,29 @@
       .dark-section { padding: 64px 20px 56px; }
 
       .dark-heading {
-        font-size: clamp(3rem, 18vw, 5rem);
+        font-size: clamp(2.2rem, 13vw, 4rem);
         margin-bottom: 40px;
         line-height: 0.86;
+        word-wrap: break-word;
+        hyphens: auto;
       }
 
       .skills-grid {
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
+        grid-template-columns: 1fr;
+        gap: 12px;
         background: transparent;
         border: none;
       }
 
       .skill-card {
         border-radius: 14px;
-        min-height: 130px;
-        padding: 20px 18px 18px;
+        min-height: 120px;
+        padding: 24px 20px 20px;
         border: 1px solid rgba(240,237,232,0.07);
       }
 
-      .skill-num { top: 16px; left: 18px; font-size: 0.52rem; letter-spacing: 0.2em; color: rgba(240,237,232,0.12); }
-      .skill-icon { font-size: 2.8rem; top: 50%; right: 16px; transform: translateY(-55%); opacity: 0.07; }
+      .skill-num { top: 16px; left: 20px; font-size: 0.52rem; letter-spacing: 0.2em; color: rgba(240,237,232,0.12); }
+      .skill-icon { font-size: 2.8rem; top: 50%; right: 20px; transform: translateY(-55%); opacity: 0.07; }
       .skill-name { font-size: 1.45rem; margin-bottom: 4px; margin-top: 22px; }
       .skill-desc { font-size: 0.72rem; max-width: 100%; color: rgba(240,237,232,0.28); line-height: 1.5; }
 
@@ -1220,6 +1340,14 @@
 
   <div class="scroll-stage" id="stage">
     <div class="sticky-viewport" id="viewport">
+
+      <div class="bg-typo" id="bg-typo">CODE<br>DESIGN</div>
+
+      <div class="desktop-hero" id="desktop-hero">
+        <div class="dh-tag">Portfólio 2026</div>
+        <h1 class="dh-title">Luca<br><em>Piovezan</em></h1>
+        <p class="dh-desc">Desenvolvedor Front-end & Designer focado em criar experiências digitais imersivas.</p>
+      </div>
 
       <div class="mobile-hero">
         <div class="mh-photo-wrapper" id="mh-photo">
@@ -1302,11 +1430,13 @@
         </ul>
       </div>
 
-      <div class="txt-panel" id="pnl3"
-        style="left:50%;transform:translate(-50%,0);bottom:9%;top:auto;text-align:center;width:clamp(280px,55vw,560px);">
-        <div class="panel-eyebrow" style="text-align:center;margin-bottom:12px;">Buscando estágio</div>
-        <div class="panel-h" style="font-size:clamp(2.2rem,3.5vw,3.2rem);margin-bottom:0;text-align:center;">
-          Vou além<br>do <span>comum</span>
+      <div id="pnl3" class="finale-split">
+        <div class="fs-left">
+          <div class="fs-eyebrow">Buscando Estágio</div>
+          <div class="fs-title">VOU<br>ALÉM</div>
+        </div>
+        <div class="fs-right">
+          <div class="fs-title">do<br>comum</div>
         </div>
       </div>
 
@@ -1487,6 +1617,17 @@
     }
 
     function updatePanels(p) {
+      const dh = document.getElementById('desktop-hero');
+      const bgt = document.getElementById('bg-typo');
+      if (dh) {
+        const dhOut = clamp(norm(p, 0, 0.08), 0, 1);
+        dh.style.opacity = 1 - easeOutQuart(dhOut);
+        dh.style.transform = `translateY(calc(-50% - ${dhOut * 60}px))`;
+      }
+      if (bgt) {
+        bgt.style.transform = `translate(-50%, calc(-50% - ${p * innerHeight * 0.8}px))`;
+      }
+
       const pnl1 = document.getElementById('pnl1');
       const pnl2 = document.getElementById('pnl2');
       const pnl3 = document.getElementById('pnl3');
@@ -1503,7 +1644,7 @@
 
       const a3 = easeInOutCubic(clamp(norm(p, 0.88, 0.96), 0, 1));
       pnl3.style.opacity = a3;
-      pnl3.style.transform = `translate(-50%, ${lerp(40, 0, a3)}px)`;
+      pnl3.style.transform = `translate3d(0, calc(-50% + ${lerp(40, 0, a3)}px), 0)`;
       pnl3.style.pointerEvents = a3 > 0.01 ? 'auto' : 'none';
     }
 
