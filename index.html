@@ -436,6 +436,9 @@
       -webkit-text-stroke: 1px rgba(240,237,232,0.3);
     }
 
+    /* ═══════════════════════════════
+       BOOK OF SKILLS
+    ═══════════════════════════════ */
     .book-universe {
       position: relative;
       z-index: 2;
@@ -455,6 +458,7 @@
       position: relative;
     }
 
+    /* The whole book */
     .book-body {
       width: 100%;
       height: 100%;
@@ -464,6 +468,7 @@
       transition: transform 0.6s var(--ease-out);
     }
 
+    /* Spine — leftmost strip */
     .book-spine {
       position: absolute;
       left: 0; top: 4px; bottom: 4px;
@@ -487,6 +492,7 @@
       user-select: none;
     }
 
+    /* Static back cover (always visible behind) */
     .book-back {
       position: absolute;
       left: 28px; top: 0; right: 0; bottom: 0;
@@ -495,6 +501,7 @@
       z-index: 1;
     }
 
+    /* Page stack illusion: thin strips on the right edge */
     .book-pages-edge {
       position: absolute;
       right: 0; top: 6px; bottom: 6px;
@@ -510,6 +517,7 @@
       );
     }
 
+    /* ── Page flip container ── */
     .flip-container {
       position: absolute;
       left: 28px; top: 0; right: 14px; bottom: 0;
@@ -517,6 +525,7 @@
       transform-origin: left center;
     }
 
+    /* Both page faces share geometry */
     .page-face {
       position: absolute;
       inset: 0;
@@ -532,6 +541,7 @@
       transform: rotateY(180deg);
     }
 
+    /* Left half of an open spread */
     .spread-left {
       background: #f5f0e6;
       border-right: 1px solid rgba(10,10,11,0.08);
@@ -543,6 +553,7 @@
       gap: 0;
     }
 
+    /* Right half */
     .spread-right {
       background: #f0ede4;
       padding: 44px 44px 44px 36px;
@@ -553,6 +564,7 @@
       gap: 0;
     }
 
+    /* Subtle center shadow (book gutter) */
     .spread-left::after {
       content: '';
       position: absolute;
@@ -571,6 +583,7 @@
       pointer-events: none;
     }
 
+    /* Page number */
     .pg-num {
       position: absolute;
       bottom: 18px;
@@ -582,6 +595,7 @@
     .spread-left .pg-num  { right: 20px; }
     .spread-right .pg-num { left: 20px; }
 
+    /* Chapter eyebrow on first page of spread */
     .pg-eyebrow {
       font-family: 'DM Mono', monospace;
       font-size: 0.52rem;
@@ -592,6 +606,7 @@
       opacity: 0.7;
     }
 
+    /* Skill entry inside a page */
     .sk-entry {
       padding: 14px 0;
       border-top: 0.5px solid rgba(10,10,11,0.09);
@@ -642,6 +657,7 @@
       transition: width 0.9s cubic-bezier(0.16,1,0.3,1);
     }
 
+    /* ── Book navigation controls ── */
     .book-nav {
       display: flex;
       align-items: center;
@@ -685,6 +701,7 @@
       text-align: center;
     }
 
+    /* ── shadow under book ── */
     .book-shadow {
       position: absolute;
       bottom: -30px;
@@ -695,6 +712,9 @@
       pointer-events: none;
     }
 
+    /* ═══════════════════════════════
+       PROJECTS — new header style
+    ═══════════════════════════════ */
     .proj-section-header {
       position: relative;
       z-index: 2;
@@ -765,6 +785,7 @@
       color: rgba(240,237,232,0.2);
     }
 
+    /* project cards — same as original but kept here */
     .projects-row {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -905,6 +926,7 @@
       to   { transform: translateX(-50%); }
     }
 
+    /* figma, contact, footer — unchanged */
     .figma-section {
       background: var(--paper);
       padding: 140px 7% 120px;
@@ -980,16 +1002,6 @@
       gap: 24px;
       position: relative;
       z-index: 2;
-    }
-
-    /* Nexa card (3rd) spans full width */
-    .figma-grid .figma-card:nth-child(3) {
-      grid-column: 1 / -1;
-    }
-
-    /* For the wide Nexa card, adjust preview and layout */
-    .figma-grid .figma-card:nth-child(3) .fig-preview {
-      aspect-ratio: 21 / 9;
     }
 
     .figma-card {
@@ -1187,22 +1199,6 @@
     }
 
     @keyframes ripple-anim { to { transform: scale(5); opacity: 0; } }
-
-    /* Wide card body layout tweak */
-    .figma-grid .figma-card:nth-child(3) .fig-body {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0 40px;
-      align-items: start;
-    }
-
-    .figma-grid .figma-card:nth-child(3) .fig-name {
-      font-size: clamp(2.8rem, 4vw, 4.5rem);
-    }
-
-    .figma-grid .figma-card:nth-child(3) .fig-footer {
-      grid-column: 1 / -1;
-    }
 
     .contact-section {
       background: var(--paper);
@@ -1523,6 +1519,7 @@
       .dark-section { padding: 64px 20px 56px; }
       .dark-heading { font-size: clamp(2.2rem, 13vw, 4rem); margin-bottom: 40px; line-height: 0.86; word-wrap: break-word; hyphens: auto; }
 
+      /* Book mobile */
       .book-universe { gap: 16px; margin-bottom: 60px; }
       .book-stage { height: 340px; }
       .book-body { transform: rotateX(3deg) rotateY(-2deg); }
@@ -1533,6 +1530,7 @@
       .pg-eyebrow { font-size: 0.46rem; margin-bottom: 14px; }
       .book-nav-btn { padding: 8px 16px; font-size: 0.55rem; }
 
+      /* Projects mobile */
       .proj-section-header { flex-direction: column; align-items: flex-start; gap: 8px; }
       .proj-main-heading { font-size: clamp(3.5rem, 18vw, 5.5rem); }
       .proj-count { font-size: 3.5rem; }
@@ -1553,9 +1551,6 @@
       .figma-header { flex-direction: column; align-items: flex-start; gap: 16px; margin-bottom: 40px; }
       .figma-header-right { text-align: left; max-width: 100%; padding-bottom: 0; }
       .figma-grid { grid-template-columns: 1fr; gap: 16px; }
-      .figma-grid .figma-card:nth-child(3) { grid-column: 1; }
-      .figma-grid .figma-card:nth-child(3) .fig-preview { aspect-ratio: 16 / 9; }
-      .figma-grid .figma-card:nth-child(3) .fig-body { display: block; }
       .figma-bg-typo { display: none; }
       .fig-body { padding: 22px 24px 26px; }
       .fig-name { font-size: 2rem; }
@@ -1694,36 +1689,51 @@
       <div class="book-stage" id="book-stage">
         <div class="book-body" id="book-body">
 
+          <!-- spine -->
           <div class="book-spine">
             <div class="book-spine-text">Skills · 2026</div>
           </div>
 
+          <!-- back cover -->
           <div class="book-back"></div>
 
+          <!-- page edge illusion -->
           <div class="book-pages-edge"></div>
 
+          <!--
+            Single flip-container: the page animates rotateY 0 → -180 (forward) or -180 → 0 (back).
+            Content is swapped at the halfway point (when the page is edge-on, invisible),
+            so the user never sees a jump — only the flip animation and fresh content.
+          -->
           <div class="flip-container" id="book-page">
+            <!-- FRONT face — the current spread -->
             <div class="page-face" id="page-front">
-              <div class="spread-left" id="page-left"></div>
-              <div class="spread-right" id="page-right"></div>
+              <div class="spread-left" id="page-left">
+                <!-- filled by JS -->
+              </div>
+              <div class="spread-right" id="page-right">
+                <!-- filled by JS -->
+              </div>
             </div>
+            <!-- BACK face — blank paper texture, visible during mid-flip -->
             <div class="page-face page-face-back">
               <div class="spread-left" style="background:#ede8df;"></div>
               <div class="spread-right" style="background:#f2ede5;"></div>
             </div>
           </div>
 
-        </div>
+        </div><!-- /book-body -->
         <div class="book-shadow"></div>
-      </div>
+      </div><!-- /book-stage -->
 
       <div class="book-nav">
         <button class="book-nav-btn" id="btn-prev" onclick="bookTurn(-1)" disabled>← Anterior</button>
         <div class="book-nav-indicator" id="book-indicator">1 / 3</div>
         <button class="book-nav-btn" id="btn-next" onclick="bookTurn(1)">Próxima →</button>
       </div>
-    </div>
+    </div><!-- /book-universe -->
 
+    <!-- marquee between skills and projects -->
     <div class="marquee-wrap rv" style="transition-delay:.24s">
       <div class="marquee-track">
         <span>HTML & CSS</span><span class="hi"> · código · </span>
@@ -1737,6 +1747,7 @@
       </div>
     </div>
 
+    <!-- Projects header -->
     <div class="proj-section-header rv" style="transition-delay:.08s">
       <div class="proj-heading-group">
         <div class="proj-section-tag">Cases Selecionados</div>
@@ -1783,7 +1794,6 @@
       </div>
     </div>
     <div class="figma-grid">
-      <!-- Card 1: Kairo -->
       <a href="https://www.figma.com/design/7BUOhGaxQEtLvsAejYezvv/Kairo-tokyo-coffe?t=Jp6yJkmEc0aywjVh-0"
          target="_blank" rel="noopener" class="figma-card rv" style="transition-delay:.06s">
         <div class="fig-preview">
@@ -1805,8 +1815,6 @@
           </div>
         </div>
       </a>
-
-      <!-- Card 2: Orbita -->
       <a href="https://www.figma.com/design/dHSZNBZ2vSil5eqpN2phHe/Orbita?node-id=0-1&p=f&t=txdBxrmepDVC2r5F-0"
          target="_blank" rel="noopener" class="figma-card rv" style="transition-delay:.14s">
         <div class="fig-preview">
@@ -1823,44 +1831,6 @@
               <span class="fig-tool-tag">Figma</span>
               <span class="fig-tool-tag">Luxury UI</span>
               <span class="fig-tool-tag">Sci-Fi</span>
-            </div>
-            <div class="fig-cta">Ver no Figma<div class="fig-cta-arrow">↗</div></div>
-          </div>
-        </div>
-      </a>
-
-      <!-- Card 3: Nexa — span full width -->
-      <a href="https://www.figma.com/design/j8iVMqXzTBuY1FllVsQRrA/Untitled?node-id=0-1&p=f&t=wERVBDxhUcs9qcFQ-0"
-         target="_blank" rel="noopener" class="figma-card rv" style="transition-delay:.22s">
-        <div class="fig-preview" style="background:#000;">
-          <!-- Neon glow background mimicking the Nexa design -->
-          <div style="position:absolute;inset:0;background:radial-gradient(ellipse 55% 90% at 75% 50%, rgba(90,40,255,0.6) 0%, rgba(26,188,254,0.25) 45%, rgba(0,220,100,0.15) 65%, transparent 85%);z-index:1;"></div>
-          <!-- Sphere -->
-          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:flex-end;padding-right:8%;z-index:2;">
-            <div style="width:min(340px,38%);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 32% 30%, rgba(160,80,255,0.95) 0%, rgba(60,20,180,0.9) 45%, rgba(10,5,40,0.98) 100%);box-shadow:0 0 80px rgba(100,40,255,0.5),0 0 160px rgba(80,30,200,0.25),inset 0 0 40px rgba(255,255,255,0.06);position:relative;overflow:hidden;flex-shrink:0;">
-              <!-- Neon ring 1 (cyan) -->
-              <div style="position:absolute;inset:-10%;border-radius:50%;border:3px solid transparent;background:conic-gradient(from 100deg, rgba(26,188,254,0) 0deg, rgba(26,188,254,0.9) 55deg, rgba(26,188,254,0) 110deg) border-box;-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),black calc(100% - 3px));mask:radial-gradient(farthest-side,transparent calc(100% - 3px),black calc(100% - 3px));transform:rotate(-20deg);"></div>
-              <!-- Neon ring 2 (pink) -->
-              <div style="position:absolute;inset:-10%;border-radius:50%;background:conic-gradient(from 260deg, rgba(255,60,220,0) 0deg, rgba(255,60,220,0.85) 55deg, rgba(255,60,220,0) 110deg) border-box;-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),black calc(100% - 3px));mask:radial-gradient(farthest-side,transparent calc(100% - 3px),black calc(100% - 3px));transform:rotate(-20deg);"></div>
-              <!-- Specular highlight -->
-              <div style="position:absolute;top:8%;left:14%;width:28%;height:18%;border-radius:50%;background:rgba(255,255,255,0.18);filter:blur(6px);transform:rotate(-30deg);"></div>
-            </div>
-          </div>
-          <!-- Brand name ghost -->
-          <div style="position:absolute;bottom:20px;left:32px;z-index:3;font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,6vw,5rem);letter-spacing:0.06em;color:rgba(255,255,255,0.07);line-height:1;pointer-events:none;">NEXA</div>
-          <div class="fig-overlay"></div>
-          <div class="fig-badge"><div class="fig-badge-dot"></div><span>Figma</span></div>
-        </div>
-        <div class="fig-body">
-          <div class="fig-tag"><div class="fig-tag-dot"></div>UI Design · Dark · Neon</div>
-          <div class="fig-name">Nexa</div>
-          <div class="fig-desc">Uma identidade digital imersiva com esferas neon e atmosfera dark — onde grandes ideias nascem de uma tela. Design ousado, tipografia de impacto e gradientes vibrantes que redefinem o que é possível num ecrã.</div>
-          <div class="fig-footer">
-            <div class="fig-tools">
-              <span class="fig-tool-tag">Figma</span>
-              <span class="fig-tool-tag">Dark UI</span>
-              <span class="fig-tool-tag">Neon</span>
-              <span class="fig-tool-tag">Branding</span>
             </div>
             <div class="fig-cta">Ver no Figma<div class="fig-cta-arrow">↗</div></div>
           </div>
@@ -1900,6 +1870,7 @@
   </footer>
 
   <script>
+    /* ── Helpers ── */
     const lerp = (a, b, t) => a + (b - a) * t;
     const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
     const norm = (v, a, b) => clamp((v - a) / (b - a), 0, 1);
@@ -1907,12 +1878,14 @@
     const easeInOutCubic = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
     const isMobile = () => window.innerWidth <= 768;
 
+    /* ── Progress bar ── */
     const prog = document.getElementById('progress');
     window.addEventListener('scroll', () => {
       const h = document.documentElement;
       prog.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + '%';
     }, { passive: true });
 
+    /* ── Scroll hint ── */
     const scrollHint = document.getElementById('scroll-hint');
     window.addEventListener('scroll', () => {
       if (isMobile()) return;
@@ -1920,6 +1893,7 @@
       scrollHint.style.opacity = p < 0.05 ? '1' : '0';
     }, { passive: true });
 
+    /* ── Float card ── */
     const card = document.getElementById('floatCard');
     const stage = document.getElementById('stage');
     let CW = 0, CH = 0;
@@ -2039,6 +2013,7 @@
     }
     requestAnimationFrame(renderCard);
 
+    /* ── Reveal on scroll ── */
     const revEls = document.querySelectorAll('.rv');
     function checkRevs() {
       revEls.forEach(el => {
@@ -2048,6 +2023,7 @@
     window.addEventListener('scroll', checkRevs, { passive: true });
     checkRevs();
 
+    /* ── Mouse parallax on float card ── */
     if (!isMobile()) {
       document.addEventListener('mousemove', e => {
         const rect = card.getBoundingClientRect();
@@ -2058,6 +2034,7 @@
       });
     }
 
+    /* ── 3D tilt on cards ── */
     document.querySelectorAll('.skill-card, .project-card, .contact-link, .figma-card').forEach(c => {
       c.addEventListener('mousemove', e => {
         if (isMobile()) return;
@@ -2077,6 +2054,7 @@
       });
     });
 
+    /* ── Ripple on figma cards ── */
     document.querySelectorAll('.figma-card').forEach(card => {
       card.addEventListener('click', function(e) {
         const r = card.getBoundingClientRect();
@@ -2091,6 +2069,7 @@
       });
     });
 
+    /* ── Touch feedback mobile ── */
     if (isMobile()) {
       document.querySelectorAll('.project-card, .figma-card').forEach(c => {
         c.addEventListener('touchstart', () => { c.style.opacity='0.88'; c.style.transform='scale(0.985)'; }, { passive:true });
@@ -2098,6 +2077,7 @@
       });
     }
 
+    /* ── Mobile photo gyro ── */
     (function(){
       const photoWrapper = document.getElementById('mh-photo');
       if (!photoWrapper) return;
@@ -2130,7 +2110,10 @@
     ════════════════════════════════ */
     const TOTAL_SPREADS = 3;
     let currentSpread = 0;
+    // flipped[i] = true means spread i has been rotated to -180 (flipped left)
     const flipped = [false, false, false];
+
+    // Duration for the CSS flip transition
     const FLIP_MS = 700;
 
     function getSpread(i) {
@@ -2151,11 +2134,13 @@
       document.getElementById('book-indicator').textContent = (currentSpread + 1) + ' / ' + TOTAL_SPREADS;
     }
 
+    // Initial bar animation for spread 0
     window.addEventListener('load', () => {
       const s0 = getSpread(0);
       if (s0) animateBars(s0);
     });
 
+    // Also trigger when scroll-revealed
     const bookUniverse = document.getElementById('book-universe');
     let bookRevealed = false;
     const bookObserver = new IntersectionObserver(entries => {
@@ -2173,18 +2158,21 @@
       const body = document.getElementById('book-body');
 
       if (dir > 0) {
+        // Turning FORWARD: flip the current spread away (rotateY -180)
         const s = getSpread(currentSpread);
         s.style.transition = `transform ${FLIP_MS}ms cubic-bezier(0.645,0.045,0.355,1.000)`;
         s.style.transform = 'rotateY(-180deg)';
-        s.style.zIndex = 15;
+        s.style.zIndex = 15; // above everything during animation
         flipped[currentSpread] = true;
 
+        // Slight book tilt for realism
         body.style.transition = `transform ${FLIP_MS/2}ms ease`;
         body.style.transform = 'rotateX(6deg) rotateY(-8deg)';
         setTimeout(() => {
           body.style.transform = 'rotateX(6deg) rotateY(-4deg)';
         }, FLIP_MS / 2);
 
+        // After animation: lower z back, reveal next spread's bars
         setTimeout(() => {
           s.style.zIndex = '';
           currentSpread++;
@@ -2193,6 +2181,7 @@
         }, FLIP_MS);
 
       } else {
+        // Turning BACKWARD: unflip the previous spread (rotateY 0)
         const target = currentSpread - 1;
         const s = getSpread(target);
         s.style.transition = `transform ${FLIP_MS}ms cubic-bezier(0.645,0.045,0.355,1.000)`;
@@ -2214,11 +2203,14 @@
         }, FLIP_MS);
       }
 
+      // Disable buttons during animation
       document.getElementById('btn-prev').disabled = true;
       document.getElementById('btn-next').disabled = true;
     }
 
+    // Make bookTurn global for inline onclick
     window.bookTurn = bookTurn;
+
     updateBookNav();
   </script>
 </body>
