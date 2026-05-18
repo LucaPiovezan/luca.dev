@@ -437,7 +437,7 @@
     }
 
     /* ═══════════════════════════════
-       BOOK OF SKILLS — REDESIGNED
+       BOOK OF SKILLS
     ═══════════════════════════════ */
     .book-universe {
       position: relative;
@@ -446,231 +446,278 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 28px;
+      gap: 32px;
     }
 
-    .book-scene {
-      width: 220px;
-      height: 300px;
-      perspective: 1000px;
-      cursor: pointer;
+    .book-stage {
+      width: 100%;
+      max-width: 860px;
+      height: 380px;
+      perspective: 2000px;
+      perspective-origin: 50% 40%;
       position: relative;
     }
 
-    .book-root {
+    /* The whole book */
+    .book-body {
       width: 100%;
       height: 100%;
       position: relative;
       transform-style: preserve-3d;
-      transform: rotateY(-25deg) rotateX(5deg);
-      transition: transform .6s var(--ease-out);
+      transform: rotateX(6deg) rotateY(-4deg);
+      transition: transform 0.6s var(--ease-out);
     }
 
-    .book-root:hover { transform: rotateY(-18deg) rotateX(5deg); }
-    .book-root.open  { transform: rotateY(-2deg) rotateX(5deg); }
+    /* Spine — leftmost strip */
+    .book-spine {
+      position: absolute;
+      left: 0; top: 4px; bottom: 4px;
+      width: 28px;
+      background: linear-gradient(to right, #050403 0%, #1a1108 60%, #0d0903 100%);
+      border-radius: 5px 0 0 5px;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-    /* cover */
-    .b-cover {
-      position: absolute; inset: 0;
-      background: #111009;
-      border-radius: 3px 10px 10px 3px;
+    .book-spine-text {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.48rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: rgba(200,164,74,0.4);
+      user-select: none;
+    }
+
+    /* Static back cover (always visible behind) */
+    .book-back {
+      position: absolute;
+      left: 28px; top: 0; right: 0; bottom: 0;
+      background: #110e07;
+      border-radius: 0 8px 8px 0;
+      z-index: 1;
+    }
+
+    /* Page stack illusion: thin strips on the right edge */
+    .book-pages-edge {
+      position: absolute;
+      right: 0; top: 6px; bottom: 6px;
+      width: 14px;
+      z-index: 2;
+      border-radius: 0 6px 6px 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(240,235,224,0.9) 0px,
+        rgba(240,235,224,0.9) 2px,
+        rgba(220,215,204,0.6) 2px,
+        rgba(220,215,204,0.6) 4px
+      );
+    }
+
+    /* ── Page flip container ── */
+    .flip-container {
+      position: absolute;
+      left: 28px; top: 0; right: 14px; bottom: 0;
       transform-style: preserve-3d;
       transform-origin: left center;
-      transition: transform .8s cubic-bezier(0.645,0.045,0.355,1);
-      z-index: 20;
-      backface-visibility: hidden;
-      box-shadow: 4px 0 20px rgba(0,0,0,.5);
     }
-    .book-root.open .b-cover { transform: rotateY(-170deg); }
 
-    .b-cover-front {
-      position: absolute; inset: 0;
-      border-radius: 3px 10px 10px 3px;
-      background: linear-gradient(160deg, #1a150d 0%, #0d0a05 100%);
-      display: flex; flex-direction: column; justify-content: flex-end;
-      padding: 22px 20px;
-      border: 1px solid rgba(200,164,74,.12);
+    /* Both page faces share geometry */
+    .page-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 0 8px 8px 0;
       overflow: hidden;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
     }
-    .b-cover-front::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-      background: repeating-linear-gradient(0deg, transparent, transparent 28px, rgba(200,164,74,.04) 28px, rgba(200,164,74,.04) 29px);
-    }
-    .b-cover-emblem {
-      position: absolute; top: 50%; left: 50%;
-      transform: translate(-50%, -60%);
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 5.5rem; line-height: 1;
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(200,164,74,.15);
-      letter-spacing: -.02em;
-      user-select: none; white-space: nowrap;
-    }
-    .b-cover-title {
-      position: relative; z-index: 2;
-      font-family: 'DM Mono', monospace;
-      font-size: .55rem; letter-spacing: .35em;
-      text-transform: uppercase;
-      color: rgba(200,164,74,.55);
-      margin-bottom: 6px;
-    }
-    .b-cover-name {
-      position: relative; z-index: 2;
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 2.4rem; line-height: .9;
-      letter-spacing: .02em;
-      color: rgba(240,237,232,.9);
-    }
-    .b-cover-hint {
-      position: absolute; bottom: 14px; right: 16px;
-      font-family: 'DM Mono', monospace;
-      font-size: .42rem; letter-spacing: .3em;
-      text-transform: uppercase;
-      color: rgba(200,164,74,.25);
-      opacity: 1; transition: opacity .4s;
-    }
-    .book-root.open .b-cover-hint { opacity: 0; }
 
-    .b-cover-back {
-      position: absolute; inset: 0;
-      border-radius: 3px 10px 10px 3px;
-      background: #0d0a05;
+    .page-face-back {
       transform: rotateY(180deg);
-      backface-visibility: hidden;
     }
 
-    /* spine */
-    .b-spine {
-      position: absolute; left: -18px; top: 4px; bottom: 4px; width: 18px;
-      background: linear-gradient(to right, #050403, #120e07 60%, #080603);
-      border-radius: 3px 0 0 3px; z-index: 10;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .b-spine span {
-      writing-mode: vertical-rl; transform: rotate(180deg);
-      font-family: 'DM Mono', monospace;
-      font-size: .4rem; letter-spacing: .3em;
-      text-transform: uppercase;
-      color: rgba(200,164,74,.3); user-select: none;
+    /* Left half of an open spread */
+    .spread-left {
+      background: #f5f0e6;
+      border-right: 1px solid rgba(10,10,11,0.08);
+      padding: 44px 36px 44px 44px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0;
     }
 
-    /* back cover */
-    .b-backcover {
-      position: absolute; inset: 0;
-      background: #0d0a05;
-      border-radius: 3px 10px 10px 3px; z-index: 1;
+    /* Right half */
+    .spread-right {
+      background: #f0ede4;
+      padding: 44px 44px 44px 36px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0;
     }
 
-    /* page stack edge */
-    .b-pages-edge {
-      position: absolute; right: 0; top: 5px; bottom: 5px; width: 10px;
-      z-index: 2; border-radius: 0 6px 6px 0;
-      background: repeating-linear-gradient(to bottom, #f5f0e6 0px, #f5f0e6 2px, #ddd8cc 2px, #ddd8cc 4px);
-    }
-
-    /* open pages */
-    .b-open {
-      position: absolute; inset: 0; z-index: 5;
-      display: grid; grid-template-columns: 1fr 1fr;
-      border-radius: 3px 10px 10px 3px;
-      overflow: hidden; opacity: 0; transition: opacity .3s .4s;
-    }
-    .book-root.open .b-open { opacity: 1; }
-
-    .b-page {
-      padding: 22px 18px 18px;
-      display: flex; flex-direction: column; gap: 0;
-      position: relative; overflow: hidden;
-    }
-    .b-page-l { background: #f5f0e6; border-right: 1px solid rgba(10,10,11,.06); }
-    .b-page-r { background: #f0ede4; }
-
-    .b-page-l::after {
-      content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 16px;
-      background: linear-gradient(to right, transparent, rgba(10,10,11,.05));
+    /* Subtle center shadow (book gutter) */
+    .spread-left::after {
+      content: '';
+      position: absolute;
+      right: 0; top: 0; bottom: 0;
+      width: 24px;
+      background: linear-gradient(to right, transparent, rgba(10,10,11,0.06));
       pointer-events: none;
     }
 
-    .b-chapter {
-      font-family: 'DM Mono', monospace;
-      font-size: .42rem; letter-spacing: .3em;
-      text-transform: uppercase;
-      color: var(--accent); opacity: .7;
-      margin-bottom: 14px;
+    .spread-right::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 24px;
+      background: linear-gradient(to left, transparent, rgba(10,10,11,0.05));
+      pointer-events: none;
     }
 
-    .sk { padding: 10px 0; border-top: .5px solid rgba(10,10,11,.08); }
-    .sk:first-of-type { border-top: none; padding-top: 0; }
-
-    .sk-num { font-family: 'DM Mono', monospace; font-size: .44rem; letter-spacing: .22em; color: var(--accent); margin-bottom: 3px; }
-    .sk-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: .03em; line-height: 1; color: var(--ink); margin-bottom: 3px; }
-    .sk-desc { font-family: 'Crimson Pro', serif; font-size: .72rem; font-style: italic; font-weight: 300; color: rgba(10,10,11,.45); line-height: 1.4; margin-bottom: 6px; }
-    .sk-bar-wrap { height: 1.5px; background: rgba(10,10,11,.08); border-radius: 2px; overflow: hidden; }
-    .sk-bar { height: 100%; background: var(--accent); border-radius: 2px; transition: width .9s var(--ease-out); }
-
+    /* Page number */
     .pg-num {
-      position: absolute; bottom: 10px;
+      position: absolute;
+      bottom: 18px;
       font-family: 'DM Mono', monospace;
-      font-size: .42rem; letter-spacing: .22em;
-      color: rgba(10,10,11,.2);
+      font-size: 0.5rem;
+      letter-spacing: 0.25em;
+      color: rgba(10,10,11,0.22);
     }
-    .b-page-l .pg-num { right: 12px; }
-    .b-page-r .pg-num { left: 12px; }
+    .spread-left .pg-num  { right: 20px; }
+    .spread-right .pg-num { left: 20px; }
 
-    /* page flip */
-    .b-page-flip {
-      position: absolute; inset: 0; z-index: 15;
-      display: grid; grid-template-columns: 1fr 1fr;
-      border-radius: 3px 10px 10px 3px; overflow: hidden;
-      transform-style: preserve-3d;
-      transform-origin: left center;
-      transform: rotateY(0deg);
-      transition: transform .7s cubic-bezier(0.645,0.045,0.355,1);
-      pointer-events: none; opacity: 0;
+    /* Chapter eyebrow on first page of spread */
+    .pg-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.52rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+      opacity: 0.7;
     }
-    .b-page-flip.visible { opacity: 1; }
-    .b-page-flip.flipped { transform: rotateY(-180deg); }
 
-    .flip-front, .flip-back {
-      position: absolute; inset: 0;
-      display: grid; grid-template-columns: 1fr 1fr;
-      backface-visibility: hidden;
+    /* Skill entry inside a page */
+    .sk-entry {
+      padding: 14px 0;
+      border-top: 0.5px solid rgba(10,10,11,0.09);
     }
-    .flip-back { transform: rotateY(180deg); }
 
-    /* book nav */
+    .sk-entry:first-of-type { border-top: none; padding-top: 0; }
+    .sk-entry:last-of-type  { padding-bottom: 0; }
+
+    .sk-num {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.25em;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .sk-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.85rem;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 5px;
+    }
+
+    .sk-desc {
+      font-family: 'Crimson Pro', serif;
+      font-size: 0.85rem;
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(10,10,11,0.48);
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+
+    .sk-bar-wrap {
+      height: 2px;
+      background: rgba(10,10,11,0.08);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .sk-bar-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: width 0.9s cubic-bezier(0.16,1,0.3,1);
+    }
+
+    /* ── Book navigation controls ── */
     .book-nav {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 20px;
     }
-    .bnav-btn {
-      padding: 8px 18px;
-      border: 1px solid rgba(240,237,232,.15);
+
+    .book-nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      border: 1px solid rgba(240,237,232,0.15);
       border-radius: 100px;
       background: transparent;
-      color: rgba(240,237,232,.5);
-      cursor: pointer;
+      color: rgba(240,237,232,0.6);
       font-family: 'DM Mono', monospace;
-      font-size: .55rem; letter-spacing: .18em;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      transition: border-color .25s, color .25s, background .25s;
+      cursor: pointer;
+      transition: border-color 0.3s, color 0.3s, background 0.3s;
     }
-    .bnav-btn:hover:not(:disabled) { border-color: var(--accent); color: var(--paper); background: rgba(232,80,26,.1); }
-    .bnav-btn:disabled { opacity: .25; cursor: default; }
-    .bnav-ind {
+
+    .book-nav-btn:hover:not(:disabled) {
+      border-color: var(--accent);
+      color: var(--paper);
+      background: rgba(232,80,26,0.1);
+    }
+
+    .book-nav-btn:disabled {
+      opacity: 0.25;
+      cursor: default;
+    }
+
+    .book-nav-indicator {
       font-family: 'DM Mono', monospace;
-      font-size: .55rem; letter-spacing: .2em;
-      color: rgba(240,237,232,.3);
-      min-width: 48px; text-align: center;
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      color: rgba(240,237,232,0.3);
+      min-width: 56px;
+      text-align: center;
+    }
+
+    /* ── shadow under book ── */
+    .book-shadow {
+      position: absolute;
+      bottom: -30px;
+      left: 8%; right: 8%;
+      height: 30px;
+      background: radial-gradient(ellipse at center, rgba(0,0,0,0.35) 0%, transparent 70%);
+      filter: blur(10px);
+      pointer-events: none;
     }
 
     /* ═══════════════════════════════
-       PROJECTS
+       PROJECTS — new header style
     ═══════════════════════════════ */
     .proj-section-header {
-      position: relative; z-index: 2;
+      position: relative;
+      z-index: 2;
       margin-bottom: 40px;
       display: flex;
       align-items: flex-end;
@@ -683,427 +730,726 @@
 
     .proj-section-tag {
       font-family: 'DM Mono', monospace;
-      font-size: 0.58rem; letter-spacing: 0.4em;
+      font-size: 0.58rem;
+      letter-spacing: 0.4em;
       text-transform: uppercase;
       color: var(--accent);
     }
+
     .proj-section-tag::before { content: '[ '; }
     .proj-section-tag::after  { content: ' ]'; }
 
     .proj-main-heading {
       font-family: 'Bebas Neue', sans-serif;
       font-size: clamp(4.5rem, 9vw, 10rem);
-      line-height: 0.82; letter-spacing: -0.02em;
-      text-transform: uppercase; color: var(--paper);
+      line-height: 0.82;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      color: var(--paper);
     }
+
     .proj-main-heading em {
       font-family: 'Crimson Pro', serif;
-      font-style: italic; font-weight: 300;
+      font-style: italic;
+      font-weight: 300;
       color: transparent;
       -webkit-text-stroke: 1px rgba(240,237,232,0.2);
-      font-size: 0.75em; display: block; letter-spacing: 0;
+      font-size: 0.75em;
+      display: block;
+      letter-spacing: 0;
     }
 
     .proj-section-meta {
-      text-align: right; padding-bottom: 14px;
-      display: flex; flex-direction: column;
-      align-items: flex-end; gap: 8px;
+      text-align: right;
+      padding-bottom: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 8px;
     }
+
     .proj-count {
-      font-family: 'Bebas Neue', sans-serif; font-size: 5rem;
-      line-height: 1; color: transparent;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 5rem;
+      line-height: 1;
+      color: transparent;
       -webkit-text-stroke: 1px rgba(240,237,232,0.08);
       letter-spacing: -0.04em;
     }
+
     .proj-meta-label {
       font-family: 'DM Mono', monospace;
-      font-size: 0.55rem; letter-spacing: 0.3em;
+      font-size: 0.55rem;
+      letter-spacing: 0.3em;
       text-transform: uppercase;
       color: rgba(240,237,232,0.2);
     }
 
+    /* project cards — same as original but kept here */
     .projects-row {
-      display: grid; grid-template-columns: repeat(3,1fr);
-      gap: 1px; background: rgba(240,237,232,0.06);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(240,237,232,0.06);
       border: 1px solid rgba(240,237,232,0.06);
-      border-radius: 4px; overflow: visible;
-      position: relative; z-index: 2;
+      border-radius: 4px;
+      overflow: visible;
+      position: relative;
+      z-index: 2;
       perspective: 1000px;
     }
 
     .project-card {
       background: rgba(10,10,11,0.95);
       padding: 44px 36px 54px;
-      position: relative; overflow: hidden;
+      position: relative;
+      overflow: hidden;
       transition: transform 0.12s ease, box-shadow 0.4s;
-      will-change: transform; cursor: pointer;
+      will-change: transform;
+      cursor: pointer;
     }
+
     .project-card:hover { background: rgba(15,15,16,0.98); }
+
     .project-card::before {
-      content: ''; position: absolute; inset: 0;
+      content: '';
+      position: absolute;
+      inset: 0;
       background: radial-gradient(600px circle at var(--mx,50%) var(--my,50%), rgba(240,237,232,0.04), transparent 50%);
-      opacity: 0; transition: opacity 0.5s; pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.5s;
+      pointer-events: none;
     }
+
     .project-card:hover::before { opacity: 1; }
+
     .project-card::after {
-      content: ''; position: absolute;
-      bottom: 0; left: 0; right: 0; height: 2px;
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
       background: linear-gradient(90deg, var(--accent), var(--accent2));
-      transform: scaleX(0); transform-origin: left;
+      transform: scaleX(0);
+      transform-origin: left;
       transition: transform 0.5s var(--ease-out);
     }
+
     .project-card:hover::after { transform: scaleX(1); }
 
     .proj-tag {
       font-family: 'DM Mono', monospace;
-      font-size: 0.58rem; letter-spacing: 0.28em;
+      font-size: 0.58rem;
+      letter-spacing: 0.28em;
       text-transform: uppercase;
-      margin-bottom: 28px; position: relative; z-index: 1;
+      margin-bottom: 28px;
+      position: relative;
+      z-index: 1;
     }
+
     .project-card:nth-child(1) .proj-tag { color: var(--accent); }
     .project-card:nth-child(2) .proj-tag { color: var(--gold); }
     .project-card:nth-child(3) .proj-tag { color: var(--accent2); }
 
     .proj-title {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 2.4rem; line-height: 0.9;
-      text-transform: uppercase; color: var(--paper);
-      margin-bottom: 20px; position: relative; z-index: 1;
+      font-size: 2.4rem;
+      line-height: 0.9;
+      text-transform: uppercase;
+      color: var(--paper);
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
     }
+
     .proj-desc {
-      font-size: 0.92rem; font-weight: 300;
-      color: rgba(240,237,232,0.4); line-height: 1.7;
-      position: relative; z-index: 1;
+      font-size: 0.92rem;
+      font-weight: 300;
+      color: rgba(240,237,232,0.4);
+      line-height: 1.7;
+      position: relative;
+      z-index: 1;
     }
+
     .proj-arrow {
-      position: absolute; bottom: 32px; right: 32px;
+      position: absolute;
+      bottom: 32px; right: 32px;
       width: 40px; height: 40px;
       border: 1px solid rgba(240,237,232,0.1);
       border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--paper); font-size: 1rem; z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--paper);
+      font-size: 1rem;
+      z-index: 1;
       transition: background 0.3s, border-color 0.3s, transform 0.4s var(--ease-out);
     }
+
     .project-card:hover .proj-arrow { background: var(--accent); border-color: var(--accent); transform: translate(4px,-4px); }
 
     .marquee-wrap {
       overflow: hidden;
       border-top: 1px solid rgba(240,237,232,0.06);
       border-bottom: 1px solid rgba(240,237,232,0.06);
-      padding: 26px 0; margin: 100px 0 60px;
-      position: relative; z-index: 2;
+      padding: 26px 0;
+      margin: 100px 0 60px;
+      position: relative;
+      z-index: 2;
     }
+
     .marquee-track {
-      display: flex; white-space: nowrap;
+      display: flex;
+      white-space: nowrap;
       animation: marquee 22s linear infinite;
     }
+
     .marquee-track span {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.05rem; letter-spacing: 0.35em;
+      font-size: 1.05rem;
+      letter-spacing: 0.35em;
       text-transform: uppercase;
-      color: rgba(240,237,232,0.12); padding-right: 56px;
+      color: rgba(240,237,232,0.12);
+      padding-right: 56px;
     }
+
     .marquee-track span.hi {
-      color: var(--accent); opacity: 1;
+      color: var(--accent);
+      opacity: 1;
       font-family: 'Crimson Pro', serif;
-      font-style: italic; font-size: 1.1rem; letter-spacing: 0.05em;
+      font-style: italic;
+      font-size: 1.1rem;
+      letter-spacing: 0.05em;
     }
+
     @keyframes marquee {
       from { transform: translateX(0); }
       to   { transform: translateX(-50%); }
     }
 
-    /* ═══════════════════════════════
-       FIGMA SECTION — REDESIGNED
-    ═══════════════════════════════ */
+    /* figma, contact, footer — unchanged */
     .figma-section {
       background: var(--paper);
       padding: 140px 7% 120px;
       position: relative;
       overflow: hidden;
     }
+
     .figma-section::before {
       content: '';
-      position: absolute; top: 0; left: 7%; right: 7%; height: 1px;
+      position: absolute;
+      top: 0; left: 7%; right: 7%;
+      height: 1px;
       background: linear-gradient(90deg, transparent, rgba(10,10,11,0.10), transparent);
     }
 
-    .figma-section-inner {
-      background: var(--ink);
-      border-radius: 12px;
-      padding: 60px 56px;
+    .figma-bg-typo {
+      position: absolute;
+      bottom: -20px; right: -10px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(8rem, 18vw, 22rem);
+      line-height: 0.8;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(10,10,11,0.04);
+      pointer-events: none;
+      user-select: none;
+      letter-spacing: -0.03em;
+    }
+
+    .figma-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 72px;
       position: relative;
       z-index: 2;
-      overflow: hidden;
     }
 
-    .fig-section-label {
-      font-family: 'DM Mono', monospace;
-      font-size: .55rem; letter-spacing: .35em;
+    .figma-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 8vw, 9rem);
+      line-height: 0.85;
+      letter-spacing: -0.02em;
+      color: var(--ink);
       text-transform: uppercase;
-      color: rgba(240,237,232,.25);
-      margin-bottom: 1.5rem;
     }
 
-    .fig-section-header {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      margin-bottom: 2.5rem;
-      padding-bottom: 1.5rem;
-      border-bottom: 1px solid rgba(240,237,232,.07);
-    }
-
-    .fig-section-h {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(3rem, 6vw, 5rem);
-      line-height: .85; letter-spacing: -.01em;
-      color: rgba(240,237,232,.9);
-    }
-    .fig-section-h em {
+    .figma-heading em {
+      display: block;
       font-family: 'Crimson Pro', serif;
-      font-style: italic; font-weight: 300;
-      color: var(--accent); font-size: .65em;
-      display: block; letter-spacing: 0; margin-top: 4px;
-    }
-
-    .fig-section-count {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(3rem, 6vw, 5rem);
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(240,237,232,.07);
-      letter-spacing: -.04em; line-height: 1;
-    }
-
-    .fig-list { display: flex; flex-direction: column; gap: 0; }
-
-    .fig-row {
-      display: flex; align-items: center; gap: 1.5rem;
-      padding: 1.4rem 0;
-      border-bottom: 1px solid rgba(240,237,232,.06);
-      text-decoration: none; cursor: pointer;
-      transition: padding-left .4s var(--ease-out);
-      position: relative; overflow: hidden;
-    }
-    .fig-row:first-child { border-top: 1px solid rgba(240,237,232,.06); }
-    .fig-row::before {
-      content: ''; position: absolute;
-      left: 0; top: 0; bottom: 0; width: 0;
-      background: rgba(232,80,26,.05);
-      transition: width .4s var(--ease-out);
-    }
-    .fig-row:hover { padding-left: 12px; }
-    .fig-row:hover::before { width: 100%; }
-
-    .fig-row-num {
-      font-family: 'DM Mono', monospace;
-      font-size: .55rem; letter-spacing: .2em;
-      color: rgba(240,237,232,.18); flex-shrink: 0; width: 2rem;
-      position: relative; z-index: 1;
-    }
-    .fig-row-body { flex: 1; min-width: 0; position: relative; z-index: 1; }
-    .fig-row-tag {
-      font-family: 'DM Mono', monospace;
-      font-size: .5rem; letter-spacing: .25em;
-      text-transform: uppercase;
-      color: rgba(240,237,232,.28); margin-bottom: 5px;
-    }
-    .fig-row-name {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(1.6rem, 3vw, 2.2rem);
-      letter-spacing: .02em; line-height: .95;
-      color: rgba(240,237,232,.88); margin-bottom: 6px;
-    }
-    .fig-row-desc {
-      font-family: 'Crimson Pro', serif;
-      font-size: .9rem; font-style: italic;
+      font-style: italic;
       font-weight: 300;
-      color: rgba(240,237,232,.35); line-height: 1.5;
+      color: var(--accent);
+      font-size: 0.72em;
+      letter-spacing: 0;
     }
-    .fig-row-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
-    .fig-tag-pill {
-      font-family: 'DM Mono', monospace;
-      font-size: .45rem; letter-spacing: .14em;
-      text-transform: uppercase;
-      padding: 4px 8px;
-      border: 1px solid rgba(240,237,232,.1);
-      border-radius: 4px;
-      color: rgba(240,237,232,.3);
-      transition: border-color .3s, color .3s;
-    }
-    .fig-row:hover .fig-tag-pill { border-color: rgba(232,80,26,.35); color: rgba(232,80,26,.7); }
 
-    .fig-row-arrow {
-      width: 36px; height: 36px;
-      border: 1px solid rgba(240,237,232,.1);
+    .figma-header-right {
+      text-align: right;
+      max-width: 260px;
+      padding-bottom: 12px;
+    }
+
+    .figma-header-right p {
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: var(--ghost);
+      line-height: 1.7;
+    }
+
+    .figma-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .figma-card {
+      background: var(--cream);
+      border: 1px solid rgba(10,10,11,0.08);
+      border-radius: 20px;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      text-decoration: none;
+      display: block;
+      transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s cubic-bezier(0.16,1,0.3,1), border-color 0.3s;
+      will-change: transform;
+    }
+
+    .figma-card:hover {
+      transform: translateY(-10px) scale(1.008);
+      box-shadow: 0 40px 80px rgba(10,10,11,0.12), 0 8px 24px rgba(10,10,11,0.06);
+      border-color: rgba(10,10,11,0.16);
+    }
+
+    .figma-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.55s cubic-bezier(0.16,1,0.3,1);
+      z-index: 5;
+    }
+
+    .figma-card:hover::before { transform: scaleX(1); }
+
+    .fig-preview {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      position: relative;
+      overflow: hidden;
+      background: #0d0d0e;
+    }
+
+    .fig-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      transition: transform 0.7s cubic-bezier(0.16,1,0.3,1);
+    }
+
+    .figma-card:hover .fig-preview img { transform: scale(1.05); }
+
+    .fig-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(232,80,26,0.22) 0%, transparent 55%, rgba(0,0,0,0.25) 100%);
+      opacity: 0;
+      transition: opacity 0.45s;
+      z-index: 2;
+    }
+
+    .figma-card:hover .fig-overlay { opacity: 1; }
+
+    .fig-badge {
+      position: absolute;
+      top: 16px; right: 16px;
+      z-index: 3;
+      background: rgba(10,10,11,0.72);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 8px;
+      padding: 6px 12px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: transform 0.4s var(--ease-out), background 0.3s;
+    }
+
+    .figma-card:hover .fig-badge { background: rgba(10,10,11,0.88); }
+
+    .fig-badge-dot {
+      width: 7px; height: 7px;
       border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      color: rgba(240,237,232,.25); font-size: .9rem;
-      flex-shrink: 0; position: relative; z-index: 1;
-      transition: background .3s, border-color .3s, color .3s, transform .4s var(--ease-out);
-    }
-    .fig-row:hover .fig-row-arrow {
-      background: var(--accent); border-color: var(--accent);
-      color: #fff; transform: translate(3px,-3px);
+      background: #1abcfe;
+      box-shadow: 0 0 8px rgba(26,188,254,0.6);
     }
 
-    /* ═══════════════════════════════
-       CONTACT & FOOTER
-    ═══════════════════════════════ */
+    .fig-badge span {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(240,237,232,0.7);
+    }
+
+    .fig-body { padding: 28px 32px 32px; }
+
+    .fig-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--ghost);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .fig-tag-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+
+    .fig-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.2rem, 3.5vw, 3.2rem);
+      line-height: 0.88;
+      text-transform: uppercase;
+      color: var(--ink);
+      letter-spacing: 0.01em;
+      margin-bottom: 14px;
+      transition: color 0.3s;
+    }
+
+    .fig-desc {
+      font-size: 0.92rem;
+      font-weight: 300;
+      color: var(--ghost);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .fig-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(10,10,11,0.08);
+      padding-top: 18px;
+    }
+
+    .fig-tools { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    .fig-tool-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      background: rgba(10,10,11,0.06);
+      color: var(--ghost);
+      padding: 5px 9px;
+      border-radius: 5px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .figma-card:hover .fig-tool-tag { background: rgba(232,80,26,0.09); color: var(--accent); }
+
+    .fig-cta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ghost);
+      white-space: nowrap;
+      transition: color 0.3s, gap 0.4s var(--ease-out);
+    }
+
+    .figma-card:hover .fig-cta { color: var(--accent); gap: 12px; }
+
+    .fig-cta-arrow {
+      width: 32px; height: 32px;
+      border: 1px solid rgba(10,10,11,0.14);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      transition: background 0.35s, border-color 0.35s, color 0.35s, transform 0.5s var(--ease-out);
+    }
+
+    .figma-card:hover .fig-cta-arrow { background: var(--accent); border-color: var(--accent); color: var(--paper); transform: translate(5px, -5px) rotate(45deg); }
+
+    .figma-card .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(232,80,26,0.15);
+      transform: scale(0);
+      animation: ripple-anim 0.7s linear;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    @keyframes ripple-anim { to { transform: scale(5); opacity: 0; } }
+
     .contact-section {
       background: var(--paper);
       padding: 140px 7% 120px;
-      display: grid; grid-template-columns: 1fr 1.1fr;
-      gap: 80px; align-items: start; position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 80px;
+      align-items: start;
+      position: relative;
     }
+
     .contact-section::before {
-      content: ''; position: absolute;
-      top: 0; left: 7%; right: 7%; height: 1px;
+      content: '';
+      position: absolute;
+      top: 0; left: 7%; right: 7%;
+      height: 1px;
       background: linear-gradient(90deg, transparent, rgba(10,10,11,0.12), transparent);
     }
+
     .contact-left { padding-top: 8px; }
+
     .contact-label {
       font-family: 'DM Mono', monospace;
-      font-size: 0.6rem; letter-spacing: 0.3em;
-      text-transform: uppercase; color: var(--ghost);
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--ghost);
       margin-bottom: 32px;
     }
+
     .contact-heading {
       font-family: 'Bebas Neue', sans-serif;
       font-size: clamp(3.5rem, 8vw, 9rem);
-      line-height: 0.85; text-transform: uppercase;
-      letter-spacing: -0.02em; color: var(--ink);
+      line-height: 0.85;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      color: var(--ink);
       margin-bottom: 40px;
     }
+
     .contact-heading em {
-      display: block; font-family: 'Crimson Pro', serif;
-      font-style: italic; font-weight: 300; color: var(--accent);
+      display: block;
+      font-family: 'Crimson Pro', serif;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--accent);
     }
+
     .contact-subtext {
-      font-size: 1.1rem; font-weight: 300;
-      color: var(--ghost); line-height: 1.7; max-width: 340px;
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--ghost);
+      line-height: 1.7;
+      max-width: 340px;
     }
+
     .contact-links { display: flex; flex-direction: column; padding-top: 60px; }
+
     .contact-link {
-      display: flex; align-items: center; justify-content: space-between;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       padding: 22px 0;
       border-bottom: 1px solid rgba(10,10,11,0.09);
-      text-decoration: none; color: var(--ink);
+      text-decoration: none;
+      color: var(--ink);
       transition: color 0.3s, padding-left 0.4s var(--ease-out);
-      position: relative; overflow: hidden;
+      position: relative;
+      overflow: hidden;
     }
+
     .contact-link:first-child { border-top: 1px solid rgba(10,10,11,0.09); }
+
     .contact-link::before {
-      content: ''; position: absolute;
-      left: 0; top: 0; bottom: 0; width: 0;
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 0;
       background: rgba(232,80,26,0.05);
       transition: width 0.4s var(--ease-out);
     }
+
     .contact-link:hover { color: var(--accent); padding-left: 16px; }
     .contact-link:hover::before { width: 100%; }
+
     .link-name {
       font-family: 'DM Mono', monospace;
-      font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
     }
+
     .link-arrow {
       width: 32px; height: 32px;
       border: 1px solid currentColor;
       border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.9rem; opacity: 0.4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      opacity: 0.4;
       transition: opacity 0.3s, transform 0.4s var(--ease-out);
     }
+
     .contact-link:hover .link-arrow { opacity: 1; transform: translate(4px,-4px) rotate(45deg); }
 
     .footer {
       background: var(--ink);
       padding: 36px 7%;
-      display: flex; justify-content: space-between; align-items: center;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
+
     .footer-copy {
       font-family: 'DM Mono', monospace;
-      font-size: 0.58rem; letter-spacing: 0.15em;
+      font-size: 0.58rem;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
       color: rgba(240,237,232,0.2);
     }
+
     .footer-sig {
       font-family: 'Crimson Pro', serif;
-      font-style: italic; font-size: 1.2rem;
+      font-style: italic;
+      font-size: 1.2rem;
       color: rgba(240,237,232,0.15);
     }
 
     .rv {
-      opacity: 0; transform: translateY(36px);
+      opacity: 0;
+      transform: translateY(36px);
       transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
     }
+
     .rv.in { opacity: 1; transform: translateY(0); }
 
     .bg-typo {
-      position: absolute; top: 50%; left: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
       transform: translate(-50%, -50%);
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(10rem, 24vw, 35rem); line-height: 0.8;
-      color: transparent; -webkit-text-stroke: 1px rgba(10,10,11,0.04);
-      z-index: 1; pointer-events: none;
-      text-align: center; letter-spacing: -0.02em;
-      user-select: none; will-change: transform;
+      font-size: clamp(10rem, 24vw, 35rem);
+      line-height: 0.8;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(10,10,11,0.04);
+      z-index: 1;
+      pointer-events: none;
+      text-align: center;
+      letter-spacing: -0.02em;
+      user-select: none;
+      will-change: transform;
     }
 
     .desktop-hero {
-      position: absolute; top: 50%; left: 52%;
+      position: absolute;
+      top: 50%;
+      left: 52%;
       transform: translateY(-50%);
-      z-index: 10; pointer-events: none; will-change: opacity, transform;
+      z-index: 10;
+      pointer-events: none;
+      will-change: opacity, transform;
     }
+
     .dh-tag {
       font-family: 'DM Mono', monospace;
-      font-size: 0.65rem; letter-spacing: 0.4em;
-      text-transform: uppercase; color: var(--ghost);
+      font-size: 0.65rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--ghost);
       margin-bottom: 24px;
-      display: flex; align-items: center; gap: 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
     }
     .dh-tag::before { content: ''; width: 40px; height: 1px; background: var(--accent); }
+
     .dh-title {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(6rem, 11vw, 12rem); line-height: 0.85; letter-spacing: -0.01em;
-      color: var(--ink); margin-bottom: 25px;
+      font-size: clamp(6rem, 11vw, 12rem);
+      line-height: 0.85;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 25px;
     }
     .dh-title em {
-      display: block; font-family: 'Crimson Pro', serif;
-      font-style: italic; font-weight: 300;
-      color: var(--accent); font-size: 0.8em; margin-top: 8px;
+      display: block;
+      font-family: 'Crimson Pro', serif;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--accent);
+      font-size: 0.8em;
+      margin-top: 8px;
     }
+
     .dh-desc {
       font-family: 'Crimson Pro', serif;
-      font-size: 1.3rem; font-weight: 300;
-      color: var(--ghost); line-height: 1.5; max-width: 440px;
+      font-size: 1.3rem;
+      font-weight: 300;
+      color: var(--ghost);
+      line-height: 1.5;
+      max-width: 440px;
     }
 
     .finale-split {
-      position: absolute; top: 50%; left: 0; right: 0;
+      position: absolute;
+      top: 50%; left: 0; right: 0;
       transform: translate3d(0, -50%, 0);
-      pointer-events: none; z-index: 10; opacity: 0;
-      display: flex; justify-content: space-between; align-items: center;
+      pointer-events: none;
+      z-index: 10;
+      opacity: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       padding: 0 5vw;
     }
+
     .fs-left { display: flex; flex-direction: column; }
     .fs-right { display: flex; flex-direction: column; align-items: flex-end; text-align: right; }
+
     .fs-eyebrow {
       font-family: 'DM Mono', monospace;
-      font-size: 0.65rem; letter-spacing: 0.4em;
-      text-transform: uppercase; color: var(--ghost);
+      font-size: 0.65rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--ghost);
       margin-bottom: 24px;
-      display: flex; align-items: center; gap: 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
     }
     .fs-eyebrow::before { content: ''; width: 40px; height: 1px; background: var(--accent); opacity: 0.5; }
+
     .fs-title {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(6.5rem, 11vw, 13rem); line-height: 0.8; letter-spacing: 0.02em; color: var(--ink);
+      font-size: clamp(6.5rem, 11vw, 13rem);
+      line-height: 0.8;
+      letter-spacing: 0.02em;
+      color: var(--ink);
     }
+
     .fs-right .fs-title {
-      font-family: 'Crimson Pro', serif; font-style: italic;
-      font-weight: 300; color: var(--accent);
-      font-size: clamp(5.5rem, 9vw, 10rem); line-height: 0.9;
-      letter-spacing: 0; text-transform: lowercase;
+      font-family: 'Crimson Pro', serif;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--accent);
+      font-size: clamp(5.5rem, 9vw, 10rem);
+      line-height: 0.9;
+      letter-spacing: 0;
+      text-transform: lowercase;
     }
 
     /* ═══════ MOBILE ═══════ */
@@ -1175,14 +1521,14 @@
 
       /* Book mobile */
       .book-universe { gap: 16px; margin-bottom: 60px; }
-      .book-scene { width: 180px; height: 240px; }
-      .b-cover-name { font-size: 2rem; }
-      .b-cover-emblem { font-size: 4rem; }
-      .b-page { padding: 16px 12px 14px; }
-      .sk-name { font-size: 1.2rem; }
-      .sk-desc { font-size: .65rem; }
-      .b-chapter { font-size: .38rem; margin-bottom: 10px; }
-      .bnav-btn { padding: 8px 16px; font-size: .52rem; }
+      .book-stage { height: 340px; }
+      .book-body { transform: rotateX(3deg) rotateY(-2deg); }
+      .spread-left { padding: 28px 18px 28px 26px; }
+      .spread-right { padding: 28px 26px 28px 18px; }
+      .sk-name { font-size: 1.4rem; }
+      .sk-desc { font-size: 0.75rem; }
+      .pg-eyebrow { font-size: 0.46rem; margin-bottom: 14px; }
+      .book-nav-btn { padding: 8px 16px; font-size: 0.55rem; }
 
       /* Projects mobile */
       .proj-section-header { flex-direction: column; align-items: flex-start; gap: 8px; }
@@ -1201,13 +1547,14 @@
       .proj-desc { font-size: 0.88rem; }
       .proj-arrow { bottom: 24px; right: 24px; width: 36px; height: 36px; }
 
-      /* Figma mobile */
       .figma-section { padding: 64px 20px 80px; }
-      .figma-section-inner { padding: 36px 24px; border-radius: 10px; }
-      .fig-section-h { font-size: 2.6rem; }
-      .fig-section-count { font-size: 2.6rem; }
-      .fig-row-name { font-size: 1.6rem; }
-      .fig-row-desc { font-size: .82rem; }
+      .figma-header { flex-direction: column; align-items: flex-start; gap: 16px; margin-bottom: 40px; }
+      .figma-header-right { text-align: left; max-width: 100%; padding-bottom: 0; }
+      .figma-grid { grid-template-columns: 1fr; gap: 16px; }
+      .figma-bg-typo { display: none; }
+      .fig-body { padding: 22px 24px 26px; }
+      .fig-name { font-size: 2rem; }
+      .fig-desc { font-size: 0.88rem; }
 
       .contact-section { grid-template-columns: 1fr; padding: 64px 20px 110px; gap: 24px; }
       .contact-section::before { left: 20px; right: 20px; }
@@ -1339,54 +1686,54 @@
     <!-- ══ BOOK OF SKILLS ══ -->
     <div class="book-universe rv" style="transition-delay:.14s" id="book-universe">
 
-      <div class="book-scene" id="book-scene" onclick="toggleBook()">
-        <div class="book-root" id="bookRoot">
+      <div class="book-stage" id="book-stage">
+        <div class="book-body" id="book-body">
 
-          <div class="b-spine"><span>Skills · 2026</span></div>
-          <div class="b-backcover"></div>
-          <div class="b-pages-edge"></div>
-
-          <!-- Open pages (behind cover) -->
-          <div class="b-open" id="openPages">
-            <div class="b-page b-page-l" id="pageL"></div>
-            <div class="b-page b-page-r" id="pageR"></div>
+          <!-- spine -->
+          <div class="book-spine">
+            <div class="book-spine-text">Skills · 2026</div>
           </div>
 
-          <!-- Flip animation layer -->
-          <div class="b-page-flip" id="flipLayer">
-            <div class="flip-front">
-              <div class="b-page b-page-l" id="flipFrontL" style="position:absolute;inset:0;width:50%;border-right:1px solid rgba(10,10,11,.06)"></div>
-              <div class="b-page b-page-r" id="flipFrontR" style="position:absolute;inset:0;left:50%;"></div>
+          <!-- back cover -->
+          <div class="book-back"></div>
+
+          <!-- page edge illusion -->
+          <div class="book-pages-edge"></div>
+
+          <!--
+            Single flip-container: the page animates rotateY 0 → -180 (forward) or -180 → 0 (back).
+            Content is swapped at the halfway point (when the page is edge-on, invisible),
+            so the user never sees a jump — only the flip animation and fresh content.
+          -->
+          <div class="flip-container" id="book-page">
+            <!-- FRONT face — the current spread -->
+            <div class="page-face" id="page-front">
+              <div class="spread-left" id="page-left">
+                <!-- filled by JS -->
+              </div>
+              <div class="spread-right" id="page-right">
+                <!-- filled by JS -->
+              </div>
             </div>
-            <div class="flip-back">
-              <div style="position:absolute;inset:0;background:#ede8df;border-right:1px solid rgba(10,10,11,.04)"></div>
-              <div style="position:absolute;inset:0;left:50%;background:#f0ebe2"></div>
+            <!-- BACK face — blank paper texture, visible during mid-flip -->
+            <div class="page-face page-face-back">
+              <div class="spread-left" style="background:#ede8df;"></div>
+              <div class="spread-right" style="background:#f2ede5;"></div>
             </div>
           </div>
 
-          <!-- Cover (rotates open on click) -->
-          <div class="b-cover" id="cover">
-            <div class="b-cover-front">
-              <div class="b-cover-emblem">HA</div>
-              <div class="b-cover-title">Luca Piovezan</div>
-              <div class="b-cover-name">HABILI<br>DADES</div>
-              <div class="b-cover-hint">abrir →</div>
-            </div>
-            <div class="b-cover-back"></div>
-          </div>
+        </div><!-- /book-body -->
+        <div class="book-shadow"></div>
+      </div><!-- /book-stage -->
 
-        </div>
+      <div class="book-nav">
+        <button class="book-nav-btn" id="btn-prev" onclick="bookTurn(-1)" disabled>← Anterior</button>
+        <div class="book-nav-indicator" id="book-indicator">1 / 3</div>
+        <button class="book-nav-btn" id="btn-next" onclick="bookTurn(1)">Próxima →</button>
       </div>
-
-      <div class="book-nav" id="bookNav" style="opacity:0;transition:opacity .4s .5s;">
-        <button class="bnav-btn" id="btnPrev" onclick="bookTurn(-1)" disabled>← Anterior</button>
-        <div class="bnav-ind" id="navInd">1 / 3</div>
-        <button class="bnav-btn" id="btnNext" onclick="bookTurn(1)">Próxima →</button>
-      </div>
-
     </div><!-- /book-universe -->
 
-    <!-- marquee -->
+    <!-- marquee between skills and projects -->
     <div class="marquee-wrap rv" style="transition-delay:.24s">
       <div class="marquee-track">
         <span>HTML & CSS</span><span class="hi"> · código · </span>
@@ -1434,48 +1781,61 @@
     </div>
   </section>
 
-  <!-- ══ FIGMA DESIGNS — REDESIGNED ══ -->
+  <!-- ══ FIGMA DESIGNS ══ -->
   <section class="figma-section" id="figma">
-    <div class="figma-section-inner rv">
-      <div class="fig-section-label">Design Visual</div>
-      <div class="fig-section-header">
-        <div class="fig-section-h">Designs<em>no Figma</em></div>
-        <div class="fig-section-count">02</div>
+    <div class="figma-bg-typo">FIGMA</div>
+    <div class="figma-header rv">
+      <div>
+        <div class="section-tag" style="color:var(--ghost);margin-bottom:20px;">Design Visual</div>
+        <h2 class="figma-heading">Designs<br><em>no Figma</em></h2>
       </div>
-      <div class="fig-list">
-        <a class="fig-row"
-           href="https://www.figma.com/design/7BUOhGaxQEtLvsAejYezvv/Kairo-tokyo-coffe?t=Jp6yJkmEc0aywjVh-0"
-           target="_blank" rel="noopener">
-          <div class="fig-row-num">01</div>
-          <div class="fig-row-body">
-            <div class="fig-row-tag">UI Design · Café · Noturno</div>
-            <div class="fig-row-name">Kairo Tokyo Coffee</div>
-            <div class="fig-row-desc">Cafeteria noturna em Tóquio — dark mode, tipografia editorial e atmosfera além da meia-noite.</div>
-            <div class="fig-row-tags">
-              <span class="fig-tag-pill">Figma</span>
-              <span class="fig-tag-pill">UI Design</span>
-              <span class="fig-tag-pill">Branding</span>
-            </div>
-          </div>
-          <div class="fig-row-arrow">↗</div>
-        </a>
-        <a class="fig-row"
-           href="https://www.figma.com/design/dHSZNBZ2vSil5eqpN2phHe/Orbita?node-id=0-1&p=f&t=txdBxrmepDVC2r5F-0"
-           target="_blank" rel="noopener">
-          <div class="fig-row-num">02</div>
-          <div class="fig-row-body">
-            <div class="fig-row-tag">UI Design · Luxo · Sci-Fi</div>
-            <div class="fig-row-name">Orbita 2098</div>
-            <div class="fig-row-desc">Reservas para estação espacial turística em 2098 — onde o endereço de mais alto status fica além da atmosfera.</div>
-            <div class="fig-row-tags">
-              <span class="fig-tag-pill">Figma</span>
-              <span class="fig-tag-pill">Luxury UI</span>
-              <span class="fig-tag-pill">Sci-Fi</span>
-            </div>
-          </div>
-          <div class="fig-row-arrow">↗</div>
-        </a>
+      <div class="figma-header-right">
+        <p>Protótipos e identidades visuais criados no Figma — clique para explorar cada projeto.</p>
       </div>
+    </div>
+    <div class="figma-grid">
+      <a href="https://www.figma.com/design/7BUOhGaxQEtLvsAejYezvv/Kairo-tokyo-coffe?t=Jp6yJkmEc0aywjVh-0"
+         target="_blank" rel="noopener" class="figma-card rv" style="transition-delay:.06s">
+        <div class="fig-preview">
+          <img src="kairo-preview.png" alt="Kairo Tokyo Coffee">
+          <div class="fig-overlay"></div>
+          <div class="fig-badge"><div class="fig-badge-dot"></div><span>Figma</span></div>
+        </div>
+        <div class="fig-body">
+          <div class="fig-tag"><div class="fig-tag-dot"></div>UI Design · Café · Noturno</div>
+          <div class="fig-name">Kairo<br>Tokyo Coffee</div>
+          <div class="fig-desc">Uma cafeteria noturna em Tóquio com identidade visual sombria e imersiva — dark mode, tipografia editorial e atmosfera além da meia-noite.</div>
+          <div class="fig-footer">
+            <div class="fig-tools">
+              <span class="fig-tool-tag">Figma</span>
+              <span class="fig-tool-tag">UI Design</span>
+              <span class="fig-tool-tag">Branding</span>
+            </div>
+            <div class="fig-cta">Ver no Figma<div class="fig-cta-arrow">↗</div></div>
+          </div>
+        </div>
+      </a>
+      <a href="https://www.figma.com/design/dHSZNBZ2vSil5eqpN2phHe/Orbita?node-id=0-1&p=f&t=txdBxrmepDVC2r5F-0"
+         target="_blank" rel="noopener" class="figma-card rv" style="transition-delay:.14s">
+        <div class="fig-preview">
+          <img src="orbita-preview.png" alt="Orbita — Estação Espacial 2098">
+          <div class="fig-overlay"></div>
+          <div class="fig-badge"><div class="fig-badge-dot"></div><span>Figma</span></div>
+        </div>
+        <div class="fig-body">
+          <div class="fig-tag"><div class="fig-tag-dot"></div>UI Design · Luxo · Sci-Fi</div>
+          <div class="fig-name">Orbita<br>2098</div>
+          <div class="fig-desc">Plataforma de reservas para uma estação espacial turística em 2098. Luxo, tecnologia e exclusividade — onde o endereço de mais alto status fica além da atmosfera.</div>
+          <div class="fig-footer">
+            <div class="fig-tools">
+              <span class="fig-tool-tag">Figma</span>
+              <span class="fig-tool-tag">Luxury UI</span>
+              <span class="fig-tool-tag">Sci-Fi</span>
+            </div>
+            <div class="fig-cta">Ver no Figma<div class="fig-cta-arrow">↗</div></div>
+          </div>
+        </div>
+      </a>
     </div>
   </section>
 
@@ -1675,7 +2035,7 @@
     }
 
     /* ── 3D tilt on cards ── */
-    document.querySelectorAll('.project-card, .contact-link').forEach(c => {
+    document.querySelectorAll('.skill-card, .project-card, .contact-link, .figma-card').forEach(c => {
       c.addEventListener('mousemove', e => {
         if (isMobile()) return;
         const r = c.getBoundingClientRect();
@@ -1694,9 +2054,24 @@
       });
     });
 
+    /* ── Ripple on figma cards ── */
+    document.querySelectorAll('.figma-card').forEach(card => {
+      card.addEventListener('click', function(e) {
+        const r = card.getBoundingClientRect();
+        const ripple = document.createElement('span');
+        ripple.classList.add('ripple');
+        const size = Math.max(r.width, r.height);
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = (e.clientX - r.left - size/2) + 'px';
+        ripple.style.top  = (e.clientY - r.top  - size/2) + 'px';
+        card.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 800);
+      });
+    });
+
     /* ── Touch feedback mobile ── */
     if (isMobile()) {
-      document.querySelectorAll('.project-card').forEach(c => {
+      document.querySelectorAll('.project-card, .figma-card').forEach(c => {
         c.addEventListener('touchstart', () => { c.style.opacity='0.88'; c.style.transform='scale(0.985)'; }, { passive:true });
         c.addEventListener('touchend',   () => { c.style.opacity='';     c.style.transform=''; },             { passive:true });
       });
@@ -1731,119 +2106,112 @@
     })();
 
     /* ════════════════════════════════
-       BOOK ENGINE — REDESIGNED
+       BOOK PAGE-FLIP ENGINE
     ════════════════════════════════ */
-    const spreads = [
-      {
-        left:  { ch: 'Interface', skills: [
-          { n:'01', name:'HTML & CSS',   desc:'Layouts, animações, responsivo', lvl:92 },
-          { n:'02', name:'JavaScript',   desc:'Interatividade & DOM',           lvl:78 },
-        ]},
-        right: { ch: '', skills: [
-          { n:'03', name:'Figma',        desc:'UI design & protótipos',         lvl:85 },
-        ]}
-      },
-      {
-        left:  { ch: 'Back-end', skills: [
-          { n:'04', name:'Python',       desc:'Scripts e automação',            lvl:60 },
-          { n:'05', name:'Three.js',     desc:'WebGL e 3D na web',              lvl:55 },
-        ]},
-        right: { ch: '', skills: [
-          { n:'06', name:'Git',          desc:'Versionamento e colaboração',    lvl:70 },
-        ]}
-      },
-      {
-        left:  { ch: 'Soft skills', skills: [
-          { n:'07', name:'Inglês B2',    desc:'Leitura técnica e comunicação',  lvl:72 },
-          { n:'08', name:'Motion',       desc:'Micro-interações e timing',      lvl:80 },
-        ]},
-        right: { ch: '', skills: [
-          { n:'09', name:'Criatividade', desc:'Pensar fora do convencional',    lvl:95 },
-        ]}
-      }
-    ];
-
+    const TOTAL_SPREADS = 3;
     let currentSpread = 0;
-    let bookOpen = false;
-    let bookAnimating = false;
+    // flipped[i] = true means spread i has been rotated to -180 (flipped left)
+    const flipped = [false, false, false];
 
-    function renderSide(el, data, pg) {
-      el.innerHTML = '';
-      if (data.ch) {
-        const d = document.createElement('div');
-        d.className = 'b-chapter';
-        d.textContent = data.ch;
-        el.appendChild(d);
-      }
-      data.skills.forEach(s => {
-        const d = document.createElement('div');
-        d.className = 'sk';
-        d.innerHTML = `<div class="sk-num">${s.n}</div><div class="sk-name">${s.name}</div><div class="sk-desc">${s.desc}</div><div class="sk-bar-wrap"><div class="sk-bar" data-lvl="${s.lvl}" style="width:0%"></div></div>`;
-        el.appendChild(d);
-      });
-      const pn = document.createElement('div');
-      pn.className = 'pg-num';
-      pn.textContent = pg;
-      el.appendChild(pn);
+    // Duration for the CSS flip transition
+    const FLIP_MS = 700;
+
+    function getSpread(i) {
+      return document.getElementById('spread-' + i);
+    }
+
+    function animateBars(spreadEl) {
+      const bars = spreadEl.querySelectorAll('.sk-bar-fill');
+      bars.forEach(b => { b.style.width = '0%'; });
       setTimeout(() => {
-        el.querySelectorAll('.sk-bar').forEach(b => { b.style.width = b.dataset.lvl + '%'; });
+        bars.forEach(b => { b.style.width = b.dataset.level + '%'; });
       }, 120);
     }
 
-    function loadSpread(i) {
-      renderSide(document.getElementById('pageL'), spreads[i].left,  i * 2 + 1);
-      renderSide(document.getElementById('pageR'), spreads[i].right, i * 2 + 2);
-      document.getElementById('navInd').textContent = (i + 1) + ' / ' + spreads.length;
-      document.getElementById('btnPrev').disabled = (i === 0);
-      document.getElementById('btnNext').disabled = (i === spreads.length - 1);
+    function updateBookNav() {
+      document.getElementById('btn-prev').disabled = currentSpread === 0;
+      document.getElementById('btn-next').disabled = currentSpread === TOTAL_SPREADS - 1;
+      document.getElementById('book-indicator').textContent = (currentSpread + 1) + ' / ' + TOTAL_SPREADS;
     }
 
-    function toggleBook() {
-      if (bookAnimating || bookOpen) return;
-      bookOpen = true;
-      bookAnimating = true;
-      document.getElementById('bookRoot').classList.add('open');
-      loadSpread(0);
-      setTimeout(() => {
-        document.getElementById('bookNav').style.opacity = '1';
-        bookAnimating = false;
-      }, 900);
-    }
+    // Initial bar animation for spread 0
+    window.addEventListener('load', () => {
+      const s0 = getSpread(0);
+      if (s0) animateBars(s0);
+    });
+
+    // Also trigger when scroll-revealed
+    const bookUniverse = document.getElementById('book-universe');
+    let bookRevealed = false;
+    const bookObserver = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && !bookRevealed) {
+        bookRevealed = true;
+        animateBars(getSpread(0));
+      }
+    }, { threshold: 0.2 });
+    if (bookUniverse) bookObserver.observe(bookUniverse);
 
     function bookTurn(dir) {
-      if (bookAnimating) return;
-      const next = currentSpread + dir;
-      if (next < 0 || next >= spreads.length) return;
-      bookAnimating = true;
+      if (dir > 0 && currentSpread >= TOTAL_SPREADS - 1) return;
+      if (dir < 0 && currentSpread <= 0) return;
 
-      document.getElementById('btnPrev').disabled = true;
-      document.getElementById('btnNext').disabled = true;
+      const body = document.getElementById('book-body');
 
-      const fl  = document.getElementById('flipLayer');
-      const flFL = document.getElementById('flipFrontL');
-      const flFR = document.getElementById('flipFrontR');
+      if (dir > 0) {
+        // Turning FORWARD: flip the current spread away (rotateY -180)
+        const s = getSpread(currentSpread);
+        s.style.transition = `transform ${FLIP_MS}ms cubic-bezier(0.645,0.045,0.355,1.000)`;
+        s.style.transform = 'rotateY(-180deg)';
+        s.style.zIndex = 15; // above everything during animation
+        flipped[currentSpread] = true;
 
-      // snapshot current spread into flip layer
-      flFL.innerHTML = document.getElementById('pageL').innerHTML;
-      flFR.innerHTML = document.getElementById('pageR').innerHTML;
-      fl.classList.add('visible');
-      fl.classList.remove('flipped');
+        // Slight book tilt for realism
+        body.style.transition = `transform ${FLIP_MS/2}ms ease`;
+        body.style.transform = 'rotateX(6deg) rotateY(-8deg)';
+        setTimeout(() => {
+          body.style.transform = 'rotateX(6deg) rotateY(-4deg)';
+        }, FLIP_MS / 2);
 
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          fl.classList.add('flipped');
-          setTimeout(() => {
-            currentSpread = next;
-            loadSpread(currentSpread);
-            fl.classList.remove('visible', 'flipped');
-            bookAnimating = false;
-          }, 720);
-        });
-      });
+        // After animation: lower z back, reveal next spread's bars
+        setTimeout(() => {
+          s.style.zIndex = '';
+          currentSpread++;
+          animateBars(getSpread(currentSpread));
+          updateBookNav();
+        }, FLIP_MS);
+
+      } else {
+        // Turning BACKWARD: unflip the previous spread (rotateY 0)
+        const target = currentSpread - 1;
+        const s = getSpread(target);
+        s.style.transition = `transform ${FLIP_MS}ms cubic-bezier(0.645,0.045,0.355,1.000)`;
+        s.style.zIndex = 15;
+        s.style.transform = 'rotateY(0deg)';
+        flipped[target] = false;
+
+        body.style.transition = `transform ${FLIP_MS/2}ms ease`;
+        body.style.transform = 'rotateX(6deg) rotateY(0deg)';
+        setTimeout(() => {
+          body.style.transform = 'rotateX(6deg) rotateY(-4deg)';
+        }, FLIP_MS / 2);
+
+        setTimeout(() => {
+          s.style.zIndex = '';
+          currentSpread = target;
+          animateBars(getSpread(currentSpread));
+          updateBookNav();
+        }, FLIP_MS);
+      }
+
+      // Disable buttons during animation
+      document.getElementById('btn-prev').disabled = true;
+      document.getElementById('btn-next').disabled = true;
     }
 
-    window.toggleBook = toggleBook;
+    // Make bookTurn global for inline onclick
     window.bookTurn = bookTurn;
+
+    updateBookNav();
   </script>
 </body>
 </html>
