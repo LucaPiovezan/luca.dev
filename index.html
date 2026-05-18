@@ -659,6 +659,319 @@
 
     .project-card:hover .proj-arrow { background: var(--accent); border-color: var(--accent); transform: translate(4px,-4px); }
 
+    /* ═══════════════════════════════
+       SEÇÃO FIGMA
+    ═══════════════════════════════ */
+    .figma-section {
+      background: var(--paper);
+      padding: 140px 7% 120px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .figma-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 7%; right: 7%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(10,10,11,0.10), transparent);
+    }
+
+    .figma-bg-typo {
+      position: absolute;
+      bottom: -20px; right: -10px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(8rem, 18vw, 22rem);
+      line-height: 0.8;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(10,10,11,0.04);
+      pointer-events: none;
+      user-select: none;
+      letter-spacing: -0.03em;
+    }
+
+    .figma-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 72px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .figma-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 8vw, 9rem);
+      line-height: 0.85;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      text-transform: uppercase;
+    }
+
+    .figma-heading em {
+      display: block;
+      font-family: 'Crimson Pro', serif;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--accent);
+      font-size: 0.72em;
+      letter-spacing: 0;
+    }
+
+    .figma-header-right {
+      text-align: right;
+      max-width: 260px;
+      padding-bottom: 12px;
+    }
+
+    .figma-header-right p {
+      font-size: 0.95rem;
+      font-weight: 300;
+      color: var(--ghost);
+      line-height: 1.7;
+    }
+
+    /* Grid de 2 cards lado a lado */
+    .figma-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ── Card Figma ── */
+    .figma-card {
+      background: var(--cream);
+      border: 1px solid rgba(10,10,11,0.08);
+      border-radius: 20px;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      text-decoration: none;
+      display: block;
+      transition:
+        transform 0.5s cubic-bezier(0.16,1,0.3,1),
+        box-shadow 0.5s cubic-bezier(0.16,1,0.3,1),
+        border-color 0.3s;
+      will-change: transform;
+    }
+
+    .figma-card:hover {
+      transform: translateY(-10px) scale(1.008);
+      box-shadow: 0 40px 80px rgba(10,10,11,0.12), 0 8px 24px rgba(10,10,11,0.06);
+      border-color: rgba(10,10,11,0.16);
+    }
+
+    /* Linha accent no topo */
+    .figma-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.55s cubic-bezier(0.16,1,0.3,1);
+      z-index: 5;
+    }
+
+    .figma-card:hover::before { transform: scaleX(1); }
+
+    /* Preview */
+    .fig-preview {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      position: relative;
+      overflow: hidden;
+      background: #0d0d0e;
+    }
+
+    .fig-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      transition: transform 0.7s cubic-bezier(0.16,1,0.3,1);
+    }
+
+    .figma-card:hover .fig-preview img {
+      transform: scale(1.05);
+    }
+
+    /* Overlay gradiente no hover */
+    .fig-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(232,80,26,0.22) 0%, transparent 55%, rgba(0,0,0,0.25) 100%);
+      opacity: 0;
+      transition: opacity 0.45s;
+      z-index: 2;
+    }
+
+    .figma-card:hover .fig-overlay { opacity: 1; }
+
+    /* Badge Figma */
+    .fig-badge {
+      position: absolute;
+      top: 16px; right: 16px;
+      z-index: 3;
+      background: rgba(10,10,11,0.72);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 8px;
+      padding: 6px 12px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      transition: transform 0.4s var(--ease-out), background 0.3s;
+    }
+
+    .figma-card:hover .fig-badge {
+      background: rgba(10,10,11,0.88);
+    }
+
+    .fig-badge-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #1abcfe;
+      box-shadow: 0 0 8px rgba(26,188,254,0.6);
+    }
+
+    .fig-badge span {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(240,237,232,0.7);
+    }
+
+    /* Corpo */
+    .fig-body {
+      padding: 28px 32px 32px;
+    }
+
+    .fig-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--ghost);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .fig-tag-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .fig-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.2rem, 3.5vw, 3.2rem);
+      line-height: 0.88;
+      text-transform: uppercase;
+      color: var(--ink);
+      letter-spacing: 0.01em;
+      margin-bottom: 14px;
+      transition: color 0.3s;
+    }
+
+    .fig-desc {
+      font-size: 0.92rem;
+      font-weight: 300;
+      color: var(--ghost);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .fig-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(10,10,11,0.08);
+      padding-top: 18px;
+    }
+
+    .fig-tools {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .fig-tool-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      background: rgba(10,10,11,0.06);
+      color: var(--ghost);
+      padding: 5px 9px;
+      border-radius: 5px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .figma-card:hover .fig-tool-tag {
+      background: rgba(232,80,26,0.09);
+      color: var(--accent);
+    }
+
+    .fig-cta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ghost);
+      white-space: nowrap;
+      transition: color 0.3s, gap 0.4s var(--ease-out);
+    }
+
+    .figma-card:hover .fig-cta { color: var(--accent); gap: 12px; }
+
+    .fig-cta-arrow {
+      width: 32px; height: 32px;
+      border: 1px solid rgba(10,10,11,0.14);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      transition: background 0.35s, border-color 0.35s, color 0.35s, transform 0.5s var(--ease-out);
+    }
+
+    .figma-card:hover .fig-cta-arrow {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--paper);
+      transform: translate(5px, -5px) rotate(45deg);
+    }
+
+    /* Ripple */
+    .figma-card .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(232,80,26,0.15);
+      transform: scale(0);
+      animation: ripple-anim 0.7s linear;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    @keyframes ripple-anim {
+      to { transform: scale(5); opacity: 0; }
+    }
+
+    /* ── CONTACT ── */
     .contact-section {
       background: var(--paper);
       padding: 140px 7% 120px;
@@ -919,8 +1232,6 @@
        MOBILE
     ═══════════════════════════════════ */
     @media (max-width: 768px) {
-
-      /* Header transparente — sem fundo preto que corta o logo */
       .hdr {
         padding: 20px 22px;
         background: transparent;
@@ -930,13 +1241,8 @@
         box-shadow: none;
       }
 
-      .hdr .logo {
-        font-size: 1.05rem;
-        letter-spacing: 0.22em;
-        color: var(--ink);
-      }
+      .hdr .logo { font-size: 1.05rem; letter-spacing: 0.22em; color: var(--ink); }
 
-      /* Nav pill no BOTTOM — completamente separada do header */
       .hdr nav {
         position: fixed;
         bottom: 24px;
@@ -961,54 +1267,36 @@
 
       .hdr nav a {
         margin: 0;
-        padding: 0 16px;
-        font-size: 0.6rem;
-        letter-spacing: 0.16em;
+        padding: 0 12px;
+        font-size: 0.58rem;
+        letter-spacing: 0.14em;
         color: rgba(240,237,232,0.58);
         transition: color 0.25s;
         flex-shrink: 0;
         position: relative;
       }
 
-      .hdr nav a:hover,
-      .hdr nav a:active { color: var(--accent); }
+      .hdr nav a:hover, .hdr nav a:active { color: var(--accent); }
       .hdr nav a::after { display: none; }
 
-      /* Divisor vertical fino entre links */
       .hdr nav a + a::before {
         content: '';
         position: absolute;
-        left: 0;
-        top: 50%;
+        left: 0; top: 50%;
         transform: translateY(-50%);
-        width: 1px;
-        height: 12px;
+        width: 1px; height: 12px;
         background: rgba(255,255,255,0.15);
       }
 
-      .scroll-stage {
-        height: auto !important;
-        min-height: 100vh;
-        position: relative;
-      }
-
+      .scroll-stage { height: auto !important; min-height: 100vh; position: relative; }
       .sticky-viewport {
-        position: relative !important;
-        top: auto !important;
-        height: auto !important;
-        min-height: 100vh;
-        overflow: visible;
-        perspective: none;
-        perspective-origin: unset;
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        justify-content: flex-start;
+        position: relative !important; top: auto !important; height: auto !important;
+        min-height: 100vh; overflow: visible; perspective: none; perspective-origin: unset;
+        display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start;
       }
 
       #floatCard { display: none; }
       .card-glow  { display: none; }
-
       #pnl1, #pnl2, #pnl3 { display: none !important; }
       #scroll-hint { display: none; }
       .corner-label { display: none; }
@@ -1026,214 +1314,90 @@
         overflow: hidden;
       }
 
-      .mh-top {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
+      .mh-top { flex: 1; display: flex; flex-direction: column; justify-content: center; }
 
       .mh-tag {
         font-family: 'DM Mono', monospace;
-        font-size: 0.58rem;
-        letter-spacing: 0.35em;
-        text-transform: uppercase;
-        color: var(--ghost);
-        margin-bottom: 18px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
+        font-size: 0.58rem; letter-spacing: 0.35em; text-transform: uppercase;
+        color: var(--ghost); margin-bottom: 18px;
+        display: flex; align-items: center; gap: 10px;
       }
-
-      .mh-tag::before {
-        content: '';
-        display: inline-block;
-        width: 24px;
-        height: 1px;
-        background: var(--accent);
-      }
+      .mh-tag::before { content: ''; display: inline-block; width: 24px; height: 1px; background: var(--accent); }
 
       .mh-name {
         font-family: 'Bebas Neue', sans-serif;
-        font-size: clamp(4.5rem, 22vw, 7rem);
-        line-height: 0.84;
-        letter-spacing: -0.01em;
-        color: var(--ink);
-        margin-bottom: 6px;
+        font-size: clamp(4.5rem, 22vw, 7rem); line-height: 0.84; letter-spacing: -0.01em;
+        color: var(--ink); margin-bottom: 6px;
       }
-
       .mh-name em {
-        font-family: 'Crimson Pro', serif;
-        font-style: italic;
-        font-weight: 300;
-        color: var(--accent);
-        font-size: 0.62em;
-        display: block;
-        letter-spacing: 0;
+        font-family: 'Crimson Pro', serif; font-style: italic; font-weight: 300;
+        color: var(--accent); font-size: 0.62em; display: block; letter-spacing: 0;
       }
 
       .mh-role {
-        font-family: 'Crimson Pro', serif;
-        font-size: 1.1rem;
-        font-style: italic;
-        font-weight: 300;
-        color: var(--ghost);
-        margin-top: 16px;
-        margin-bottom: 32px;
-        line-height: 1.5;
+        font-family: 'Crimson Pro', serif; font-size: 1.1rem; font-style: italic;
+        font-weight: 300; color: var(--ghost); margin-top: 16px; margin-bottom: 32px; line-height: 1.5;
       }
 
-      .mh-cards {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-        margin-bottom: 28px;
-      }
+      .mh-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 28px; }
 
       .mh-card {
-        background: var(--cream);
-        border: 1px solid rgba(10,10,11,0.07);
-        border-radius: 12px;
-        padding: 16px 18px;
-        position: relative;
-        overflow: hidden;
+        background: var(--cream); border: 1px solid rgba(10,10,11,0.07);
+        border-radius: 12px; padding: 16px 18px; position: relative; overflow: hidden;
       }
-
       .mh-card::after {
-        content: '';
-        position: absolute;
-        bottom: 0; left: 0; right: 0;
-        height: 2px;
-        background: var(--accent);
-        transform: scaleX(0);
-        transform-origin: left;
+        content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+        background: var(--accent); transform: scaleX(0); transform-origin: left;
         transition: transform 0.4s var(--ease-out);
       }
-
       .mh-card:active::after { transform: scaleX(1); }
 
       .mh-card-key {
-        font-family: 'DM Mono', monospace;
-        font-size: 0.5rem;
-        letter-spacing: 0.25em;
-        text-transform: uppercase;
-        color: var(--ghost);
-        margin-bottom: 6px;
+        font-family: 'DM Mono', monospace; font-size: 0.5rem;
+        letter-spacing: 0.25em; text-transform: uppercase; color: var(--ghost); margin-bottom: 6px;
       }
-
-      .mh-card-val {
-        font-family: 'Crimson Pro', serif;
-        font-size: 0.95rem;
-        font-weight: 300;
-        color: var(--ink);
-        line-height: 1.3;
-      }
+      .mh-card-val { font-family: 'Crimson Pro', serif; font-size: 0.95rem; font-weight: 300; color: var(--ink); line-height: 1.3; }
 
       .mh-cta {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        background: var(--ink);
-        color: var(--paper);
-        text-decoration: none;
-        font-family: 'DM Mono', monospace;
-        font-size: 0.6rem;
-        letter-spacing: 0.22em;
-        text-transform: uppercase;
-        padding: 14px 22px;
-        border-radius: 100px;
-        transition: background 0.3s, transform 0.3s var(--ease-out);
-        align-self: flex-start;
+        display: inline-flex; align-items: center; gap: 10px;
+        background: var(--ink); color: var(--paper); text-decoration: none;
+        font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.22em;
+        text-transform: uppercase; padding: 14px 22px; border-radius: 100px;
+        transition: background 0.3s, transform 0.3s var(--ease-out); align-self: flex-start;
       }
-
       .mh-cta:active { background: var(--accent); transform: scale(0.97); }
 
       .mh-cta-arrow {
-        width: 22px; height: 22px;
-        border: 1px solid rgba(240,237,232,0.25);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.75rem;
+        width: 22px; height: 22px; border: 1px solid rgba(240,237,232,0.25);
+        border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem;
       }
 
       .mh-photo-wrapper {
-        position: absolute;
-        top: 72px; right: -10px;
-        width: 130px;
-        height: 170px;
-        border-radius: 14px;
-        overflow: hidden;
-        box-shadow: -8px 12px 40px rgba(10,10,11,0.18);
-        border: 1px solid rgba(10,10,11,0.08);
-        z-index: 10;
-        will-change: transform;
+        position: absolute; top: 72px; right: -10px; width: 130px; height: 170px;
+        border-radius: 14px; overflow: hidden; box-shadow: -8px 12px 40px rgba(10,10,11,0.18);
+        border: 1px solid rgba(10,10,11,0.08); z-index: 10; will-change: transform;
         transform-style: preserve-3d;
         transform: perspective(400px) rotateY(0deg) rotateZ(3deg);
         transition: box-shadow 0.3s ease;
       }
-
-      .mh-photo-wrapper img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center top;
-        display: block;
-        border-radius: 14px;
-      }
-
+      .mh-photo-wrapper img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; border-radius: 14px; }
       .mh-photo-wrapper::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        border-radius: 14px;
+        content: ''; position: absolute; inset: 0; border-radius: 14px;
         background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.08) 100%);
-        pointer-events: none;
-        z-index: 2;
-        transition: opacity 0.3s;
+        pointer-events: none; z-index: 2; transition: opacity 0.3s;
       }
 
       .mh-ghost-num {
-        position: absolute;
-        bottom: 90px; right: 20px;
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 7rem;
-        color: rgba(10,10,11,0.04);
-        line-height: 1;
-        pointer-events: none;
-        letter-spacing: -0.04em;
-        z-index: 0;
+        position: absolute; bottom: 90px; right: 20px;
+        font-family: 'Bebas Neue', sans-serif; font-size: 7rem;
+        color: rgba(10,10,11,0.04); line-height: 1; pointer-events: none; letter-spacing: -0.04em; z-index: 0;
       }
 
-      .mh-scroll-prompt {
-        position: absolute;
-        bottom: 90px;
-        left: 24px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
+      .mh-scroll-prompt { position: absolute; bottom: 90px; left: 24px; display: flex; align-items: center; gap: 10px; }
+      .mh-scroll-prompt span { font-family: 'DM Mono', monospace; font-size: 0.5rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--mist); }
 
-      .mh-scroll-prompt span {
-        font-family: 'DM Mono', monospace;
-        font-size: 0.5rem;
-        letter-spacing: 0.3em;
-        text-transform: uppercase;
-        color: var(--mist);
-      }
-
-      .mh-scroll-dot {
-        width: 5px; height: 5px;
-        border-radius: 50%;
-        background: var(--accent);
-        animation: pulse-dot 2s ease-in-out infinite;
-      }
-
-      @keyframes pulse-dot {
-        0%, 100% { opacity: 0.4; transform: scale(1); }
-        50%       { opacity: 1;   transform: scale(1.6); }
-      }
+      .mh-scroll-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); animation: pulse-dot 2s ease-in-out infinite; }
+      @keyframes pulse-dot { 0%, 100% { opacity: 0.4; transform: scale(1); } 50% { opacity: 1; transform: scale(1.6); } }
 
       .mh-tag   { animation: mh-in 0.8s var(--ease-out) 0.1s both; }
       .mh-name  { animation: mh-in 0.9s var(--ease-out) 0.2s both; }
@@ -1242,84 +1406,51 @@
       .mh-cta   { animation: mh-in 0.8s var(--ease-out) 0.56s both; }
       .mh-photo-wrapper { animation: photo-in 1s var(--ease-out) 0.15s both; }
 
-      @keyframes mh-in {
-        from { opacity: 0; transform: translateY(20px); }
-        to   { opacity: 1; transform: translateY(0); }
-      }
-
-      @keyframes photo-in {
-        from { opacity: 0; transform: perspective(400px) rotateY(-30deg) rotateZ(3deg) translateX(30px); }
-        to   { opacity: 1; transform: perspective(400px) rotateY(0deg) rotateZ(3deg) translateX(0); }
-      }
+      @keyframes mh-in { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+      @keyframes photo-in { from { opacity: 0; transform: perspective(400px) rotateY(-30deg) rotateZ(3deg) translateX(30px); } to { opacity: 1; transform: perspective(400px) rotateY(0deg) rotateZ(3deg) translateX(0); } }
 
       .dark-section { padding: 64px 20px 56px; }
+      .dark-heading { font-size: clamp(2.2rem, 13vw, 4rem); margin-bottom: 40px; line-height: 0.86; word-wrap: break-word; hyphens: auto; }
 
-      .dark-heading {
-        font-size: clamp(2.2rem, 13vw, 4rem);
-        margin-bottom: 40px;
-        line-height: 0.86;
-        word-wrap: break-word;
-        hyphens: auto;
-      }
-
-      .skills-grid {
-        grid-template-columns: 1fr;
-        gap: 12px;
-        background: transparent;
-        border: none;
-      }
-
-      .skill-card {
-        border-radius: 14px;
-        min-height: 120px;
-        padding: 24px 20px 20px;
-        border: 1px solid rgba(240,237,232,0.07);
-      }
-
-      .skill-num { top: 16px; left: 20px; font-size: 0.52rem; letter-spacing: 0.2em; color: rgba(240,237,232,0.12); }
+      .skills-grid { grid-template-columns: 1fr; gap: 12px; background: transparent; border: none; }
+      .skill-card { border-radius: 14px; min-height: 120px; padding: 24px 20px 20px; border: 1px solid rgba(240,237,232,0.07); }
+      .skill-num { top: 16px; left: 20px; font-size: 0.52rem; }
       .skill-icon { font-size: 2.8rem; top: 50%; right: 20px; transform: translateY(-55%); opacity: 0.07; }
       .skill-name { font-size: 1.45rem; margin-bottom: 4px; margin-top: 22px; }
       .skill-desc { font-size: 0.72rem; max-width: 100%; color: rgba(240,237,232,0.28); line-height: 1.5; }
 
       .marquee-wrap { margin: 36px 0; padding: 18px 0; }
-      .marquee-track span { font-size: 0.78rem; padding-right: 28px; letter-spacing: 0.22em; }
+      .marquee-track span { font-size: 0.78rem; padding-right: 28px; }
       .marquee-track span.hi { font-size: 0.85rem; }
 
       .projects-row { grid-template-columns: 1fr; gap: 10px; background: transparent; border: none; }
-
-      .project-card {
-        border-radius: 14px;
-        padding: 28px 24px 64px;
-        border: 1px solid rgba(240,237,232,0.07);
-      }
-
-      .proj-tag { font-size: 0.54rem; letter-spacing: 0.22em; margin-bottom: 16px; }
+      .project-card { border-radius: 14px; padding: 28px 24px 64px; border: 1px solid rgba(240,237,232,0.07); }
+      .proj-tag { font-size: 0.54rem; margin-bottom: 16px; }
       .proj-title { font-size: 2.4rem; line-height: 0.88; }
-      .proj-desc { font-size: 0.88rem; color: rgba(240,237,232,0.38); }
-      .proj-arrow { bottom: 24px; right: 24px; width: 36px; height: 36px; font-size: 0.9rem; }
+      .proj-desc { font-size: 0.88rem; }
+      .proj-arrow { bottom: 24px; right: 24px; width: 36px; height: 36px; }
 
-      .contact-section {
-        grid-template-columns: 1fr;
-        padding: 64px 20px 110px;
-        gap: 24px;
-      }
+      /* Figma mobile */
+      .figma-section { padding: 64px 20px 80px; }
+      .figma-header { flex-direction: column; align-items: flex-start; gap: 16px; margin-bottom: 40px; }
+      .figma-header-right { text-align: left; max-width: 100%; padding-bottom: 0; }
+      .figma-grid { grid-template-columns: 1fr; gap: 16px; }
+      .figma-bg-typo { display: none; }
+      .fig-body { padding: 22px 24px 26px; }
+      .fig-name { font-size: 2rem; }
+      .fig-desc { font-size: 0.88rem; }
 
+      .contact-section { grid-template-columns: 1fr; padding: 64px 20px 110px; gap: 24px; }
       .contact-section::before { left: 20px; right: 20px; }
       .contact-heading { font-size: clamp(3.5rem, 20vw, 5.5rem); margin-bottom: 16px; }
       .contact-subtext { font-size: 1rem; max-width: 100%; }
-      .contact-label { margin-bottom: 20px; }
       .contact-left { padding-top: 0; }
       .contact-links { padding-top: 0; }
       .contact-link { padding: 18px 0; }
-      .link-name { font-size: 0.6rem; letter-spacing: 0.14em; }
+      .link-name { font-size: 0.6rem; }
       .link-arrow { width: 28px; height: 28px; font-size: 0.8rem; }
 
-      .footer {
-        flex-direction: column;
-        gap: 10px;
-        padding: 28px 20px 100px;
-        text-align: center;
-      }
+      .footer { flex-direction: column; gap: 10px; padding: 28px 20px 100px; text-align: center; }
     }
 
     .mobile-hero { display: none; }
@@ -1334,6 +1465,7 @@
     <nav>
       <a href="#stage">Exposição</a>
       <a href="#trabalho">Work</a>
+      <a href="#figma">Figma</a>
       <a href="#contato">Contato</a>
     </nav>
   </header>
@@ -1354,40 +1486,18 @@
           <img src="img.png" alt="Luca Piovezan">
         </div>
         <div class="mh-ghost-num"></div>
-
         <div class="mh-top">
           <div class="mh-tag">Front-end &amp; Design</div>
-          <div class="mh-name">
-            Luca<br>
-            <em>Piovezan</em>
-          </div>
+          <div class="mh-name">Luca<br><em>Piovezan</em></div>
           <div class="mh-role">Desenvolvedor de interfaces<br>imersivas e experiências digitais.</div>
-
           <div class="mh-cards">
-            <div class="mh-card">
-              <div class="mh-card-key">Stack</div>
-              <div class="mh-card-val">HTML · CSS · JS</div>
-            </div>
-            <div class="mh-card">
-              <div class="mh-card-key">Design</div>
-              <div class="mh-card-val">Figma · Motion</div>
-            </div>
-            <div class="mh-card">
-              <div class="mh-card-key">Formação</div>
-              <div class="mh-card-val">Técnico em Info.</div>
-            </div>
-            <div class="mh-card">
-              <div class="mh-card-key">Inglês</div>
-              <div class="mh-card-val">B2 Intermediário</div>
-            </div>
+            <div class="mh-card"><div class="mh-card-key">Stack</div><div class="mh-card-val">HTML · CSS · JS</div></div>
+            <div class="mh-card"><div class="mh-card-key">Design</div><div class="mh-card-val">Figma · Motion</div></div>
+            <div class="mh-card"><div class="mh-card-key">Formação</div><div class="mh-card-val">Técnico em Info.</div></div>
+            <div class="mh-card"><div class="mh-card-key">Inglês</div><div class="mh-card-val">B2 Intermediário</div></div>
           </div>
-
-          <a href="#trabalho" class="mh-cta">
-            Ver Projetos
-            <span class="mh-cta-arrow">↓</span>
-          </a>
+          <a href="#trabalho" class="mh-cta">Ver Projetos<span class="mh-cta-arrow">↓</span></a>
         </div>
-
         <div class="mh-scroll-prompt">
           <div class="mh-scroll-dot"></div>
           <span>Role para explorar</span>
@@ -1396,8 +1506,7 @@
 
       <div id="floatCard">
         <div class="card-face card-front">
-          <img src="img.png" alt="Luca Piovezan"
-            style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block;border-radius:16px;">
+          <img src="img.png" alt="Luca Piovezan" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block;border-radius:16px;">
           <div class="card-label" style="position:relative;z-index:2;">
             <div class="cl-name">Front-end & Design</div>
             <div class="cl-role">Luca<br>Piovezan</div>
@@ -1449,6 +1558,7 @@
     </div>
   </div>
 
+  <!-- ══ WORK ══ -->
   <section class="dark-section" id="trabalho">
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
@@ -1502,6 +1612,91 @@
     </div>
   </section>
 
+  <!-- ══ FIGMA DESIGNS ══ -->
+  <section class="figma-section" id="figma">
+
+    <div class="figma-bg-typo">FIGMA</div>
+
+    <div class="figma-header rv">
+      <div>
+        <div class="section-tag" style="color:var(--ghost);margin-bottom:20px;">Design Visual</div>
+        <h2 class="figma-heading">Designs<br><em>no Figma</em></h2>
+      </div>
+      <div class="figma-header-right">
+        <p>Protótipos e identidades visuais criados no Figma — clique para explorar cada projeto.</p>
+      </div>
+    </div>
+
+    <div class="figma-grid">
+
+      <!-- CARD 1 — Kairo Tokyo Coffee -->
+      <a href="https://www.figma.com/design/7BUOhGaxQEtLvsAejYezvv/Kairo-tokyo-coffe?t=Jp6yJkmEc0aywjVh-0"
+         target="_blank" rel="noopener"
+         class="figma-card rv" style="transition-delay:.06s">
+
+        <div class="fig-preview">
+          <img src="kairo-preview.png" alt="Kairo Tokyo Coffee">
+          <div class="fig-overlay"></div>
+          <div class="fig-badge">
+            <div class="fig-badge-dot"></div>
+            <span>Figma</span>
+          </div>
+        </div>
+
+        <div class="fig-body">
+          <div class="fig-tag"><div class="fig-tag-dot"></div>UI Design · Café · Noturno</div>
+          <div class="fig-name">Kairo<br>Tokyo Coffee</div>
+          <div class="fig-desc">Uma cafeteria noturna em Tóquio com identidade visual sombria e imersiva — dark mode, tipografia editorial e atmosfera além da meia-noite.</div>
+          <div class="fig-footer">
+            <div class="fig-tools">
+              <span class="fig-tool-tag">Figma</span>
+              <span class="fig-tool-tag">UI Design</span>
+              <span class="fig-tool-tag">Branding</span>
+            </div>
+            <div class="fig-cta">
+              Ver no Figma
+              <div class="fig-cta-arrow">↗</div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- CARD 2 — Orbita -->
+      <a href="https://www.figma.com/design/dHSZNBZ2vSil5eqpN2phHe/Orbita?node-id=0-1&p=f&t=txdBxrmepDVC2r5F-0"
+         target="_blank" rel="noopener"
+         class="figma-card rv" style="transition-delay:.14s">
+
+        <div class="fig-preview">
+          <img src="orbita-preview.png" alt="Orbita — Estação Espacial 2098">
+          <div class="fig-overlay"></div>
+          <div class="fig-badge">
+            <div class="fig-badge-dot"></div>
+            <span>Figma</span>
+          </div>
+        </div>
+
+        <div class="fig-body">
+          <div class="fig-tag"><div class="fig-tag-dot"></div>UI Design · Luxo · Sci-Fi</div>
+          <div class="fig-name">Orbita<br>2098</div>
+          <div class="fig-desc">Plataforma de reservas para uma estação espacial turística em 2098. Luxo, tecnologia e exclusividade — onde o endereço de mais alto status fica além da atmosfera.</div>
+          <div class="fig-footer">
+            <div class="fig-tools">
+              <span class="fig-tool-tag">Figma</span>
+              <span class="fig-tool-tag">Luxury UI</span>
+              <span class="fig-tool-tag">Sci-Fi</span>
+            </div>
+            <div class="fig-cta">
+              Ver no Figma
+              <div class="fig-cta-arrow">↗</div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ══ CONTACT ══ -->
   <section class="contact-section" id="contato">
     <div class="contact-left rv">
       <div class="contact-label">Vamos trabalhar juntos</div>
@@ -1693,7 +1888,8 @@
       });
     }
 
-    document.querySelectorAll('.skill-card, .project-card, .contact-link').forEach(c => {
+    /* Tilt 3D — skill, project e figma cards */
+    document.querySelectorAll('.skill-card, .project-card, .contact-link, .figma-card').forEach(c => {
       c.addEventListener('mousemove', e => {
         if (isMobile()) return;
         const r = c.getBoundingClientRect();
@@ -1703,7 +1899,7 @@
         const dy = (y - r.height / 2) / (r.height / 2);
         c.style.setProperty('--mx', x + 'px');
         c.style.setProperty('--my', y + 'px');
-        c.style.transform = `perspective(800px) rotateX(${dy * -8}deg) rotateY(${dx * 10}deg) translateY(-8px) scale(1.02)`;
+        c.style.transform = `perspective(900px) rotateX(${dy * -6}deg) rotateY(${dx * 8}deg) translateY(-10px) scale(1.012)`;
       });
       c.addEventListener('mouseleave', () => {
         if (isMobile()) return;
@@ -1713,13 +1909,30 @@
       });
     });
 
+    /* Ripple nos figma cards */
+    document.querySelectorAll('.figma-card').forEach(card => {
+      card.addEventListener('click', function(e) {
+        const r = card.getBoundingClientRect();
+        const ripple = document.createElement('span');
+        ripple.classList.add('ripple');
+        const size = Math.max(r.width, r.height);
+        ripple.style.width = ripple.style.height = size + 'px';
+        ripple.style.left = (e.clientX - r.left - size / 2) + 'px';
+        ripple.style.top  = (e.clientY - r.top  - size / 2) + 'px';
+        card.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 800);
+      });
+    });
+
+    /* Touch feedback mobile */
     if (isMobile()) {
-      document.querySelectorAll('.project-card').forEach(c => {
-        c.addEventListener('touchstart', () => { c.style.opacity = '0.85'; c.style.transform = 'scale(0.985)'; }, { passive: true });
-        c.addEventListener('touchend', () => { c.style.opacity = ''; c.style.transform = ''; }, { passive: true });
+      document.querySelectorAll('.project-card, .figma-card').forEach(c => {
+        c.addEventListener('touchstart', () => { c.style.opacity = '0.88'; c.style.transform = 'scale(0.985)'; }, { passive: true });
+        c.addEventListener('touchend',   () => { c.style.opacity = '';     c.style.transform = ''; },             { passive: true });
       });
     }
 
+    /* Foto mobile gyro */
     (function () {
       const photoWrapper = document.getElementById('mh-photo');
       if (!photoWrapper) return;
