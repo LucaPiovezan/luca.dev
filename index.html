@@ -1227,10 +1227,34 @@
       letter-spacing: 0;
       text-transform: lowercase;
     }
+    .figma-grid {
+  overflow: hidden;
+}
+
+.figma-card {
+  transition:
+    transform 0.08s linear,
+    box-shadow 0.5s cubic-bezier(0.16,1,0.3,1),
+    border-color 0.3s;
+  will-change: transform;
+}
+
+.figma-card.curtain-left {
+  transform: translateX(-120px);
+}
+
+.figma-card.curtain-right {
+  transform: translateX(120px);
+}
+
+.figma-card.curtain-settled {
+  transition: transform 0.7s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s cubic-bezier(0.16,1,0.3,1), border-color 0.3s;
+}
 
     /* ═══════════════════════════════════
        MOBILE
     ═══════════════════════════════════ */
+    
     @media (max-width: 768px) {
       .hdr {
         padding: 20px 22px;
@@ -1968,6 +1992,50 @@
 
       applyTransform();
     })();
+    (function () {
+  const grid = document.querySelector('.figma-grid');
+  if (!grid) return;
+
+  const cards = grid.querySelectorAll('.figma-card');
+  const left  = cards[0];
+  const right  = cards[1];
+  if (!left || !right) return;
+
+  let settled = false;
+
+  left.classList.add('curtain-left');
+  right.classList.add('curtain-right');
+
+  function onScroll() {
+    const rect = grid.getBoundingClientRect();
+    const windowH = window.innerHeight;
+
+    // progresso: 0 quando o grid entra na tela, 1 quando está 60% visível
+    const progress = Math.max(0, Math.min(1,
+      (windowH - rect.top) / (windowH * 0.6)
+    ));
+
+    if (progress >= 1 && !settled) {
+      settled = true;
+      left.classList.add('curtain-settled');
+      right.classList.add('curtain-settled');
+      left.style.transform  = '';
+      right.style.transform = '';
+      // remove listener depois de terminar
+      window.removeEventListener('scroll', onScroll);
+      return;
+    }
+
+    if (!settled) {
+      const offset = (1 - progress) * 120; // px de deslocamento
+      left.style.transform  = `translateX(${-offset}px)`;
+      right.style.transform = `translateX(${offset}px)`;
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll(); // roda uma vez ao carregar
+})();
   </script>
 </body>
 </html>
