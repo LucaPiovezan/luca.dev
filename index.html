@@ -666,7 +666,7 @@
       background: var(--paper);
       padding: 140px 7% 120px;
       position: relative;
-      overflow: hidden;
+      /* SEM overflow:hidden aqui — precisamos que os cards saiam dos limites durante a animação */
     }
 
     .figma-section::before {
@@ -731,16 +731,23 @@
       line-height: 1.7;
     }
 
-    /* Grid de 2 cards lado a lado */
-    .figma-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
+    /* Wrapper que define o clip da cortina */
+    .figma-grid-wrapper {
+      overflow: hidden;
+      /* padding lateral para os cards não serem cortados no estado final */
+      padding: 4px;
+      margin: -4px;
       position: relative;
       z-index: 2;
     }
 
-    /* ── Card Figma ── */
+    .figma-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    /* Estado inicial dos cards — afastados para fora */
     .figma-card {
       background: var(--cream);
       border: 1px solid rgba(10,10,11,0.08);
@@ -750,14 +757,30 @@
       position: relative;
       text-decoration: none;
       display: block;
+      /* opacidade 0 antes de entrar */
+      opacity: 0;
+      will-change: transform, opacity;
+      /* transição só de hover — a cortina é controlada por JS inline */
+      transition: box-shadow 0.5s cubic-bezier(0.16,1,0.3,1), border-color 0.3s;
+    }
+
+    .figma-card.curtain-ready {
+      /* estado inicial: afastado */
+      transform: translateX(var(--curtain-offset));
+    }
+
+    .figma-card.curtain-done {
+      /* chegou — libera transição suave para hover */
+      opacity: 1;
+      transform: none;
       transition:
         transform 0.5s cubic-bezier(0.16,1,0.3,1),
         box-shadow 0.5s cubic-bezier(0.16,1,0.3,1),
-        border-color 0.3s;
-      will-change: transform;
+        border-color 0.3s,
+        opacity 0.3s;
     }
 
-    .figma-card:hover {
+    .figma-card.curtain-done:hover {
       transform: translateY(-10px) scale(1.008);
       box-shadow: 0 40px 80px rgba(10,10,11,0.12), 0 8px 24px rgba(10,10,11,0.06);
       border-color: rgba(10,10,11,0.16);
@@ -776,7 +799,7 @@
       z-index: 5;
     }
 
-    .figma-card:hover::before { transform: scaleX(1); }
+    .figma-card.curtain-done:hover::before { transform: scaleX(1); }
 
     /* Preview */
     .fig-preview {
@@ -796,11 +819,8 @@
       transition: transform 0.7s cubic-bezier(0.16,1,0.3,1);
     }
 
-    .figma-card:hover .fig-preview img {
-      transform: scale(1.05);
-    }
+    .figma-card.curtain-done:hover .fig-preview img { transform: scale(1.05); }
 
-    /* Overlay gradiente no hover */
     .fig-overlay {
       position: absolute;
       inset: 0;
@@ -810,9 +830,8 @@
       z-index: 2;
     }
 
-    .figma-card:hover .fig-overlay { opacity: 1; }
+    .figma-card.curtain-done:hover .fig-overlay { opacity: 1; }
 
-    /* Badge Figma */
     .fig-badge {
       position: absolute;
       top: 16px; right: 16px;
@@ -826,12 +845,10 @@
       display: flex;
       align-items: center;
       gap: 7px;
-      transition: transform 0.4s var(--ease-out), background 0.3s;
+      transition: background 0.3s;
     }
 
-    .figma-card:hover .fig-badge {
-      background: rgba(10,10,11,0.88);
-    }
+    .figma-card.curtain-done:hover .fig-badge { background: rgba(10,10,11,0.88); }
 
     .fig-badge-dot {
       width: 7px; height: 7px;
@@ -848,10 +865,7 @@
       color: rgba(240,237,232,0.7);
     }
 
-    /* Corpo */
-    .fig-body {
-      padding: 28px 32px 32px;
-    }
+    .fig-body { padding: 28px 32px 32px; }
 
     .fig-tag {
       font-family: 'DM Mono', monospace;
@@ -899,11 +913,7 @@
       padding-top: 18px;
     }
 
-    .fig-tools {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
+    .fig-tools { display: flex; gap: 6px; flex-wrap: wrap; }
 
     .fig-tool-tag {
       font-family: 'DM Mono', monospace;
@@ -917,7 +927,7 @@
       transition: background 0.3s, color 0.3s;
     }
 
-    .figma-card:hover .fig-tool-tag {
+    .figma-card.curtain-done:hover .fig-tool-tag {
       background: rgba(232,80,26,0.09);
       color: var(--accent);
     }
@@ -935,7 +945,7 @@
       transition: color 0.3s, gap 0.4s var(--ease-out);
     }
 
-    .figma-card:hover .fig-cta { color: var(--accent); gap: 12px; }
+    .figma-card.curtain-done:hover .fig-cta { color: var(--accent); gap: 12px; }
 
     .fig-cta-arrow {
       width: 32px; height: 32px;
@@ -949,14 +959,13 @@
       transition: background 0.35s, border-color 0.35s, color 0.35s, transform 0.5s var(--ease-out);
     }
 
-    .figma-card:hover .fig-cta-arrow {
+    .figma-card.curtain-done:hover .fig-cta-arrow {
       background: var(--accent);
       border-color: var(--accent);
       color: var(--paper);
       transform: translate(5px, -5px) rotate(45deg);
     }
 
-    /* Ripple */
     .figma-card .ripple {
       position: absolute;
       border-radius: 50%;
@@ -967,9 +976,7 @@
       z-index: 10;
     }
 
-    @keyframes ripple-anim {
-      to { transform: scale(5); opacity: 0; }
-    }
+    @keyframes ripple-anim { to { transform: scale(5); opacity: 0; } }
 
     /* ── CONTACT ── */
     .contact-section {
@@ -1227,34 +1234,10 @@
       letter-spacing: 0;
       text-transform: lowercase;
     }
-    .figma-grid {
-  overflow: hidden;
-}
-
-.figma-card {
-  transition:
-    transform 0.08s linear,
-    box-shadow 0.5s cubic-bezier(0.16,1,0.3,1),
-    border-color 0.3s;
-  will-change: transform;
-}
-
-.figma-card.curtain-left {
-  transform: translateX(-120px);
-}
-
-.figma-card.curtain-right {
-  transform: translateX(120px);
-}
-
-.figma-card.curtain-settled {
-  transition: transform 0.7s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s cubic-bezier(0.16,1,0.3,1), border-color 0.3s;
-}
 
     /* ═══════════════════════════════════
        MOBILE
     ═══════════════════════════════════ */
-    
     @media (max-width: 768px) {
       .hdr {
         padding: 20px 22px;
@@ -1454,7 +1437,6 @@
       .proj-desc { font-size: 0.88rem; }
       .proj-arrow { bottom: 24px; right: 24px; width: 36px; height: 36px; }
 
-      /* Figma mobile */
       .figma-section { padding: 64px 20px 80px; }
       .figma-header { flex-direction: column; align-items: flex-start; gap: 16px; margin-bottom: 40px; }
       .figma-header-right { text-align: left; max-width: 100%; padding-bottom: 0; }
@@ -1475,6 +1457,9 @@
       .link-arrow { width: 28px; height: 28px; font-size: 0.8rem; }
 
       .footer { flex-direction: column; gap: 10px; padding: 28px 20px 100px; text-align: center; }
+
+      /* mobile: cortina desligada, mostra normal */
+      .figma-card { opacity: 1 !important; transform: none !important; }
     }
 
     .mobile-hero { display: none; }
@@ -1651,72 +1636,75 @@
       </div>
     </div>
 
-    <div class="figma-grid">
+    <!-- wrapper com overflow:hidden para o efeito de cortina -->
+    <div class="figma-grid-wrapper">
+      <div class="figma-grid">
 
-      <!-- CARD 1 — Kairo Tokyo Coffee -->
-      <a href="https://www.figma.com/design/7BUOhGaxQEtLvsAejYezvv/Kairo-tokyo-coffe?t=Jp6yJkmEc0aywjVh-0"
-         target="_blank" rel="noopener"
-         class="figma-card rv" style="transition-delay:.06s">
+        <!-- CARD 1 — Kairo Tokyo Coffee -->
+        <a href="https://www.figma.com/design/7BUOhGaxQEtLvsAejYezvv/Kairo-tokyo-coffe?t=Jp6yJkmEc0aywjVh-0"
+           target="_blank" rel="noopener"
+           class="figma-card" id="figma-card-left">
 
-        <div class="fig-preview">
-          <img src="kairo-preview.png" alt="Kairo Tokyo Coffee">
-          <div class="fig-overlay"></div>
-          <div class="fig-badge">
-            <div class="fig-badge-dot"></div>
-            <span>Figma</span>
-          </div>
-        </div>
-
-        <div class="fig-body">
-          <div class="fig-tag"><div class="fig-tag-dot"></div>UI Design · Café · Noturno</div>
-          <div class="fig-name">Kairo<br>Tokyo Coffee</div>
-          <div class="fig-desc">Uma cafeteria noturna em Tóquio com identidade visual sombria e imersiva — dark mode, tipografia editorial e atmosfera além da meia-noite.</div>
-          <div class="fig-footer">
-            <div class="fig-tools">
-              <span class="fig-tool-tag">Figma</span>
-              <span class="fig-tool-tag">UI Design</span>
-              <span class="fig-tool-tag">Branding</span>
-            </div>
-            <div class="fig-cta">
-              Ver no Figma
-              <div class="fig-cta-arrow">↗</div>
+          <div class="fig-preview">
+            <img src="kairo-preview.png" alt="Kairo Tokyo Coffee">
+            <div class="fig-overlay"></div>
+            <div class="fig-badge">
+              <div class="fig-badge-dot"></div>
+              <span>Figma</span>
             </div>
           </div>
-        </div>
-      </a>
 
-      <!-- CARD 2 — Orbita -->
-      <a href="https://www.figma.com/design/dHSZNBZ2vSil5eqpN2phHe/Orbita?node-id=0-1&p=f&t=txdBxrmepDVC2r5F-0"
-         target="_blank" rel="noopener"
-         class="figma-card rv" style="transition-delay:.14s">
-
-        <div class="fig-preview">
-          <img src="orbita-preview.png" alt="Orbita — Estação Espacial 2098">
-          <div class="fig-overlay"></div>
-          <div class="fig-badge">
-            <div class="fig-badge-dot"></div>
-            <span>Figma</span>
-          </div>
-        </div>
-
-        <div class="fig-body">
-          <div class="fig-tag"><div class="fig-tag-dot"></div>UI Design · Luxo · Sci-Fi</div>
-          <div class="fig-name">Orbita<br>2098</div>
-          <div class="fig-desc">Plataforma de reservas para uma estação espacial turística em 2098. Luxo, tecnologia e exclusividade — onde o endereço de mais alto status fica além da atmosfera.</div>
-          <div class="fig-footer">
-            <div class="fig-tools">
-              <span class="fig-tool-tag">Figma</span>
-              <span class="fig-tool-tag">Luxury UI</span>
-              <span class="fig-tool-tag">Sci-Fi</span>
-            </div>
-            <div class="fig-cta">
-              Ver no Figma
-              <div class="fig-cta-arrow">↗</div>
+          <div class="fig-body">
+            <div class="fig-tag"><div class="fig-tag-dot"></div>UI Design · Café · Noturno</div>
+            <div class="fig-name">Kairo<br>Tokyo Coffee</div>
+            <div class="fig-desc">Uma cafeteria noturna em Tóquio com identidade visual sombria e imersiva — dark mode, tipografia editorial e atmosfera além da meia-noite.</div>
+            <div class="fig-footer">
+              <div class="fig-tools">
+                <span class="fig-tool-tag">Figma</span>
+                <span class="fig-tool-tag">UI Design</span>
+                <span class="fig-tool-tag">Branding</span>
+              </div>
+              <div class="fig-cta">
+                Ver no Figma
+                <div class="fig-cta-arrow">↗</div>
+              </div>
             </div>
           </div>
-        </div>
-      </a>
+        </a>
 
+        <!-- CARD 2 — Orbita -->
+        <a href="https://www.figma.com/design/dHSZNBZ2vSil5eqpN2phHe/Orbita?node-id=0-1&p=f&t=txdBxrmepDVC2r5F-0"
+           target="_blank" rel="noopener"
+           class="figma-card" id="figma-card-right">
+
+          <div class="fig-preview">
+            <img src="orbita-preview.png" alt="Orbita — Estação Espacial 2098">
+            <div class="fig-overlay"></div>
+            <div class="fig-badge">
+              <div class="fig-badge-dot"></div>
+              <span>Figma</span>
+            </div>
+          </div>
+
+          <div class="fig-body">
+            <div class="fig-tag"><div class="fig-tag-dot"></div>UI Design · Luxo · Sci-Fi</div>
+            <div class="fig-name">Orbita<br>2098</div>
+            <div class="fig-desc">Plataforma de reservas para uma estação espacial turística em 2098. Luxo, tecnologia e exclusividade — onde o endereço de mais alto status fica além da atmosfera.</div>
+            <div class="fig-footer">
+              <div class="fig-tools">
+                <span class="fig-tool-tag">Figma</span>
+                <span class="fig-tool-tag">Luxury UI</span>
+                <span class="fig-tool-tag">Sci-Fi</span>
+              </div>
+              <div class="fig-cta">
+                Ver no Figma
+                <div class="fig-cta-arrow">↗</div>
+              </div>
+            </div>
+          </div>
+        </a>
+
+      </div>
     </div>
   </section>
 
@@ -1913,7 +1901,7 @@
     }
 
     /* Tilt 3D — skill, project e figma cards */
-    document.querySelectorAll('.skill-card, .project-card, .contact-link, .figma-card').forEach(c => {
+    document.querySelectorAll('.skill-card, .project-card, .contact-link').forEach(c => {
       c.addEventListener('mousemove', e => {
         if (isMobile()) return;
         const r = c.getBoundingClientRect();
@@ -1933,17 +1921,34 @@
       });
     });
 
+    /* Tilt 3D nos figma cards — só depois de curtain-done */
+    function attachFigmaTilt(c) {
+      c.addEventListener('mousemove', e => {
+        if (isMobile()) return;
+        const r = c.getBoundingClientRect();
+        const x = e.clientX - r.left;
+        const y = e.clientY - r.top;
+        const dx = (x - r.width / 2) / (r.width / 2);
+        const dy = (y - r.height / 2) / (r.height / 2);
+        c.style.transform = `perspective(900px) rotateX(${dy * -6}deg) rotateY(${dx * 8}deg) translateY(-10px) scale(1.012)`;
+      });
+      c.addEventListener('mouseleave', () => {
+        if (isMobile()) return;
+        c.style.transform = '';
+      });
+    }
+
     /* Ripple nos figma cards */
-    document.querySelectorAll('.figma-card').forEach(card => {
-      card.addEventListener('click', function(e) {
-        const r = card.getBoundingClientRect();
+    document.querySelectorAll('.figma-card').forEach(fc => {
+      fc.addEventListener('click', function(e) {
+        const r = fc.getBoundingClientRect();
         const ripple = document.createElement('span');
         ripple.classList.add('ripple');
         const size = Math.max(r.width, r.height);
         ripple.style.width = ripple.style.height = size + 'px';
         ripple.style.left = (e.clientX - r.left - size / 2) + 'px';
         ripple.style.top  = (e.clientY - r.top  - size / 2) + 'px';
-        card.appendChild(ripple);
+        fc.appendChild(ripple);
         setTimeout(() => ripple.remove(), 800);
       });
     });
@@ -1955,6 +1960,90 @@
         c.addEventListener('touchend',   () => { c.style.opacity = '';     c.style.transform = ''; },             { passive: true });
       });
     }
+
+    /* ═══════════════════════════════════════════
+       EFEITO CORTINA — FIGMA CARDS
+       Lógica: usa IntersectionObserver para saber
+       quando a seção começa a entrar na tela e
+       depois anima via requestAnimationFrame
+       lendo getBoundingClientRect() a cada frame.
+    ═══════════════════════════════════════════ */
+    (function () {
+      if (isMobile()) return;
+
+      const cardLeft  = document.getElementById('figma-card-left');
+      const cardRight = document.getElementById('figma-card-right');
+      const wrapper   = document.querySelector('.figma-grid-wrapper');
+      if (!cardLeft || !cardRight || !wrapper) return;
+
+      const OFFSET_MAX = 160; // px que cada card começa afastado
+      let animating = false;
+      let done = false;
+
+      // Coloca os cards na posição inicial (afastados + invisíveis)
+      function setInitial() {
+        cardLeft.style.transition  = 'none';
+        cardRight.style.transition = 'none';
+        cardLeft.style.opacity  = '0';
+        cardRight.style.opacity = '0';
+        cardLeft.style.transform  = `translateX(${-OFFSET_MAX}px)`;
+        cardRight.style.transform = `translateX(${OFFSET_MAX}px)`;
+      }
+      setInitial();
+
+      function tick() {
+        if (done) return;
+
+        const rect = wrapper.getBoundingClientRect();
+        const vh   = window.innerHeight;
+
+        // progresso: começa quando o topo do wrapper entra na tela (rect.top < vh)
+        // termina quando rect.top chega a 35% da viewport
+        const progress = clamp(norm(rect.top, vh, vh * 0.35), 0, 1);
+        const eased    = easeOutQuart(progress);
+
+        const offset  = OFFSET_MAX * (1 - eased);
+        const opacity = eased;
+
+        cardLeft.style.transform  = `translateX(${-offset}px)`;
+        cardRight.style.transform = `translateX(${offset}px)`;
+        cardLeft.style.opacity  = opacity;
+        cardRight.style.opacity = opacity;
+
+        if (progress >= 1) {
+          done = true;
+          animating = false;
+          // libera transições de hover
+          cardLeft.classList.add('curtain-done');
+          cardRight.classList.add('curtain-done');
+          // remove inline styles para o CSS de hover funcionar
+          cardLeft.style.transform  = '';
+          cardRight.style.transform = '';
+          cardLeft.style.opacity    = '';
+          cardRight.style.opacity   = '';
+          cardLeft.style.transition  = '';
+          cardRight.style.transition = '';
+          attachFigmaTilt(cardLeft);
+          attachFigmaTilt(cardRight);
+          return;
+        }
+
+        animating = true;
+        requestAnimationFrame(tick);
+      }
+
+      // Dispara o loop a cada evento de scroll
+      window.addEventListener('scroll', () => {
+        if (done) return;
+        if (!animating) {
+          animating = true;
+          requestAnimationFrame(tick);
+        }
+      }, { passive: true });
+
+      // Checa uma vez ao carregar (caso já esteja visível)
+      requestAnimationFrame(tick);
+    })();
 
     /* Foto mobile gyro */
     (function () {
@@ -1992,50 +2081,6 @@
 
       applyTransform();
     })();
-    (function () {
-  const grid = document.querySelector('.figma-grid');
-  if (!grid) return;
-
-  const cards = grid.querySelectorAll('.figma-card');
-  const left  = cards[0];
-  const right  = cards[1];
-  if (!left || !right) return;
-
-  let settled = false;
-
-  left.classList.add('curtain-left');
-  right.classList.add('curtain-right');
-
-  function onScroll() {
-    const rect = grid.getBoundingClientRect();
-    const windowH = window.innerHeight;
-
-    // progresso: 0 quando o grid entra na tela, 1 quando está 60% visível
-    const progress = Math.max(0, Math.min(1,
-      (windowH - rect.top) / (windowH * 0.6)
-    ));
-
-    if (progress >= 1 && !settled) {
-      settled = true;
-      left.classList.add('curtain-settled');
-      right.classList.add('curtain-settled');
-      left.style.transform  = '';
-      right.style.transform = '';
-      // remove listener depois de terminar
-      window.removeEventListener('scroll', onScroll);
-      return;
-    }
-
-    if (!settled) {
-      const offset = (1 - progress) * 120; // px de deslocamento
-      left.style.transform  = `translateX(${-offset}px)`;
-      right.style.transform = `translateX(${offset}px)`;
-    }
-  }
-
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll(); // roda uma vez ao carregar
-})();
   </script>
 </body>
 </html>
