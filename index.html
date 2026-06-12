@@ -1961,7 +1961,90 @@
       });
     }
 
-     EFEITO CORTINA — FIGMA CARDS
+    /* ═══════════════════════════════════════════
+       EFEITO CORTINA — FIGMA CARDS
+       Lógica: usa IntersectionObserver para saber
+       quando a seção começa a entrar na tela e
+       depois anima via requestAnimationFrame
+       lendo getBoundingClientRect() a cada frame.
+    ═══════════════════════════════════════════ */
+    (function () {
+      if (isMobile()) return;
+
+      const cardLeft  = document.getElementById('figma-card-left');
+      const cardRight = document.getElementById('figma-card-right');
+      const wrapper   = document.querySelector('.figma-grid-wrapper');
+      if (!cardLeft || !cardRight || !wrapper) return;
+
+      const OFFSET_MAX = 160; // px que cada card começa afastado
+      let animating = false;
+      let done = false;
+
+      // Coloca os cards na posição inicial (afastados + invisíveis)
+      function setInitial() {
+        cardLeft.style.transition  = 'none';
+        cardRight.style.transition = 'none';
+        cardLeft.style.opacity  = '0';
+        cardRight.style.opacity = '0';
+        cardLeft.style.transform  = `translateX(${-OFFSET_MAX}px)`;
+        cardRight.style.transform = `translateX(${OFFSET_MAX}px)`;
+      }
+      setInitial();
+
+      function tick() {
+        if (done) return;
+
+        const rect = wrapper.getBoundingClientRect();
+        const vh   = window.innerHeight;
+
+        // progresso: começa quando o topo do wrapper entra na tela (rect.top < vh)
+        // termina quando rect.top chega a 35% da viewport
+        const progress = clamp(norm(rect.top, vh, vh * 0.35), 0, 1);
+        const eased    = easeOutQuart(progress);
+
+        const offset  = OFFSET_MAX * (1 - eased);
+        const opacity = eased;
+
+        cardLeft.style.transform  = `translateX(${-offset}px)`;
+        cardRight.style.transform = `translateX(${offset}px)`;
+        cardLeft.style.opacity  = opacity;
+        cardRight.style.opacity = opacity;
+
+        if (progress >= 1) {
+          done = true;
+          animating = false;
+          // libera transições de hover
+          cardLeft.classList.add('curtain-done');
+          cardRight.classList.add('curtain-done');
+          // remove inline styles para o CSS de hover funcionar
+          cardLeft.style.transform  = '';
+          cardRight.style.transform = '';
+          cardLeft.style.opacity    = '';
+          cardRight.style.opacity   = '';
+          cardLeft.style.transition  = '';
+          cardRight.style.transition = '';
+          attachFigmaTilt(cardLeft);
+          attachFigmaTilt(cardRight);
+          return;
+        }
+
+        animating = true;
+        requestAnimationFrame(tick);
+      }
+
+      // Dispara o loop a cada evento de scroll
+      window.addEventListener('scroll', () => {
+        if (done) return;
+        if (!animating) {
+          animating = true;
+          requestAnimationFrame(tick);
+        }
+      }, { passive: true });
+
+      // Checa uma vez ao carregar (caso já esteja visível)
+      requestAnimationFrame(tick);
+    })();
+
     /* Foto mobile gyro */
     (function () {
       const photoWrapper = document.getElementById('mh-photo');
