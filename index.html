@@ -55,6 +55,9 @@
       transition: width 0.05s linear;
     }
 
+    /* ═══════════════════════════════
+       HEADER
+    ═══════════════════════════════ */
     .hdr {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -104,6 +107,135 @@
     }
 
     .hdr nav a:hover::after { width: 100%; }
+
+    /* ── HEADER RIGHT CONTROLS ── */
+    .hdr-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    /* ── LANG TOGGLE ── */
+    .lang-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      background: rgba(10,10,11,0.06);
+      border: 1px solid rgba(10,10,11,0.10);
+      border-radius: 100px;
+      padding: 3px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .lang-toggle button {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.52rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 5px 10px;
+      border-radius: 100px;
+      color: var(--ghost);
+      transition: color 0.25s;
+      position: relative;
+      z-index: 1;
+    }
+
+    .lang-toggle .lang-pill {
+      position: absolute;
+      top: 3px; left: 3px;
+      height: calc(100% - 6px);
+      border-radius: 100px;
+      background: var(--ink);
+      transition: transform 0.35s var(--ease-out), width 0.35s var(--ease-out);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .lang-toggle button.active { color: var(--paper); }
+
+    /* ── CV BUTTON ── */
+    .cv-btn {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--paper);
+      background: var(--ink);
+      border: 1px solid transparent;
+      padding: 9px 18px 9px 14px;
+      border-radius: 100px;
+      cursor: pointer;
+      overflow: hidden;
+      transition: color 0.3s, border-color 0.3s, background 0.3s;
+    }
+
+    .cv-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      border-radius: 100px;
+      transition: transform 0.45s var(--ease-out);
+      z-index: 0;
+    }
+
+    .cv-btn:hover::before { transform: scaleX(1); }
+
+    .cv-btn span, .cv-btn svg {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* pulsing ring */
+    .cv-btn::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 100px;
+      border: 1.5px solid rgba(232,80,26,0.45);
+      animation: cv-pulse 2.2s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes cv-pulse {
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50%       { opacity: 0;   transform: scale(1.08); }
+    }
+
+    .cv-btn .cv-icon {
+      width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(240,237,232,0.15);
+      border-radius: 50%;
+      font-size: 0.75rem;
+      line-height: 1;
+      transition: transform 0.4s var(--ease-out);
+    }
+
+    .cv-btn:hover .cv-icon { transform: translateY(2px) rotate(10deg); }
+
+    /* bounce on load */
+    @keyframes cv-bounce {
+      0%   { transform: scale(0.7) translateY(8px); opacity: 0; }
+      60%  { transform: scale(1.06) translateY(-3px); opacity: 1; }
+      80%  { transform: scale(0.97) translateY(1px); }
+      100% { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    .cv-btn { animation: cv-bounce 0.7s var(--ease-out) 0.8s both; }
+
+    /* ═══════════════════════ */
 
     .scroll-stage {
       height: 500vh;
@@ -659,14 +791,10 @@
 
     .project-card:hover .proj-arrow { background: var(--accent); border-color: var(--accent); transform: translate(4px,-4px); }
 
-    /* ═══════════════════════════════
-       SEÇÃO FIGMA
-    ═══════════════════════════════ */
     .figma-section {
       background: var(--paper);
       padding: 140px 7% 120px;
       position: relative;
-      /* SEM overflow:hidden aqui — precisamos que os cards saiam dos limites durante a animação */
     }
 
     .figma-section::before {
@@ -731,10 +859,8 @@
       line-height: 1.7;
     }
 
-    /* Wrapper que define o clip da cortina */
     .figma-grid-wrapper {
       overflow: hidden;
-      /* padding lateral para os cards não serem cortados no estado final */
       padding: 4px;
       margin: -4px;
       position: relative;
@@ -747,7 +873,6 @@
       gap: 24px;
     }
 
-    /* Estado inicial dos cards — afastados para fora */
     .figma-card {
       background: var(--cream);
       border: 1px solid rgba(10,10,11,0.08);
@@ -757,20 +882,16 @@
       position: relative;
       text-decoration: none;
       display: block;
-      /* opacidade 0 antes de entrar */
       opacity: 0;
       will-change: transform, opacity;
-      /* transição só de hover — a cortina é controlada por JS inline */
       transition: box-shadow 0.5s cubic-bezier(0.16,1,0.3,1), border-color 0.3s;
     }
 
     .figma-card.curtain-ready {
-      /* estado inicial: afastado */
       transform: translateX(var(--curtain-offset));
     }
 
     .figma-card.curtain-done {
-      /* chegou — libera transição suave para hover */
       opacity: 1;
       transform: none;
       transition:
@@ -786,7 +907,6 @@
       border-color: rgba(10,10,11,0.16);
     }
 
-    /* Linha accent no topo */
     .figma-card::before {
       content: '';
       position: absolute;
@@ -801,7 +921,6 @@
 
     .figma-card.curtain-done:hover::before { transform: scaleX(1); }
 
-    /* Preview */
     .fig-preview {
       width: 100%;
       aspect-ratio: 16 / 9;
@@ -978,7 +1097,6 @@
 
     @keyframes ripple-anim { to { transform: scale(5); opacity: 0; } }
 
-    /* ── CONTACT ── */
     .contact-section {
       background: var(--paper);
       padding: 140px 7% 120px;
@@ -1295,6 +1413,13 @@
         background: rgba(255,255,255,0.15);
       }
 
+      .hdr-right { gap: 8px; }
+
+      .lang-toggle button { padding: 4px 7px; font-size: 0.48rem; }
+
+      .cv-btn { padding: 8px 12px 8px 10px; font-size: 0.5rem; gap: 6px; }
+      .cv-btn .cv-icon { width: 14px; height: 14px; font-size: 0.65rem; }
+
       .scroll-stage { height: auto !important; min-height: 100vh; position: relative; }
       .sticky-viewport {
         position: relative !important; top: auto !important; height: auto !important;
@@ -1458,7 +1583,6 @@
 
       .footer { flex-direction: column; gap: 10px; padding: 28px 20px 100px; text-align: center; }
 
-      /* mobile: cortina desligada, mostra normal */
       .figma-card { opacity: 1 !important; transform: none !important; }
     }
 
@@ -1472,11 +1596,24 @@
   <header class="hdr">
     <div class="logo">Luca Piovezan</div>
     <nav>
-      <a href="#stage">Exposição</a>
-      <a href="#trabalho">Work</a>
-      <a href="#figma">Figma</a>
-      <a href="#contato">Contato</a>
+      <a href="#stage" data-pt="Exposição" data-en="Showcase">Exposição</a>
+      <a href="#trabalho" data-pt="Work" data-en="Work">Work</a>
+      <a href="#figma" data-pt="Figma" data-en="Figma">Figma</a>
+      <a href="#contato" data-pt="Contato" data-en="Contact">Contato</a>
     </nav>
+    <div class="hdr-right">
+      <!-- Language toggle -->
+      <div class="lang-toggle" id="langToggle" title="Switch language">
+        <div class="lang-pill" id="langPill"></div>
+        <button id="btnPT" class="active" onclick="setLang('pt')">PT</button>
+        <button id="btnEN" onclick="setLang('en')">EN</button>
+      </div>
+      <!-- CV Download button -->
+      <a href="Meu_Currículo_em_Portugues.pdf" download="Luca_Piovezan_CV.pdf" class="cv-btn" id="cvBtn">
+        <span class="cv-icon">↓</span>
+        <span data-pt="Currículo" data-en="Resume">Currículo</span>
+      </a>
+    </div>
   </header>
 
   <div class="scroll-stage" id="stage">
@@ -1485,9 +1622,9 @@
       <div class="bg-typo" id="bg-typo">CODE<br>DESIGN</div>
 
       <div class="desktop-hero" id="desktop-hero">
-        <div class="dh-tag">Portfólio 2026</div>
+        <div class="dh-tag" data-pt="Portfólio 2026" data-en="Portfolio 2026">Portfólio 2026</div>
         <h1 class="dh-title">Luca<br><em>Piovezan</em></h1>
-        <p class="dh-desc">Desenvolvedor Front-end & Designer focado em criar experiências digitais imersivas.</p>
+        <p class="dh-desc" data-pt="Desenvolvedor Front-end & Designer focado em criar experiências digitais imersivas." data-en="Front-end Developer & Designer focused on building immersive digital experiences.">Desenvolvedor Front-end & Designer focado em criar experiências digitais imersivas.</p>
       </div>
 
       <div class="mobile-hero">
@@ -1496,20 +1633,20 @@
         </div>
         <div class="mh-ghost-num"></div>
         <div class="mh-top">
-          <div class="mh-tag">Front-end &amp; Design</div>
+          <div class="mh-tag" data-pt="Front-end &amp; Design" data-en="Front-end &amp; Design">Front-end &amp; Design</div>
           <div class="mh-name">Luca<br><em>Piovezan</em></div>
-          <div class="mh-role">Desenvolvedor de interfaces<br>imersivas e experiências digitais.</div>
+          <div class="mh-role" data-pt="Desenvolvedor de interfaces<br>imersivas e experiências digitais." data-en="Developer of immersive interfaces<br>and digital experiences.">Desenvolvedor de interfaces<br>imersivas e experiências digitais.</div>
           <div class="mh-cards">
-            <div class="mh-card"><div class="mh-card-key">Stack</div><div class="mh-card-val">HTML · CSS · JS</div></div>
-            <div class="mh-card"><div class="mh-card-key">Design</div><div class="mh-card-val">Figma · Motion</div></div>
-            <div class="mh-card"><div class="mh-card-key">Formação</div><div class="mh-card-val">Técnico em Info.</div></div>
-            <div class="mh-card"><div class="mh-card-key">Inglês</div><div class="mh-card-val">B2 Intermediário</div></div>
+            <div class="mh-card"><div class="mh-card-key" data-pt="Stack" data-en="Stack">Stack</div><div class="mh-card-val">HTML · CSS · JS</div></div>
+            <div class="mh-card"><div class="mh-card-key" data-pt="Design" data-en="Design">Design</div><div class="mh-card-val">Figma · Motion</div></div>
+            <div class="mh-card"><div class="mh-card-key" data-pt="Formação" data-en="Education">Formação</div><div class="mh-card-val" data-pt="Técnico em Info." data-en="IT Technician">Técnico em Info.</div></div>
+            <div class="mh-card"><div class="mh-card-key" data-pt="Inglês" data-en="English">Inglês</div><div class="mh-card-val" data-pt="B2 Intermediário" data-en="B2 Intermediate">B2 Intermediário</div></div>
           </div>
-          <a href="#trabalho" class="mh-cta">Ver Projetos<span class="mh-cta-arrow">↓</span></a>
+          <a href="#trabalho" class="mh-cta" data-pt="Ver Projetos" data-en="See Projects">Ver Projetos<span class="mh-cta-arrow">↓</span></a>
         </div>
         <div class="mh-scroll-prompt">
           <div class="mh-scroll-dot"></div>
-          <span>Role para explorar</span>
+          <span data-pt="Role para explorar" data-en="Scroll to explore">Role para explorar</span>
         </div>
       </div>
 
@@ -1529,37 +1666,37 @@
       </div>
 
       <div class="txt-panel" id="pnl1" style="right:6%;left:auto;">
-        <div class="panel-eyebrow">O que eu faço</div>
-        <div class="panel-h">Desenvolver<br><span>Interfaces</span></div>
+        <div class="panel-eyebrow" data-pt="O que eu faço" data-en="What I do">O que eu faço</div>
+        <div class="panel-h" data-pt="Desenvolver<br><span>Interfaces</span>" data-en="Building<br><span>Interfaces</span>">Desenvolver<br><span>Interfaces</span></div>
         <ul class="panel-list">
-          <li><span class="pl-key">Foco</span><span class="pl-val">Experiências Imersivas</span></li>
+          <li><span class="pl-key" data-pt="Foco" data-en="Focus">Foco</span><span class="pl-val" data-pt="Experiências Imersivas" data-en="Immersive Experiences">Experiências Imersivas</span></li>
           <li><span class="pl-key">Stack</span><span class="pl-val">HTML · CSS · JS</span></li>
-          <li><span class="pl-key">Design</span><span class="pl-val">Figma & Animações</span></li>
+          <li><span class="pl-key" data-pt="Design" data-en="Design">Design</span><span class="pl-val" data-pt="Figma & Animações" data-en="Figma & Animations">Figma & Animações</span></li>
         </ul>
       </div>
 
       <div class="txt-panel" id="pnl2" style="left:6%;right:auto;">
-        <div class="panel-eyebrow">Minha história</div>
-        <div class="panel-h">Código<br><span>&amp; Arte</span></div>
+        <div class="panel-eyebrow" data-pt="Minha história" data-en="My story">Minha história</div>
+        <div class="panel-h" data-pt="Código<br><span>&amp; Arte</span>" data-en="Code<br><span>&amp; Art</span>">Código<br><span>&amp; Arte</span></div>
         <ul class="panel-list">
-          <li><span class="pl-key">Formação</span><span class="pl-val">Técnico em Informática</span></li>
-          <li><span class="pl-key">Escola</span><span class="pl-val">Colégio Cotemig</span></li>
-          <li><span class="pl-key">Inglês</span><span class="pl-val">Intermediário B2</span></li>
+          <li><span class="pl-key" data-pt="Formação" data-en="Education">Formação</span><span class="pl-val" data-pt="Técnico em Informática" data-en="IT Technician">Técnico em Informática</span></li>
+          <li><span class="pl-key" data-pt="Escola" data-en="School">Escola</span><span class="pl-val">Colégio Cotemig</span></li>
+          <li><span class="pl-key" data-pt="Inglês" data-en="English">Inglês</span><span class="pl-val" data-pt="Intermediário B2" data-en="Intermediate B2">Intermediário B2</span></li>
         </ul>
       </div>
 
       <div id="pnl3" class="finale-split">
         <div class="fs-left">
-          <div class="fs-eyebrow">Buscando Estágio</div>
-          <div class="fs-title">VOU<br>ALÉM</div>
+          <div class="fs-eyebrow" data-pt="Buscando Estágio" data-en="Seeking Internship">Buscando Estágio</div>
+          <div class="fs-title" data-pt="VOU<br>ALÉM" data-en="BEYOND<br>LIMITS">VOU<br>ALÉM</div>
         </div>
         <div class="fs-right">
-          <div class="fs-title">do<br>comum</div>
+          <div class="fs-title" data-pt="do<br>comum" data-en="the<br>ordinary">do<br>comum</div>
         </div>
       </div>
 
       <div id="scroll-hint">
-        <span class="sh-label">Role</span>
+        <span class="sh-label" data-pt="Role" data-en="Scroll">Role</span>
         <div class="sh-track"><div class="sh-fill"></div></div>
       </div>
 
@@ -1573,16 +1710,19 @@
     <div class="orb orb-2"></div>
     <div class="orb orb-3"></div>
 
-    <div class="section-tag rv">O que eu faço</div>
-    <h2 class="dark-heading rv" style="transition-delay:.08s">Habilidades<br><em>Materializadas</em></h2>
+    <div class="section-tag rv" data-pt="O que eu faço" data-en="What I do">O que eu faço</div>
+    <h2 class="dark-heading rv" style="transition-delay:.08s" data-pt="Habilidades<br><em>Materializadas</em>" data-en="Skills<br><em>Materialized</em>">Habilidades<br><em>Materializadas</em></h2>
 
     <div class="skills-grid rv" style="transition-delay:.16s">
-      <div class="skill-card"><span class="skill-num">01</span><div class="skill-icon">◈</div><div class="skill-name">HTML & CSS</div><div class="skill-desc">Interfaces responsivas, semânticas e elegantes.</div></div>
-      <div class="skill-card"><div class="skill-num">02</div><div class="skill-icon">⬡</div><div class="skill-name">JavaScript</div><div class="skill-desc">Lógica, interatividade e animações fluidas.</div></div>
-      <div class="skill-card"><div class="skill-num">03</div><div class="skill-icon">◉</div><div class="skill-name">Python</div><div class="skill-desc">Lógica de programação e automação de tarefas.</div></div>
-      <div class="skill-card"><div class="skill-num">04</div><div class="skill-icon">⬟</div><div class="skill-name">Figma</div><div class="skill-desc">Design de interfaces modernas e protótipos interativos.</div></div>
-      <div class="skill-card"><div class="skill-num">05</div><div class="skill-icon">◐</div><div class="skill-name">UX Design</div><div class="skill-desc">Organização visual e foco na experiência do usuário.</div></div>
-      <div class="skill-card"><div class="skill-num">06</div><div class="skill-icon">◇</div><div class="skill-name">Motion</div><div class="skill-desc">Animações e protótipos que comunicam com emoção.</div></div>
+      <div class="skill-card"><span class="skill-num">01</span><div class="skill-icon">◈</div><div class="skill-name">HTML & CSS</div><div class="skill-desc" data-pt="Interfaces responsivas, semânticas e elegantes." data-en="Responsive, semantic, and elegant interfaces.">Interfaces responsivas, semânticas e elegantes.</div></div>
+      <div class="skill-card"><div class="skill-num">02</div><div class="skill-icon">⬡</div><div class="skill-name">JavaScript</div><div class="skill-desc" data-pt="Lógica, interatividade e animações fluidas." data-en="Logic, interactivity, and smooth animations.">Lógica, interatividade e animações fluidas.</div></div>
+      <div class="skill-card"><div class="skill-num">03</div><div class="skill-icon">◉</div><div class="skill-name">Python</div><div class="skill-desc" data-pt="Lógica de programação e automação de tarefas." data-en="Programming logic and task automation.">Lógica de programação e automação de tarefas.</div></div>
+      <div class="skill-card"><div class="skill-num">04</div><div class="skill-icon">⬟</div><div class="skill-name">Figma</div><div class="skill-desc" data-pt="Design de interfaces modernas e protótipos interativos." data-en="Modern interface design and interactive prototypes.">Design de interfaces modernas e protótipos interativos.</div></div>
+      <div class="skill-card"><div class="skill-num">05</div><div class="skill-icon">◐</div><div class="skill-name">UX Design</div><div class="skill-desc" data-pt="Organização visual e foco na experiência do usuário." data-en="Visual organization and user experience focus.">Organização visual e foco na experiência do usuário.</div></div>
+      <div class="skill-card"><div class="skill-num">06</div><div class="skill-icon">◇</div><div class="skill-name">Motion</div><div class="skill-desc" data-pt="Animações e protótipos que comunicam com emoção." data-en="Animations and prototypes that communicate with emotion.">Animações e protótipos que comunicam com emoção.</div></div>
+      <div class="skill-card"><div class="skill-num">07</div><div class="skill-icon">◆</div><div class="skill-name">Flutter</div><div class="skill-desc" data-pt="Apps multiplataforma com UI expressiva e fluida." data-en="Cross-platform apps with expressive, fluid UI.">Apps multiplataforma com UI expressiva e fluida.</div></div>
+      <div class="skill-card"><div class="skill-num">08</div><div class="skill-icon">◑</div><div class="skill-name">Swift</div><div class="skill-desc" data-pt="Desenvolvimento nativo para iOS e ecossistema Apple." data-en="Native development for iOS and Apple ecosystem.">Desenvolvimento nativo para iOS e ecossistema Apple.</div></div>
+      <div class="skill-card"><div class="skill-num">09</div><div class="skill-icon">⬢</div><div class="skill-name">Kotlin</div><div class="skill-desc" data-pt="Aplicações Android modernas com código conciso." data-en="Modern Android applications with concise code.">Aplicações Android modernas com código conciso.</div></div>
     </div>
 
     <div class="marquee-wrap rv" style="transition-delay:.24s">
@@ -1591,31 +1731,37 @@
         <span>JavaScript</span><span class="hi"> · lógica · </span>
         <span>Figma</span><span class="hi"> · design · </span>
         <span>Python</span><span class="hi"> · automação · </span>
+        <span>Flutter</span><span class="hi"> · mobile · </span>
+        <span>Swift</span><span class="hi"> · iOS · </span>
+        <span>Kotlin</span><span class="hi"> · android · </span>
         <span>HTML & CSS</span><span class="hi"> · código · </span>
         <span>JavaScript</span><span class="hi"> · lógica · </span>
         <span>Figma</span><span class="hi"> · design · </span>
         <span>Python</span><span class="hi"> · automação · </span>
+        <span>Flutter</span><span class="hi"> · mobile · </span>
+        <span>Swift</span><span class="hi"> · iOS · </span>
+        <span>Kotlin</span><span class="hi"> · android · </span>
       </div>
     </div>
 
-    <div class="section-tag rv" style="transition-delay:.08s">Cases Selecionados</div>
+    <div class="section-tag rv" style="transition-delay:.08s" data-pt="Cases Selecionados" data-en="Selected Cases">Cases Selecionados</div>
     <div class="projects-row rv" style="transition-delay:.16s">
       <div class="project-card" onclick="window.open('https://lucapiovezan.github.io/Smart-flowers/','_blank')">
-        <div class="proj-tag">Animação Parallax</div>
+        <div class="proj-tag" data-pt="Animação Parallax" data-en="Parallax Animation">Animação Parallax</div>
         <div class="proj-title">Smart<br>Flowers</div>
-        <div class="proj-desc">E-commerce de flores com animações parallax imersivas.</div>
+        <div class="proj-desc" data-pt="E-commerce de flores com animações parallax imersivas." data-en="Flower e-commerce with immersive parallax animations.">E-commerce de flores com animações parallax imersivas.</div>
         <div class="proj-arrow">↗</div>
       </div>
       <div class="project-card" onclick="window.open('https://lucapiovezan.github.io/HEROES-VILLAINS/','_blank')">
-        <div class="proj-tag">Projeto Imersivo · Three.js</div>
+        <div class="proj-tag" data-pt="Projeto Imersivo · Three.js" data-en="Immersive Project · Three.js">Projeto Imersivo · Three.js</div>
         <div class="proj-title">Heroes &<br>Villains</div>
-        <div class="proj-desc">Experiência imersiva com WebGL e Three.js.</div>
+        <div class="proj-desc" data-pt="Experiência imersiva com WebGL e Three.js." data-en="Immersive experience with WebGL and Three.js.">Experiência imersiva com WebGL e Three.js.</div>
         <div class="proj-arrow">↗</div>
       </div>
       <div class="project-card" onclick="window.open('https://lucapiovezan.github.io/valenza/','_blank')">
-        <div class="proj-tag">E-commerce Automotivo</div>
+        <div class="proj-tag" data-pt="E-commerce Automotivo" data-en="Automotive E-commerce">E-commerce Automotivo</div>
         <div class="proj-title">Valenza<br>Garde</div>
-        <div class="proj-desc">Plataforma automotiva com design premium e refinado.</div>
+        <div class="proj-desc" data-pt="Plataforma automotiva com design premium e refinado." data-en="Automotive platform with premium and refined design.">Plataforma automotiva com design premium e refinado.</div>
         <div class="proj-arrow">↗</div>
       </div>
     </div>
@@ -1628,19 +1774,17 @@
 
     <div class="figma-header rv">
       <div>
-        <div class="section-tag" style="color:var(--ghost);margin-bottom:20px;">Design Visual</div>
-        <h2 class="figma-heading">Designs<br><em>no Figma</em></h2>
+        <div class="section-tag" style="color:var(--ghost);margin-bottom:20px;" data-pt="Design Visual" data-en="Visual Design">Design Visual</div>
+        <h2 class="figma-heading" data-pt="Designs<br><em>no Figma</em>" data-en="Designs<br><em>in Figma</em>">Designs<br><em>no Figma</em></h2>
       </div>
       <div class="figma-header-right">
-        <p>Protótipos e identidades visuais criados no Figma — clique para explorar cada projeto.</p>
+        <p data-pt="Protótipos e identidades visuais criados no Figma — clique para explorar cada projeto." data-en="Prototypes and visual identities created in Figma — click to explore each project.">Protótipos e identidades visuais criados no Figma — clique para explorar cada projeto.</p>
       </div>
     </div>
 
-    <!-- wrapper com overflow:hidden para o efeito de cortina -->
     <div class="figma-grid-wrapper">
       <div class="figma-grid">
 
-        <!-- CARD 1 — Kairo Tokyo Coffee -->
         <a href="https://www.figma.com/design/7BUOhGaxQEtLvsAejYezvv/Kairo-tokyo-coffe?t=Jp6yJkmEc0aywjVh-0"
            target="_blank" rel="noopener"
            class="figma-card" id="figma-card-left">
@@ -1655,9 +1799,9 @@
           </div>
 
           <div class="fig-body">
-            <div class="fig-tag"><div class="fig-tag-dot"></div>UI Design · Café · Noturno</div>
+            <div class="fig-tag"><div class="fig-tag-dot"></div><span data-pt="UI Design · Café · Noturno" data-en="UI Design · Café · Nocturnal">UI Design · Café · Noturno</span></div>
             <div class="fig-name">Kairo<br>Tokyo Coffee</div>
-            <div class="fig-desc">Uma cafeteria noturna em Tóquio com identidade visual sombria e imersiva — dark mode, tipografia editorial e atmosfera além da meia-noite.</div>
+            <div class="fig-desc" data-pt="Uma cafeteria noturna em Tóquio com identidade visual sombria e imersiva — dark mode, tipografia editorial e atmosfera além da meia-noite." data-en="A nocturnal café in Tokyo with a dark and immersive visual identity — dark mode, editorial typography, and a beyond-midnight atmosphere.">Uma cafeteria noturna em Tóquio com identidade visual sombria e imersiva — dark mode, tipografia editorial e atmosfera além da meia-noite.</div>
             <div class="fig-footer">
               <div class="fig-tools">
                 <span class="fig-tool-tag">Figma</span>
@@ -1665,14 +1809,13 @@
                 <span class="fig-tool-tag">Branding</span>
               </div>
               <div class="fig-cta">
-                Ver no Figma
+                <span data-pt="Ver no Figma" data-en="View in Figma">Ver no Figma</span>
                 <div class="fig-cta-arrow">↗</div>
               </div>
             </div>
           </div>
         </a>
 
-        <!-- CARD 2 — Orbita -->
         <a href="https://www.figma.com/design/dHSZNBZ2vSil5eqpN2phHe/Orbita?node-id=0-1&p=f&t=txdBxrmepDVC2r5F-0"
            target="_blank" rel="noopener"
            class="figma-card" id="figma-card-right">
@@ -1687,9 +1830,9 @@
           </div>
 
           <div class="fig-body">
-            <div class="fig-tag"><div class="fig-tag-dot"></div>UI Design · Luxo · Sci-Fi</div>
+            <div class="fig-tag"><div class="fig-tag-dot"></div><span data-pt="UI Design · Luxo · Sci-Fi" data-en="UI Design · Luxury · Sci-Fi">UI Design · Luxo · Sci-Fi</span></div>
             <div class="fig-name">Orbita<br>2098</div>
-            <div class="fig-desc">Plataforma de reservas para uma estação espacial turística em 2098. Luxo, tecnologia e exclusividade — onde o endereço de mais alto status fica além da atmosfera.</div>
+            <div class="fig-desc" data-pt="Plataforma de reservas para uma estação espacial turística em 2098. Luxo, tecnologia e exclusividade — onde o endereço de mais alto status fica além da atmosfera." data-en="Booking platform for a tourist space station in 2098. Luxury, technology, and exclusivity — where the highest-status address lies beyond the atmosphere.">Plataforma de reservas para uma estação espacial turística em 2098. Luxo, tecnologia e exclusividade — onde o endereço de mais alto status fica além da atmosfera.</div>
             <div class="fig-footer">
               <div class="fig-tools">
                 <span class="fig-tool-tag">Figma</span>
@@ -1697,7 +1840,7 @@
                 <span class="fig-tool-tag">Sci-Fi</span>
               </div>
               <div class="fig-cta">
-                Ver no Figma
+                <span data-pt="Ver no Figma" data-en="View in Figma">Ver no Figma</span>
                 <div class="fig-cta-arrow">↗</div>
               </div>
             </div>
@@ -1711,9 +1854,9 @@
   <!-- ══ CONTACT ══ -->
   <section class="contact-section" id="contato">
     <div class="contact-left rv">
-      <div class="contact-label">Vamos trabalhar juntos</div>
+      <div class="contact-label" data-pt="Vamos trabalhar juntos" data-en="Let's work together">Vamos trabalhar juntos</div>
       <h2 class="contact-heading">Start<br><em>Here</em></h2>
-      <p class="contact-subtext">Aberto a oportunidades de estágio e projetos desafiadores em desenvolvimento web e design de interfaces.</p>
+      <p class="contact-subtext" data-pt="Aberto a oportunidades de estágio e projetos desafiadores em desenvolvimento web e design de interfaces." data-en="Open to internship opportunities and challenging projects in web development and interface design.">Aberto a oportunidades de estágio e projetos desafiadores em desenvolvimento web e design de interfaces.</p>
     </div>
     <div class="rv" style="transition-delay:.1s">
       <div class="contact-links">
@@ -1734,11 +1877,59 @@
   </section>
 
   <footer class="footer">
-    <span class="footer-copy">© 2026 Luca Piovezan — Todos os direitos reservados</span>
+    <span class="footer-copy" data-pt="© 2026 Luca Piovezan — Todos os direitos reservados" data-en="© 2026 Luca Piovezan — All rights reserved">© 2026 Luca Piovezan — Todos os direitos reservados</span>
     <span class="footer-sig">LP</span>
   </footer>
 
   <script>
+    /* ═══════════════════════════════════════
+       LANGUAGE SYSTEM
+    ═══════════════════════════════════════ */
+    let currentLang = 'pt';
+
+    function setLang(lang) {
+      currentLang = lang;
+      const btnPT = document.getElementById('btnPT');
+      const btnEN = document.getElementById('btnEN');
+      const pill  = document.getElementById('langPill');
+      const cvBtn = document.getElementById('cvBtn');
+
+      btnPT.classList.toggle('active', lang === 'pt');
+      btnEN.classList.toggle('active', lang === 'en');
+
+      // slide pill
+      const activeBtn = lang === 'pt' ? btnPT : btnEN;
+      pill.style.width  = activeBtn.offsetWidth + 'px';
+      pill.style.transform = `translateX(${activeBtn.offsetLeft - 3}px)`;
+
+      // update CV button href for EN: still same PDF but label changes
+      const cvLabel = cvBtn.querySelector('span:last-child');
+      if (cvLabel) cvLabel.textContent = lang === 'pt' ? 'Currículo' : 'Resume';
+
+      // swap all data-pt / data-en elements
+      document.querySelectorAll('[data-pt]').forEach(el => {
+        const text = lang === 'pt' ? el.dataset.pt : el.dataset.en;
+        if (!text) return;
+        // handle innerHTML for elements with <br><span> etc
+        if (text.includes('<')) {
+          el.innerHTML = text;
+        } else {
+          el.textContent = text;
+        }
+      });
+    }
+
+    // Init pill position after fonts load
+    window.addEventListener('load', () => {
+      const pill  = document.getElementById('langPill');
+      const btnPT = document.getElementById('btnPT');
+      pill.style.width     = btnPT.offsetWidth + 'px';
+      pill.style.transform = `translateX(${btnPT.offsetLeft - 3}px)`;
+    });
+
+    /* ═══════════════════════════════════════
+       ORIGINAL SCROLL / ANIMATION CODE
+    ═══════════════════════════════════════ */
     const lerp = (a, b, t) => a + (b - a) * t;
     const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
     const norm = (v, a, b) => clamp((v - a) / (b - a), 0, 1);
@@ -1900,7 +2091,6 @@
       });
     }
 
-    /* Tilt 3D — skill, project e figma cards */
     document.querySelectorAll('.skill-card, .project-card, .contact-link').forEach(c => {
       c.addEventListener('mousemove', e => {
         if (isMobile()) return;
@@ -1921,7 +2111,6 @@
       });
     });
 
-    /* Tilt 3D nos figma cards — só depois de curtain-done */
     function attachFigmaTilt(c) {
       c.addEventListener('mousemove', e => {
         if (isMobile()) return;
@@ -1938,7 +2127,6 @@
       });
     }
 
-    /* Ripple nos figma cards */
     document.querySelectorAll('.figma-card').forEach(fc => {
       fc.addEventListener('click', function(e) {
         const r = fc.getBoundingClientRect();
@@ -1953,7 +2141,6 @@
       });
     });
 
-    /* Touch feedback mobile */
     if (isMobile()) {
       document.querySelectorAll('.project-card, .figma-card').forEach(c => {
         c.addEventListener('touchstart', () => { c.style.opacity = '0.88'; c.style.transform = 'scale(0.985)'; }, { passive: true });
@@ -1961,13 +2148,6 @@
       });
     }
 
-    /* ═══════════════════════════════════════════
-       EFEITO CORTINA — FIGMA CARDS
-       Lógica: usa IntersectionObserver para saber
-       quando a seção começa a entrar na tela e
-       depois anima via requestAnimationFrame
-       lendo getBoundingClientRect() a cada frame.
-    ═══════════════════════════════════════════ */
     (function () {
       if (isMobile()) return;
 
@@ -1976,11 +2156,10 @@
       const wrapper   = document.querySelector('.figma-grid-wrapper');
       if (!cardLeft || !cardRight || !wrapper) return;
 
-      const OFFSET_MAX = 160; // px que cada card começa afastado
+      const OFFSET_MAX = 160;
       let animating = false;
       let done = false;
 
-      // Coloca os cards na posição inicial (afastados + invisíveis)
       function setInitial() {
         cardLeft.style.transition  = 'none';
         cardRight.style.transition = 'none';
@@ -1997,8 +2176,6 @@
         const rect = wrapper.getBoundingClientRect();
         const vh   = window.innerHeight;
 
-        // progresso: começa quando o topo do wrapper entra na tela (rect.top < vh)
-        // termina quando rect.top chega a 35% da viewport
         const progress = clamp(norm(rect.top, vh, vh * 0.35), 0, 1);
         const eased    = easeOutQuart(progress);
 
@@ -2013,10 +2190,8 @@
         if (progress >= 1) {
           done = true;
           animating = false;
-          // libera transições de hover
           cardLeft.classList.add('curtain-done');
           cardRight.classList.add('curtain-done');
-          // remove inline styles para o CSS de hover funcionar
           cardLeft.style.transform  = '';
           cardRight.style.transform = '';
           cardLeft.style.opacity    = '';
@@ -2032,7 +2207,6 @@
         requestAnimationFrame(tick);
       }
 
-      // Dispara o loop a cada evento de scroll
       window.addEventListener('scroll', () => {
         if (done) return;
         if (!animating) {
@@ -2041,11 +2215,9 @@
         }
       }, { passive: true });
 
-      // Checa uma vez ao carregar (caso já esteja visível)
       requestAnimationFrame(tick);
     })();
 
-    /* Foto mobile gyro */
     (function () {
       const photoWrapper = document.getElementById('mh-photo');
       if (!photoWrapper) return;
@@ -2059,15 +2231,6 @@
         photoWrapper.style.boxShadow = `-8px 12px 40px rgba(10,10,11,${shadowIntensity})`;
       }
 
-      function animateSpin() {
-        currentRotY += (targetRotY - currentRotY) * 0.15;
-        currentRotZ += (targetRotZ - currentRotZ) * 0.15;
-        applyTransform();
-        const stillY = Math.abs(targetRotY - currentRotY) > 0.1;
-        const stillZ = Math.abs(targetRotZ - currentRotZ) > 0.05;
-        if (stillY || stillZ) { rafId = requestAnimationFrame(animateSpin); } else { rafId = null; }
-      }
-
       window.addEventListener('scroll', () => {
         if (!isMobile()) return;
         if (photoWrapper.style.animation !== 'none') photoWrapper.style.animation = 'none';
@@ -2078,6 +2241,15 @@
         targetRotZ = 3 + Math.sin(scrollY * 0.015) * 4;
         if (!rafId) rafId = requestAnimationFrame(animateSpin);
       }, { passive: true });
+
+      function animateSpin() {
+        currentRotY += (targetRotY - currentRotY) * 0.15;
+        currentRotZ += (targetRotZ - currentRotZ) * 0.15;
+        applyTransform();
+        const stillY = Math.abs(targetRotY - currentRotY) > 0.1;
+        const stillZ = Math.abs(targetRotZ - currentRotZ) > 0.05;
+        if (stillY || stillZ) { rafId = requestAnimationFrame(animateSpin); } else { rafId = null; }
+      }
 
       applyTransform();
     })();
