@@ -108,14 +108,12 @@
 
     .hdr nav a:hover::after { width: 100%; }
 
-    /* ── HEADER RIGHT CONTROLS ── */
     .hdr-right {
       display: flex;
       align-items: center;
       gap: 14px;
     }
 
-    /* ── LANG TOGGLE ── */
     .lang-toggle {
       display: flex;
       align-items: center;
@@ -157,7 +155,6 @@
 
     .lang-toggle button.active { color: var(--paper); }
 
-    /* ── CV BUTTON ── */
     .cv-btn {
       position: relative;
       display: flex;
@@ -197,7 +194,6 @@
       z-index: 1;
     }
 
-    /* pulsing ring */
     .cv-btn::after {
       content: '';
       position: absolute;
@@ -225,7 +221,6 @@
 
     .cv-btn:hover .cv-icon { transform: translateY(2px) rotate(10deg); }
 
-    /* bounce on load */
     @keyframes cv-bounce {
       0%   { transform: scale(0.7) translateY(8px); opacity: 0; }
       60%  { transform: scale(1.06) translateY(-3px); opacity: 1; }
@@ -235,8 +230,260 @@
 
     .cv-btn { animation: cv-bounce 0.7s var(--ease-out) 0.8s both; }
 
-    /* ═══════════════════════ */
+    /* ═══════════════════════════════
+       CV MODAL
+    ═══════════════════════════════ */
+    .cv-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(10,10,11,0.72);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s var(--ease-out);
+    }
 
+    .cv-modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .cv-modal {
+      background: var(--paper);
+      border-radius: 20px;
+      padding: 52px 48px 44px;
+      max-width: 680px;
+      width: calc(100vw - 40px);
+      position: relative;
+      transform: translateY(32px) scale(0.96);
+      transition: transform 0.4s var(--ease-out);
+      box-shadow: 0 40px 100px rgba(10,10,11,0.35), 0 2px 0 rgba(255,255,255,0.6) inset;
+    }
+
+    .cv-modal-overlay.open .cv-modal {
+      transform: translateY(0) scale(1);
+    }
+
+    .cv-modal-close {
+      position: absolute;
+      top: 20px; right: 20px;
+      width: 36px; height: 36px;
+      border: 1px solid rgba(10,10,11,0.12);
+      border-radius: 50%;
+      background: none;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      color: var(--ghost);
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+    .cv-modal-close:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+    .cv-modal-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--ghost);
+      margin-bottom: 14px;
+    }
+    .cv-modal-eyebrow::before { content: '— '; color: var(--accent); }
+
+    .cv-modal-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.8rem;
+      line-height: 0.9;
+      color: var(--ink);
+      margin-bottom: 36px;
+      letter-spacing: 0.01em;
+    }
+
+    .cv-cards-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .cv-card {
+      border: 1.5px solid rgba(10,10,11,0.10);
+      border-radius: 14px;
+      padding: 28px 24px 24px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.25s, box-shadow 0.3s, transform 0.3s var(--ease-out);
+      background: var(--cream);
+      user-select: none;
+    }
+
+    .cv-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--ink);
+      opacity: 0;
+      transition: opacity 0.25s;
+      border-radius: 12px;
+    }
+
+    .cv-card.selected {
+      border-color: var(--ink);
+      box-shadow: 0 0 0 2px var(--ink);
+      transform: scale(1.035);
+    }
+
+    .cv-card.selected::before { opacity: 0.03; }
+
+    .cv-card:hover:not(.selected) {
+      border-color: rgba(10,10,11,0.3);
+      box-shadow: 0 8px 24px rgba(10,10,11,0.08);
+    }
+
+    .cv-card-flag {
+      font-size: 2rem;
+      margin-bottom: 14px;
+      display: block;
+      line-height: 1;
+    }
+
+    .cv-card-lang {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      letter-spacing: 0.02em;
+      color: var(--ink);
+      line-height: 0.9;
+      margin-bottom: 6px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cv-card-sub {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.52rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ghost);
+      position: relative;
+      z-index: 1;
+    }
+
+    .cv-card-check {
+      position: absolute;
+      top: 14px; right: 14px;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--ink);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0;
+      transform: scale(0.5);
+      transition: opacity 0.25s, transform 0.3s var(--ease-out);
+      z-index: 2;
+    }
+
+    .cv-card.selected .cv-card-check {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .cv-card-check::after {
+      content: '✓';
+      color: var(--paper);
+      font-size: 0.75rem;
+      font-family: system-ui;
+      line-height: 1;
+    }
+
+    .cv-preview-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+      background: rgba(10,10,11,0.04);
+      border-radius: 10px;
+      margin-bottom: 24px;
+      min-height: 56px;
+      transition: opacity 0.3s;
+    }
+
+    .cv-preview-row.hidden { opacity: 0; pointer-events: none; }
+
+    .cv-preview-icon {
+      width: 36px; height: 36px;
+      background: var(--ink);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: 1rem;
+      color: var(--paper);
+    }
+
+    .cv-preview-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ghost);
+      line-height: 1.5;
+    }
+
+    .cv-preview-label strong {
+      display: block;
+      color: var(--ink);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+    }
+
+    .cv-download-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--paper);
+      background: var(--ink);
+      border: none;
+      padding: 16px 28px;
+      border-radius: 100px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.3s;
+    }
+
+    .cv-download-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.45s var(--ease-out);
+    }
+
+    .cv-download-btn:hover::before { transform: scaleX(1); }
+    .cv-download-btn:hover { box-shadow: 0 12px 32px rgba(232,80,26,0.3); transform: translateY(-2px); }
+
+    .cv-download-btn span { position: relative; z-index: 1; }
+    .cv-download-btn.disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* ═══════════════════════════════
+       HERO — BIGGER DESKTOP
+    ═══════════════════════════════ */
     .scroll-stage {
       height: 500vh;
       position: relative;
@@ -509,6 +756,170 @@
       100% { top: 110%; opacity: 0; }
     }
 
+    /* ═══════════════════════════════
+       DESKTOP HERO — BIGGER
+    ═══════════════════════════════ */
+    .bg-typo {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(10rem, 24vw, 35rem);
+      line-height: 0.8;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(10,10,11,0.04);
+      z-index: 1;
+      pointer-events: none;
+      text-align: center;
+      letter-spacing: -0.02em;
+      user-select: none;
+      will-change: transform;
+    }
+
+    .desktop-hero {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      pointer-events: none;
+      will-change: opacity, transform;
+      text-align: center;
+      width: 100%;
+      padding: 0 5vw;
+    }
+
+    .dh-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--ghost);
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+    .dh-tag::before,
+    .dh-tag::after { content: ''; width: 40px; height: 1px; background: var(--accent); opacity: 0.6; }
+
+    .dh-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(7rem, 14vw, 16rem);
+      line-height: 0.82;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 32px;
+    }
+    .dh-title em {
+      display: block;
+      font-family: 'Crimson Pro', serif;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--accent);
+      font-size: 0.72em;
+      margin-top: 8px;
+    }
+
+    .dh-desc {
+      font-family: 'Crimson Pro', serif;
+      font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+      font-weight: 300;
+      color: var(--ghost);
+      line-height: 1.5;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* stats strip below title */
+    .dh-stats {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 48px;
+      margin-top: 44px;
+    }
+
+    .dh-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dh-stat-key {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.52rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--ghost);
+    }
+
+    .dh-stat-val {
+      font-family: 'Crimson Pro', serif;
+      font-size: 1.05rem;
+      font-weight: 300;
+      color: var(--ink);
+    }
+
+    .dh-stat-divider {
+      width: 1px;
+      height: 36px;
+      background: rgba(10,10,11,0.12);
+    }
+
+    /* ── finale split ── */
+    .finale-split {
+      position: absolute;
+      top: 50%; left: 0; right: 0;
+      transform: translate3d(0, -50%, 0);
+      pointer-events: none;
+      z-index: 10;
+      opacity: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 5vw;
+    }
+
+    .fs-left { display: flex; flex-direction: column; }
+    .fs-right { display: flex; flex-direction: column; align-items: flex-end; text-align: right; }
+
+    .fs-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--ghost);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .fs-eyebrow::before { content: ''; width: 40px; height: 1px; background: var(--accent); opacity: 0.5; }
+
+    .fs-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(6.5rem, 11vw, 13rem);
+      line-height: 0.8;
+      letter-spacing: 0.02em;
+      color: var(--ink);
+    }
+
+    .fs-right .fs-title {
+      font-family: 'Crimson Pro', serif;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--accent);
+      font-size: clamp(5.5rem, 9vw, 10rem);
+      line-height: 0.9;
+      letter-spacing: 0;
+      text-transform: lowercase;
+    }
+
+    /* ── dark section ── */
     .dark-section {
       background: var(--ink);
       position: relative;
@@ -791,6 +1202,7 @@
 
     .project-card:hover .proj-arrow { background: var(--accent); border-color: var(--accent); transform: translate(4px,-4px); }
 
+    /* ── figma section ── */
     .figma-section {
       background: var(--paper);
       padding: 140px 7% 120px;
@@ -885,10 +1297,6 @@
       opacity: 0;
       will-change: transform, opacity;
       transition: box-shadow 0.5s cubic-bezier(0.16,1,0.3,1), border-color 0.3s;
-    }
-
-    .figma-card.curtain-ready {
-      transform: translateX(var(--curtain-offset));
     }
 
     .figma-card.curtain-done {
@@ -1097,6 +1505,7 @@
 
     @keyframes ripple-anim { to { transform: scale(5); opacity: 0; } }
 
+    /* ── contact ── */
     .contact-section {
       background: var(--paper);
       padding: 140px 7% 120px;
@@ -1237,122 +1646,6 @@
 
     .rv.in { opacity: 1; transform: translateY(0); }
 
-    .bg-typo {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(10rem, 24vw, 35rem);
-      line-height: 0.8;
-      color: transparent;
-      -webkit-text-stroke: 1px rgba(10,10,11,0.04);
-      z-index: 1;
-      pointer-events: none;
-      text-align: center;
-      letter-spacing: -0.02em;
-      user-select: none;
-      will-change: transform;
-    }
-
-    .desktop-hero {
-      position: absolute;
-      top: 50%;
-      left: 52%;
-      transform: translateY(-50%);
-      z-index: 10;
-      pointer-events: none;
-      will-change: opacity, transform;
-    }
-
-    .dh-tag {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.4em;
-      text-transform: uppercase;
-      color: var(--ghost);
-      margin-bottom: 24px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-    .dh-tag::before { content: ''; width: 40px; height: 1px; background: var(--accent); }
-
-    .dh-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(6rem, 11vw, 12rem);
-      line-height: 0.85;
-      letter-spacing: -0.01em;
-      color: var(--ink);
-      margin-bottom: 25px;
-    }
-    .dh-title em {
-      display: block;
-      font-family: 'Crimson Pro', serif;
-      font-style: italic;
-      font-weight: 300;
-      color: var(--accent);
-      font-size: 0.8em;
-      margin-top: 8px;
-    }
-
-    .dh-desc {
-      font-family: 'Crimson Pro', serif;
-      font-size: 1.3rem;
-      font-weight: 300;
-      color: var(--ghost);
-      line-height: 1.5;
-      max-width: 440px;
-    }
-
-    .finale-split {
-      position: absolute;
-      top: 50%; left: 0; right: 0;
-      transform: translate3d(0, -50%, 0);
-      pointer-events: none;
-      z-index: 10;
-      opacity: 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 5vw;
-    }
-
-    .fs-left { display: flex; flex-direction: column; }
-    .fs-right { display: flex; flex-direction: column; align-items: flex-end; text-align: right; }
-
-    .fs-eyebrow {
-      font-family: 'DM Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.4em;
-      text-transform: uppercase;
-      color: var(--ghost);
-      margin-bottom: 24px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-    .fs-eyebrow::before { content: ''; width: 40px; height: 1px; background: var(--accent); opacity: 0.5; }
-
-    .fs-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(6.5rem, 11vw, 13rem);
-      line-height: 0.8;
-      letter-spacing: 0.02em;
-      color: var(--ink);
-    }
-
-    .fs-right .fs-title {
-      font-family: 'Crimson Pro', serif;
-      font-style: italic;
-      font-weight: 300;
-      color: var(--accent);
-      font-size: clamp(5.5rem, 9vw, 10rem);
-      line-height: 0.9;
-      letter-spacing: 0;
-      text-transform: lowercase;
-    }
-
     /* ═══════════════════════════════════
        MOBILE
     ═══════════════════════════════════ */
@@ -1477,12 +1770,6 @@
         background: var(--cream); border: 1px solid rgba(10,10,11,0.07);
         border-radius: 12px; padding: 16px 18px; position: relative; overflow: hidden;
       }
-      .mh-card::after {
-        content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
-        background: var(--accent); transform: scaleX(0); transform-origin: left;
-        transition: transform 0.4s var(--ease-out);
-      }
-      .mh-card:active::after { transform: scaleX(1); }
 
       .mh-card-key {
         font-family: 'DM Mono', monospace; font-size: 0.5rem;
@@ -1513,11 +1800,6 @@
         transition: box-shadow 0.3s ease;
       }
       .mh-photo-wrapper img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; border-radius: 14px; }
-      .mh-photo-wrapper::after {
-        content: ''; position: absolute; inset: 0; border-radius: 14px;
-        background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.08) 100%);
-        pointer-events: none; z-index: 2; transition: opacity 0.3s;
-      }
 
       .mh-ghost-num {
         position: absolute; bottom: 90px; right: 20px;
@@ -1584,6 +1866,14 @@
       .footer { flex-direction: column; gap: 10px; padding: 28px 20px 100px; text-align: center; }
 
       .figma-card { opacity: 1 !important; transform: none !important; }
+
+      /* Modal mobile */
+      .cv-modal { padding: 36px 24px 32px; border-radius: 16px; }
+      .cv-modal-title { font-size: 2rem; }
+      .cv-cards-row { gap: 10px; }
+      .cv-card { padding: 20px 18px 18px; }
+      .cv-card-lang { font-size: 1.5rem; }
+      .dh-stats { display: none; }
     }
 
     .mobile-hero { display: none; }
@@ -1592,6 +1882,44 @@
 
 <body>
   <div id="progress"></div>
+
+  <!-- ══ CV SELECTION MODAL ══ -->
+  <div class="cv-modal-overlay" id="cvModal" role="dialog" aria-modal="true" aria-label="Download CV">
+    <div class="cv-modal">
+      <button class="cv-modal-close" id="cvModalClose" aria-label="Close">✕</button>
+
+      <div class="cv-modal-eyebrow" data-pt="Escolha o idioma" data-en="Choose language">Escolha o idioma</div>
+      <div class="cv-modal-title" data-pt="Baixar Currículo" data-en="Download Resume">Baixar Currículo</div>
+
+      <div class="cv-cards-row">
+        <div class="cv-card" id="cvCardPT" data-file="Luca_Piovezan_Curriculo_PT.pdf" data-label-pt="Currículo em Português" data-label-en="Resume in Portuguese" onclick="selectCV('PT')">
+          <div class="cv-card-check"></div>
+          <span class="cv-card-flag">🇧🇷</span>
+          <div class="cv-card-lang">Português</div>
+          <div class="cv-card-sub" data-pt="Versão em português" data-en="Portuguese version">Versão em português</div>
+        </div>
+        <div class="cv-card" id="cvCardEN" data-file="Luca_Piovezan_Resume_EN.pdf" data-label-pt="Currículo em Inglês" data-label-en="Resume in English" onclick="selectCV('EN')">
+          <div class="cv-card-check"></div>
+          <span class="cv-card-flag">🇺🇸</span>
+          <div class="cv-card-lang">English</div>
+          <div class="cv-card-sub" data-pt="Versão em inglês" data-en="English version">Versão em inglês</div>
+        </div>
+      </div>
+
+      <div class="cv-preview-row hidden" id="cvPreviewRow">
+        <div class="cv-preview-icon">↓</div>
+        <div class="cv-preview-label">
+          <strong id="cvPreviewName">—</strong>
+          <span id="cvPreviewSub" data-pt="Pronto para baixar" data-en="Ready to download">Pronto para baixar</span>
+        </div>
+      </div>
+
+      <a href="#" id="cvDownloadBtn" class="cv-download-btn disabled" download>
+        <span data-pt="Baixar PDF" data-en="Download PDF">Baixar PDF</span>
+        <span>↓</span>
+      </a>
+    </div>
+  </div>
 
   <header class="hdr">
     <div class="logo">Luca Piovezan</div>
@@ -1602,17 +1930,15 @@
       <a href="#contato" data-pt="Contato" data-en="Contact">Contato</a>
     </nav>
     <div class="hdr-right">
-      <!-- Language toggle -->
       <div class="lang-toggle" id="langToggle" title="Switch language">
         <div class="lang-pill" id="langPill"></div>
         <button id="btnPT" class="active" onclick="setLang('pt')">PT</button>
         <button id="btnEN" onclick="setLang('en')">EN</button>
       </div>
-      <!-- CV Download button -->
-      <a href="Meu_Currículo_em_Portugues.pdf" download="Luca_Piovezan_CV.pdf" class="cv-btn" id="cvBtn">
+      <button class="cv-btn" id="cvBtn" onclick="openCVModal()">
         <span class="cv-icon">↓</span>
         <span data-pt="Currículo" data-en="Resume">Currículo</span>
-      </a>
+      </button>
     </div>
   </header>
 
@@ -1621,12 +1947,35 @@
 
       <div class="bg-typo" id="bg-typo">CODE<br>DESIGN</div>
 
+      <!-- DESKTOP HERO — CENTERED + BIGGER -->
       <div class="desktop-hero" id="desktop-hero">
         <div class="dh-tag" data-pt="Portfólio 2026" data-en="Portfolio 2026">Portfólio 2026</div>
         <h1 class="dh-title">Luca<br><em>Piovezan</em></h1>
         <p class="dh-desc" data-pt="Desenvolvedor Front-end & Designer focado em criar experiências digitais imersivas." data-en="Front-end Developer & Designer focused on building immersive digital experiences.">Desenvolvedor Front-end & Designer focado em criar experiências digitais imersivas.</p>
+        <div class="dh-stats">
+          <div class="dh-stat">
+            <span class="dh-stat-key" data-pt="Stack" data-en="Stack">Stack</span>
+            <span class="dh-stat-val">HTML · CSS · JS</span>
+          </div>
+          <div class="dh-stat-divider"></div>
+          <div class="dh-stat">
+            <span class="dh-stat-key" data-pt="Design" data-en="Design">Design</span>
+            <span class="dh-stat-val">Figma · Motion</span>
+          </div>
+          <div class="dh-stat-divider"></div>
+          <div class="dh-stat">
+            <span class="dh-stat-key" data-pt="Formação" data-en="Education">Formação</span>
+            <span class="dh-stat-val" data-pt="Técnico em TI" data-en="IT Technician">Técnico em TI</span>
+          </div>
+          <div class="dh-stat-divider"></div>
+          <div class="dh-stat">
+            <span class="dh-stat-key" data-pt="Inglês" data-en="English">Inglês</span>
+            <span class="dh-stat-val">B2</span>
+          </div>
+        </div>
       </div>
 
+      <!-- MOBILE HERO -->
       <div class="mobile-hero">
         <div class="mh-photo-wrapper" id="mh-photo">
           <img src="img.png" alt="Luca Piovezan">
@@ -1767,11 +2116,9 @@
     </div>
   </section>
 
-  <!-- ══ FIGMA DESIGNS ══ -->
+  <!-- ══ FIGMA ══ -->
   <section class="figma-section" id="figma">
-
     <div class="figma-bg-typo">FIGMA</div>
-
     <div class="figma-header rv">
       <div>
         <div class="section-tag" style="color:var(--ghost);margin-bottom:20px;" data-pt="Design Visual" data-en="Visual Design">Design Visual</div>
@@ -1784,20 +2131,14 @@
 
     <div class="figma-grid-wrapper">
       <div class="figma-grid">
-
         <a href="https://www.figma.com/design/7BUOhGaxQEtLvsAejYezvv/Kairo-tokyo-coffe?t=Jp6yJkmEc0aywjVh-0"
            target="_blank" rel="noopener"
            class="figma-card" id="figma-card-left">
-
           <div class="fig-preview">
             <img src="kairo-preview.png" alt="Kairo Tokyo Coffee">
             <div class="fig-overlay"></div>
-            <div class="fig-badge">
-              <div class="fig-badge-dot"></div>
-              <span>Figma</span>
-            </div>
+            <div class="fig-badge"><div class="fig-badge-dot"></div><span>Figma</span></div>
           </div>
-
           <div class="fig-body">
             <div class="fig-tag"><div class="fig-tag-dot"></div><span data-pt="UI Design · Café · Noturno" data-en="UI Design · Café · Nocturnal">UI Design · Café · Noturno</span></div>
             <div class="fig-name">Kairo<br>Tokyo Coffee</div>
@@ -1819,16 +2160,11 @@
         <a href="https://www.figma.com/design/dHSZNBZ2vSil5eqpN2phHe/Orbita?node-id=0-1&p=f&t=txdBxrmepDVC2r5F-0"
            target="_blank" rel="noopener"
            class="figma-card" id="figma-card-right">
-
           <div class="fig-preview">
             <img src="orbita-preview.png" alt="Orbita — Estação Espacial 2098">
             <div class="fig-overlay"></div>
-            <div class="fig-badge">
-              <div class="fig-badge-dot"></div>
-              <span>Figma</span>
-            </div>
+            <div class="fig-badge"><div class="fig-badge-dot"></div><span>Figma</span></div>
           </div>
-
           <div class="fig-body">
             <div class="fig-tag"><div class="fig-tag-dot"></div><span data-pt="UI Design · Luxo · Sci-Fi" data-en="UI Design · Luxury · Sci-Fi">UI Design · Luxo · Sci-Fi</span></div>
             <div class="fig-name">Orbita<br>2098</div>
@@ -1846,7 +2182,6 @@
             </div>
           </div>
         </a>
-
       </div>
     </div>
   </section>
@@ -1882,9 +2217,53 @@
   </footer>
 
   <script>
-    /* ═══════════════════════════════════════
+    /* ═══════════════════════════════════
+       CV MODAL
+    ═══════════════════════════════════ */
+    let selectedCV = null;
+
+    function openCVModal() {
+      document.getElementById('cvModal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeCVModal() {
+      document.getElementById('cvModal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function selectCV(lang) {
+      selectedCV = lang;
+      const cardPT = document.getElementById('cvCardPT');
+      const cardEN = document.getElementById('cvCardEN');
+      cardPT.classList.toggle('selected', lang === 'PT');
+      cardEN.classList.toggle('selected', lang === 'EN');
+
+      const card = lang === 'PT' ? cardPT : cardEN;
+      const file = card.dataset.file;
+      const labelKey = currentLang === 'pt' ? 'labelPt' : 'labelEn';
+      const label = card.dataset[labelKey];
+
+      document.getElementById('cvPreviewName').textContent = file;
+      document.getElementById('cvPreviewRow').classList.remove('hidden');
+
+      const btn = document.getElementById('cvDownloadBtn');
+      btn.href = file;
+      btn.download = file;
+      btn.classList.remove('disabled');
+    }
+
+    document.getElementById('cvModalClose').addEventListener('click', closeCVModal);
+    document.getElementById('cvModal').addEventListener('click', function(e) {
+      if (e.target === this) closeCVModal();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeCVModal();
+    });
+
+    /* ═══════════════════════════════════
        LANGUAGE SYSTEM
-    ═══════════════════════════════════════ */
+    ═══════════════════════════════════ */
     let currentLang = 'pt';
 
     function setLang(lang) {
@@ -1892,34 +2271,25 @@
       const btnPT = document.getElementById('btnPT');
       const btnEN = document.getElementById('btnEN');
       const pill  = document.getElementById('langPill');
-      const cvBtn = document.getElementById('cvBtn');
 
       btnPT.classList.toggle('active', lang === 'pt');
       btnEN.classList.toggle('active', lang === 'en');
 
-      // slide pill
       const activeBtn = lang === 'pt' ? btnPT : btnEN;
       pill.style.width  = activeBtn.offsetWidth + 'px';
       pill.style.transform = `translateX(${activeBtn.offsetLeft - 3}px)`;
 
-      // update CV button href for EN: still same PDF but label changes
-      const cvLabel = cvBtn.querySelector('span:last-child');
-      if (cvLabel) cvLabel.textContent = lang === 'pt' ? 'Currículo' : 'Resume';
-
-      // swap all data-pt / data-en elements
       document.querySelectorAll('[data-pt]').forEach(el => {
         const text = lang === 'pt' ? el.dataset.pt : el.dataset.en;
         if (!text) return;
-        // handle innerHTML for elements with <br><span> etc
-        if (text.includes('<')) {
-          el.innerHTML = text;
-        } else {
-          el.textContent = text;
-        }
+        if (text.includes('<')) { el.innerHTML = text; } else { el.textContent = text; }
       });
+
+      // update CV button label separately (it's a button not a link now)
+      const cvBtnLabel = document.querySelector('#cvBtn span:last-child');
+      if (cvBtnLabel) cvBtnLabel.textContent = lang === 'pt' ? 'Currículo' : 'Resume';
     }
 
-    // Init pill position after fonts load
     window.addEventListener('load', () => {
       const pill  = document.getElementById('langPill');
       const btnPT = document.getElementById('btnPT');
@@ -1927,9 +2297,9 @@
       pill.style.transform = `translateX(${btnPT.offsetLeft - 3}px)`;
     });
 
-    /* ═══════════════════════════════════════
+    /* ═══════════════════════════════════
        ORIGINAL SCROLL / ANIMATION CODE
-    ═══════════════════════════════════════ */
+    ═══════════════════════════════════ */
     const lerp = (a, b, t) => a + (b - a) * t;
     const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
     const norm = (v, a, b) => clamp((v - a) / (b - a), 0, 1);
@@ -2020,7 +2390,7 @@
       if (dh) {
         const dhOut = clamp(norm(p, 0, 0.08), 0, 1);
         dh.style.opacity = 1 - easeOutQuart(dhOut);
-        dh.style.transform = `translateY(calc(-50% - ${dhOut * 60}px))`;
+        dh.style.transform = `translate(-50%, calc(-50% - ${dhOut * 60}px))`;
       }
       if (bgt) {
         bgt.style.transform = `translate(-50%, calc(-50% - ${p * innerHeight * 0.8}px))`;
@@ -2172,16 +2542,12 @@
 
       function tick() {
         if (done) return;
-
         const rect = wrapper.getBoundingClientRect();
         const vh   = window.innerHeight;
-
         const progress = clamp(norm(rect.top, vh, vh * 0.35), 0, 1);
         const eased    = easeOutQuart(progress);
-
         const offset  = OFFSET_MAX * (1 - eased);
         const opacity = eased;
-
         cardLeft.style.transform  = `translateX(${-offset}px)`;
         cardRight.style.transform = `translateX(${offset}px)`;
         cardLeft.style.opacity  = opacity;
@@ -2209,10 +2575,7 @@
 
       window.addEventListener('scroll', () => {
         if (done) return;
-        if (!animating) {
-          animating = true;
-          requestAnimationFrame(tick);
-        }
+        if (!animating) { animating = true; requestAnimationFrame(tick); }
       }, { passive: true });
 
       requestAnimationFrame(tick);
